@@ -1,16 +1,25 @@
 import Fastify from "fastify";
 import mongoose from "mongoose";
 
-import { connect, disconnect } from "./src/db/database.js";
+import cors from "@fastify/cors";
+import helmet from "@fastify/helmet";
 
 const fastify = Fastify({
-	logger: true,
+	logger: false,
 });
 
 /**
- * Database configurations.
+ * Server plugins
  */
-const DB_URL = "mongodb://localhost/testdb";
+fastify.register(helmet);
+fastify.register(cors, {
+	origin: "*",
+	methods: ["GET", "POST", "PUT", "DELETE"],
+});
+
+/**
+ * Database configurations
+ */
 const DB_OPTIONS = {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
@@ -28,31 +37,21 @@ fastify.get("/", function (request, reply) {
  */
 import evaluations from "./src/routes/evaluations.js";
 
-fastify.register(evaluations, { prefix: "/api" });
+fastify.register(evaluations, { prefix: "/api/eval" });
 
 /**
  * Starts the server and the database.
  */
-fastify.listen({ port: 3000 }, function (err, address) {
-	// If error is encountered, logs error
-	if (err) {
-		fastify.log.error(err);
-		process.exit(1);
-	}
 
-	// If server runs, log info
-	fastify.log.info(`Server is listening on ${address}`);
-
-	// Connects the server to the database
-	connect(DB_URL, DB_OPTIONS)
-		.then(function () {
-			fastify.log.info(
-				`Server has connected to the database: mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}`
-			);
-		})
-		.catch(function (err) {
+// Connects the server to the database
+mongoose.connect("mongodb://127.0.0.1/testdb", DB_OPTIONS).then(function () {
+	fastify.listen({ port: 3000 }, function (err, address) {
+		// If error is encountered, logs error
+		if (err) {
 			fastify.log.error(err);
-		});
+			process.exit(1);
+		}
+	});
 });
 
 export default fastify;
