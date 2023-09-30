@@ -31,7 +31,7 @@ describe("Evaluations API", function () {
 	});
 
 	describe("POST /api/eval", function () {
-		it("OK, get evaluation entry", async function () {
+		it("OK, '/create' create evaluation entry", async function () {
 			const test = {
 				program: "Computer Engineering",
 				governmentAuthority: "G.A. 12345",
@@ -48,7 +48,7 @@ describe("Evaluations API", function () {
 			assert.equal(JSON.parse(response.body).msg, "OK");
 		});
 
-		it("OK, retrieves all evaluation entries", async function () {
+		it("OK, '/' retrieves all evaluation entries", async function () {
 			const response = await fastify.inject({
 				method: "GET",
 				url: "/api/eval/",

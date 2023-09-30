@@ -1,5 +1,5 @@
 {
 	"typeAcquisition": {
-		"include": ["mocha", "chai", "supertest", "fastify"]
+		"include": ["mocha", "chai", "fastify"]
 	}
 }
