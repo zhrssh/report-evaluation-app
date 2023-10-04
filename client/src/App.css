@@ -1,12 +1,12 @@
 body {
-  background-color: #F7EDF0; /* White background */
+  background-color: #fbfaf6; /* White background */
 }
 
 .app-container {
   max-width: 1280px;
   margin: auto;
   padding: 2rem;
-  background-color: #F7EDF0;
+  background-color: #fbfaf6;
   border-bottom-width: 0.00cm;
 }
 
@@ -42,7 +42,7 @@ body {
   margin-bottom: 1rem; 
   display: flex;
   align-items: center;
-  background-color: #F7EDF0;
+  background-color: #fbfaf6;
   padding: 1rem;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.582);
