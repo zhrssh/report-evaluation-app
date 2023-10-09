@@ -1,11 +1,17 @@
 import Fastify from "fastify";
 import mongoose from "mongoose";
+import pino from "pino";
 
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 
+const logger = pino({
+	transport: {
+		target: "pino-pretty",
+	},
+});
 const fastify = Fastify({
-	logger: false,
+	logger: logger,
 });
 
 /**
@@ -51,6 +57,14 @@ mongoose.connect("mongodb://127.0.0.1/testdb", DB_OPTIONS).then(function () {
 			fastify.log.error(err);
 			process.exit(1);
 		}
+	});
+});
+
+["SIGINT", "SIGTERM"].forEach(function (signal) {
+	process.on(signal, async function () {
+		await mongoose.connection.close();
+		await fastify.close();
+		process.exit(0);
 	});
 });
 
