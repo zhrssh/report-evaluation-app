@@ -1,0 +1,215 @@
+/* AdminComponent.css */
+
+body {
+    background-color: #fbfaf6; /* White background */
+  }
+
+.Admin {
+    max-width: 1280px;
+    margin: auto;
+    position: relative;
+    background: #efefef;
+  }
+  
+  .Rectangle93 {
+    width: 673px;
+    height: 620px;
+    left: 300px;
+    top: 194px;
+    position: absolute;
+    background: rgba(0, 51, 160, 0.30);
+    border-radius: 20px;
+  }
+  
+  .NavigationBar {
+    width: 2000px;
+    height: 135px;
+    left: -320px;
+    top: 0;
+    position: absolute;
+    border-bottom: 2px solid #d2d2d2;
+  }
+  
+  .NavigationBar .NavigationBar {
+    width: 2000px;
+    height: 135px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    background: #efefef;
+  }
+  
+  .Register {
+    width: 101px;
+    left: 1700px;
+    top: 53px;
+    position: absolute;
+    color: #1e1e1e;
+    font-size: 24px;
+    font-family: 'Inter';
+    font-weight: 700;
+    word-wrap: break-word;
+  }
+  
+  .Logo {
+    width: 360px;
+    height: 135px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 21px;
+    padding-bottom: 21px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2px;
+    display: inline-flex;
+    
+  }
+  
+  .A13 {
+    width: 300px;
+    height: 62px;
+  }
+  
+  .Line4 {
+    width: 300.02px;
+    height: 0;
+    border: 1px black solid;
+  }
+  
+  .ForUseByChedTcCpe {
+    color: black;
+    font-size: 20px;
+    font-family: 'Inter';
+    font-weight: 600;
+    word-wrap: break-word;
+  }
+  
+  .LoginBlock {
+    left: 400px;
+    top: 274px;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 90px;
+    display: inline-flex;
+  }
+  
+  .Frame1 {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    display: flex;
+  }
+  
+  .AdministratorLogIn {
+    color: black;
+    font-size: 48px;
+    font-family: 'Inter';
+    font-weight: 700;
+    line-height: 48px;
+    word-wrap: break-word;
+  }
+  
+  .PleaseEnterYourDetails {
+    color: rgba(30, 30, 30, 0.72);
+    position: absolute;
+    left: 145px;
+    bottom: 290px;
+    font-size: 16px;
+    font-family: 'Inter';
+    font-weight: 400;
+    line-height: 19px;
+    word-wrap: break-word;
+  }
+  
+  .Login {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 80px;
+    display: flex;
+  }
+  
+  .Frame1 {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+    display: flex;
+  }
+  
+  .Username {
+    height: 74px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 7px;
+    display: flex;
+  }
+  
+  .Label {
+    color: #545f71;
+    font-size: 14px;
+    font-family: 'Inter';
+    font-weight: 400;
+    line-height: 19px;
+    word-wrap: break-word;
+  }
+  
+  .TextInput {
+    width: 345px;
+    height: 48px;
+    position: relative;
+    background: #efefef;
+    border-bottom: 2px #0033a0 solid;
+  }
+  
+  .AppButton {
+    width: 345px;
+    height: 60px;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 20px; /* Add margin to create a gap between button and elements above it */
+  }
+  
+  .Password {
+    height: 74px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 7px;
+    display: flex;
+    margin-bottom: 20px; /* Add margin to create a gap between the password input and the button */
+  }
+  
+  
+  .Frame {
+    width: 345px;
+    height: 60px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    background: #0033a0;
+    border-radius: 30px;
+  }
+  
+  .Text {
+    width: 195.50px;
+    left: 84.75px;
+    top: 18px;
+    position: absolute;
+    text-align: center;
+    color: #efefef;
+    font-size: 20px;
+    font-family: 'Inter';
+    font-weight: 700;
+    word-wrap: break-word;
+  }
+
+  

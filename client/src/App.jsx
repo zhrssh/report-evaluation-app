@@ -121,7 +121,7 @@ function App() {
       <header className="header">
         {/* Header content */}
         <div className="secondary-logo">
-          <img src="./ched.png" alt="Secondary Logo" />
+          <img src="./src/Pictures/Qwikley.png" alt="Secondary Logo" />
           <div className="secondary-organization-name">
             <span className="higher-edu-text">Republic of the Philippines <br />The Commission on Higher Education</span>
           </div>
@@ -135,7 +135,7 @@ function App() {
       <div className="app-container2">
         {/* Main logo content */}
         <div className="main-logo">
-          <img src="./tip1.png" alt="Main Logo"/>
+          <img src="./src/Pictures/tip1.png" alt="Main Logo"/>
           <div className="organization-name">
             Technological Institute of the <br /> Philippines 
           </div>
