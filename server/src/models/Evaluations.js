@@ -17,6 +17,11 @@ const evaluationSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		attachedFiles: [
+			{
+				type: String,
+			},
+		],
 	},
 	{ timestamps: true }
 );

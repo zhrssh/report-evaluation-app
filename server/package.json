@@ -18,10 +18,16 @@
 	},
 	"dependencies": {
 		"@fastify/cors": "^8.4.0",
+		"@fastify/formbody": "^7.4.0",
 		"@fastify/helmet": "^11.1.1",
+		"@fastify/multipart": "^8.0.0",
 		"fastify": "^4.23.2",
+		"form-auto-content": "^3.2.0",
+		"fs": "^0.0.1-security",
 		"mongoose": "^7.5.3",
 		"pino": "^8.15.3",
-		"pino-pretty": "^10.2.0"
+		"pino-pretty": "^10.2.0",
+		"stream": "^0.0.2",
+		"util": "^0.12.5"
 	}
 }

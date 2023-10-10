@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 import pino from "pino";
 
 import cors from "@fastify/cors";
+import formbody from "@fastify/formbody";
 import helmet from "@fastify/helmet";
+import multipart from "@fastify/multipart";
 
 const logger = pino({
 	transport: {
@@ -17,7 +19,9 @@ const fastify = Fastify({
 /**
  * Server plugins
  */
+fastify.register(formbody);
 fastify.register(helmet);
+fastify.register(multipart);
 fastify.register(cors, {
 	origin: "*",
 	methods: ["GET", "POST", "PUT", "DELETE"],
@@ -43,7 +47,7 @@ fastify.get("/", function (request, reply) {
  */
 import evaluations from "./src/routes/evaluations.js";
 
-fastify.register(evaluations, { prefix: "/api/eval" });
+fastify.register(evaluations, { prefix: "/api/v1/eval" });
 
 /**
  * Starts the server and the database.

@@ -5,8 +5,13 @@ import {
 	update,
 	deleteOne,
 } from "../controller/evaluationController.js";
+import fs from "fs";
+import util from "util";
+import { pipeline } from "stream";
 
 export default function Route(fastify, opts, done) {
+	const pump = util.promisify(pipeline);
+
 	/**
 	 * Creates an evaluation entry to the database
 	 */
@@ -50,6 +55,30 @@ export default function Route(fastify, opts, done) {
 		const { uid } = request.params;
 		if (await deleteOne(uid)) reply.send(200);
 		else reply.code(400);
+	});
+
+	/**
+	 * Uploads a file to the uploads folder
+	 */
+	fastify.post("/upload/:uid", async function (request, reply) {
+		const { uid } = request.params;
+		const data = request.files();
+
+		// Creates array for file paths of uploaded files
+		let paths = [];
+		for await (let part of data) {
+			const path = `./uploads/${part.filename}`;
+			await pump(part.file, fs.createWriteStream(path));
+			paths.push(path);
+		}
+
+		// Add filepath in the database
+		const result = await update(
+			{ _id: uid },
+			{ $push: { attachedFiles: paths } }
+		);
+
+		reply.send(result);
 	});
 
 	done();
