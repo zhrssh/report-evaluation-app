@@ -152,7 +152,10 @@ describe("Evaluations API", function () {
 				...form,
 			});
 
+			let test = JSON.parse(response.body);
+
 			assert.equal(response.statusCode, 200);
+			assert.equal(test.attachedFiles[0], "./uploads/doge.jpg");
 		});
 
 		it("OK, DELETE /api/v1/eval/delete/:uid", async function () {
