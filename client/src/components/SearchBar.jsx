@@ -1,32 +1,48 @@
+import {
+	Box,
+	Button,
+	InputAdornment,
+	TextField,
+	Typography,
+} from "@mui/material";
 import React from "react";
-import { Button, Stack } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function SearchBar() {
-	function foo(name) {
-		console.log(`${name} clicked`);
-	}
-
 	return (
-		<div className="search-bar">
-			{/* Search bar content */}
-			<input type="text" placeholder="Search..." />
-			<Stack direction="row" spacing={2}>
-				<Button variant="contained" onClick={() => foo("Search button")}>
-					Search
-				</Button>
-				<Button
+		<>
+			<Box className="flex mx-16 gap-8 items-center">
+				<TextField
+					label="Search"
 					variant="outlined"
-					disableElevation
-					onClick={() => foo("Sort By button")}>
-					Sort By
-				</Button>
-				<Button variant="outlined" onClick={() => foo("Filters button")}>
-					Filters
-				</Button>
-				<Button variant="contained" onClick={() => foo("Create button")}>
-					Create
-				</Button>
-			</Stack>
-		</div>
+					className="flex-1"
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<SearchIcon />
+							</InputAdornment>
+						),
+					}}
+				/>
+				<Box className="flex flex-2 gap-4">
+					<Button variant="contained" className="rounded-full px-8 bg-accent">
+						<Typography variant="button">Search</Typography>
+					</Button>
+					<Button
+						variant="outlined"
+						className="rounded-full px-8 text-accent border-accent">
+						<Typography variant="button">Sort by</Typography>
+					</Button>
+					<Button
+						variant="outlined"
+						className="rounded-full px-8 text-accent border-accent">
+						<Typography variant="button">Filters</Typography>
+					</Button>
+					<Button variant="contained" className="rounded-full px-8 bg-accent">
+						<Typography variant="button">Create</Typography>
+					</Button>
+				</Box>
+			</Box>
+		</>
 	);
 }
