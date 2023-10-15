@@ -1,62 +1,79 @@
-import { Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 
-export default function EvaluationTable() {
-	// PLACEHOLDER ONLY
-	const evaluations = [
-		{
-			program: "Computer Engineering",
-			date: Date.now(),
-			remarks: "Compliant",
-		},
-	];
+import AppButtonContained from "../buttons/AppButtonContained";
+import AppButtonOutlined from "../buttons/AppButtonOutlined";
 
-	function foo(name) {
-		console.log(`${name} clicked`);
+import { faker } from "@faker-js/faker";
+
+function _getRowId(row) {
+	return row.internalId;
+}
+
+function _getSampleData(count) {
+	let rows = [];
+	for (let i = 0; i < count; i++) {
+		rows.push({
+			internalId: i,
+			dateOfEvaluation: faker.date.anytime(),
+			kindOfVisit: faker.lorem.words(),
+			evaluator: faker.person.fullName(),
+			remarks: faker.lorem.words(),
+			action: <AppButtonContained props={{ startIcon: null, label: "View" }} />,
+		});
 	}
 
+	return rows;
+}
+
+// Defines the column of the table
+const columns = [
+	{ field: "dateOfEvaluation", headerName: "Date of Evaluation", flex: 2 },
+	{ field: "kindOfVisit", headerName: "Kind of Visit", flex: 2 },
+	{ field: "evaluator", headerName: "Evaluator", flex: 2 },
+	{ field: "remarks", headerName: "Remarks", flex: 2 },
+	{
+		field: "action",
+		headerName: "Action",
+		flex: 2,
+		sortable: false,
+		renderCell: function (params) {
+			return (
+				<>
+					<Box className="flex gap-2 items-center justify-center">
+						<AppButtonContained props={{ startIcon: null, label: "View" }} />
+						<AppButtonOutlined props={{ startIcon: null, label: "Edit" }} />
+						<Button
+							variant="contained"
+							startIcon={null}
+							className="rounded-full bg-red-700">
+							<Typography variant="button">Delete</Typography>
+						</Button>
+					</Box>
+				</>
+			);
+		},
+	},
+];
+
+export default function EvaluationTable() {
 	return (
-		<div className="table-container">
-			{/* Table for Evaluations */}
-			<table className="table">
-				<thead>
-					<tr>
-						<th>Evaluations</th>
-						<th>Date of Evaluation</th>
-						<th>Remarks</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{evaluations.map((evaluation, index) => (
-						<tr key={index}>
-							<td>{evaluation.program}</td>
-							<td>{evaluation.date}</td>
-							<td>{evaluation.remarks}</td>
-							<td>
-								<Button
-									onClick={() => foo("View button")}
-									variant="contained"
-									className="view-btn">
-									View
-								</Button>
-								<Button
-									onClick={() => foo("Edit button")}
-									variant="contained"
-									className="edit-btn">
-									Edit
-								</Button>
-								<Button
-									onClick={() => foo("Delete button")}
-									variant="contained"
-									className="delete-btn">
-									Delete
-								</Button>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
+		<>
+			<Box className="mx-16 my-4 border-2 border-text rounded-xl">
+				<DataGrid
+					getRowId={_getRowId}
+					rows={_getSampleData(100)}
+					columns={columns}
+					initialState={{
+						pagination: {
+							paginationModel: { page: 0, pageSize: 10 },
+						},
+					}}
+					pageSizeOptions={[10, 25, 50, 100]}
+					checkboxSelection
+					disableRowSelectionOnClick></DataGrid>
+			</Box>
+		</>
 	);
 }

@@ -1,11 +1,12 @@
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import HelpIcon from "@mui/icons-material/Help";
 import InfoIcon from "@mui/icons-material/Info";
+import LogoutIcon from "@mui/icons-material/Logout";
 import React from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 import logo from "../logo.png";
-import Logout from "./buttons/Logout";
+import AppButtonContained from "./buttons/AppButtonContained";
 
 export default function Header() {
 	return (
@@ -32,7 +33,9 @@ export default function Header() {
 							<SettingsIcon />
 						</IconButton>
 					</Box>
-					<Logout />
+					<AppButtonContained
+						props={{ startIcon: <LogoutIcon />, label: "Log out" }}
+					/>
 				</Box>
 			</Paper>
 		</>

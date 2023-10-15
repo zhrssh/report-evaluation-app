@@ -1,12 +1,9 @@
-import {
-	Box,
-	Button,
-	InputAdornment,
-	TextField,
-	Typography,
-} from "@mui/material";
+import { Box, InputAdornment, TextField } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
+
+import AppButtonContained from "./buttons/AppButtonContained";
+import AppButtonOutlined from "./buttons/AppButtonOutlined";
 
 export default function SearchBar() {
 	return (
@@ -25,22 +22,10 @@ export default function SearchBar() {
 					}}
 				/>
 				<Box className="flex flex-2 gap-4">
-					<Button variant="contained" className="rounded-full px-8 bg-accent">
-						<Typography variant="button">Search</Typography>
-					</Button>
-					<Button
-						variant="outlined"
-						className="rounded-full px-8 text-accent border-accent">
-						<Typography variant="button">Sort by</Typography>
-					</Button>
-					<Button
-						variant="outlined"
-						className="rounded-full px-8 text-accent border-accent">
-						<Typography variant="button">Filters</Typography>
-					</Button>
-					<Button variant="contained" className="rounded-full px-8 bg-accent">
-						<Typography variant="button">Create</Typography>
-					</Button>
+					<AppButtonContained props={{ startIcon: null, label: "Search" }} />
+					<AppButtonOutlined props={{ startIcon: null, label: "Sort by" }} />
+					<AppButtonOutlined props={{ startIcon: null, label: "Filters" }} />
+					<AppButtonContained props={{ startIcon: null, label: "Create" }} />
 				</Box>
 			</Box>
 		</>
