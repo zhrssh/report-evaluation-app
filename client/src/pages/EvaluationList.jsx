@@ -8,7 +8,7 @@ import InstitutionBlock from "../components/InstitutionBlock";
 import SearchBar from "../components/SearchBar";
 
 export default function EvaluationList() {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(true);
 
 	const openModal = () => {
 		setIsModalOpen(true);
