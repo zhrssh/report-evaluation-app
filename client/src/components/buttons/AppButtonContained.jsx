@@ -12,7 +12,10 @@ export default function AppButtonContained({ props }) {
 			<Button
 				variant="contained"
 				startIcon={props.startIcon}
-				className="rounded-full bg-accent">
+				className="rounded-full bg-accent"
+				onClick={function () {
+					if (props.callback) props.callback();
+				}}>
 				<Typography variant="button">{props.label}</Typography>
 			</Button>
 		</>

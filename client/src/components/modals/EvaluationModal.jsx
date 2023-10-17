@@ -1,41 +1,9 @@
 import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+
 import AppButtonContained from "../buttons/AppButtonContained";
 
-export default function EvaluationModal() {
-	const [program, setProgram] = React.useState("");
-	const [authority, setAuthority] = React.useState("");
-	const [month, setMonth] = React.useState("");
-	const [day, setDay] = React.useState("");
-	const [year, setYear] = React.useState("");
-	const [file, setFile] = React.useState(null);
-	const [evaluations, setEvaluations] = React.useState([]);
-
-	function handleSubmit(e) {
-		{
-			e.preventDefault();
-
-			const newEvaluation = {
-				program,
-				date: `${year}-${month}-${day}`,
-				remarks: "", // Add remarks logic if needed
-			};
-
-			setEvaluations([...evaluations, newEvaluation]);
-
-			setProgram("");
-			setAuthority("");
-			setMonth("");
-			setDay("");
-			setYear("");
-			setFile(null);
-
-			closeModal();
-
-			sendDataToBackend(newEvaluation);
-		}
-	}
-
+export default function EvaluationModal({ closeModalCallback }) {
 	return (
 		<>
 			f
@@ -104,15 +72,29 @@ export default function EvaluationModal() {
 								required
 							/>
 						</Box>
+						<Typography variant="caption" className=" font-bold">
+							File Attachments
+						</Typography>
+						<input
+							id="fileUpload"
+							type="file"
+							accept="image/*, application/msword, application/pdf"
+							multiple
+						/>
 						<Box className="flex flex-row gap-4 justify-end ">
 							<Button
 								variant="outlined"
 								startIcon={null}
-								className="rounded-full border-red-700 text-red-700">
+								className="rounded-full border-red-700 text-red-700"
+								onClick={() => closeModalCallback()}>
 								<Typography variant="button">Cancel</Typography>
 							</Button>
 							<AppButtonContained
-								props={{ startIcon: null, label: "Create" }}
+								props={{
+									startIcon: null,
+									label: "Create",
+									callback: closeModalCallback,
+								}}
 							/>
 						</Box>
 					</Box>

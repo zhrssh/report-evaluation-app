@@ -22,10 +22,10 @@ export default function EvaluationList() {
 		<>
 			<Header />
 			<InstitutionBlock />
-			<SearchBar />
+			<SearchBar createCallback={openModal} />
 			<EvaluationTable />
 			<Modal open={isModalOpen} onClose={closeModal}>
-				<EvaluationModal />
+				<EvaluationModal closeModalCallback={closeModal} />
 			</Modal>
 		</>
 	);

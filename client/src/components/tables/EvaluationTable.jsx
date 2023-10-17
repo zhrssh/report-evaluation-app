@@ -4,14 +4,25 @@ import React from "react";
 
 import AppButtonContained from "../buttons/AppButtonContained";
 import AppButtonOutlined from "../buttons/AppButtonOutlined";
+import { getEvaluationsList } from "../../services/evaluationsList";
 
 import { faker } from "@faker-js/faker";
 
+/**
+ * Gets the internal row ID of a row.
+ * @param {number} row
+ * @returns
+ */
 function _getRowId(row) {
 	return row.internalId;
 }
 
-function _getSampleData(count) {
+/**
+ * Provides sample data using Faker-js.
+ * @param {number} count
+ * @returns {Array<Object>}
+ */
+function _getSampleData(count = 100) {
 	let rows = [];
 	for (let i = 0; i < count; i++) {
 		rows.push({
@@ -20,7 +31,6 @@ function _getSampleData(count) {
 			kindOfVisit: faker.lorem.words(),
 			evaluator: faker.person.fullName(),
 			remarks: faker.lorem.words(),
-			action: <AppButtonContained props={{ startIcon: null, label: "View" }} />,
 		});
 	}
 
@@ -38,16 +48,29 @@ const columns = [
 		headerName: "Action",
 		flex: 2,
 		sortable: false,
-		renderCell: function (params) {
+		renderCell: function () {
 			return (
 				<>
 					<Box className="flex gap-2 items-center justify-center">
-						<AppButtonContained props={{ startIcon: null, label: "View" }} />
-						<AppButtonOutlined props={{ startIcon: null, label: "Edit" }} />
+						<AppButtonContained
+							props={{
+								startIcon: null,
+								label: "View",
+								callback: () => console.log("Not yet implemented."),
+							}}
+						/>
+						<AppButtonOutlined
+							props={{
+								startIcon: null,
+								label: "Edit",
+								callback: () => console.log("Not yet implemented."),
+							}}
+						/>
 						<Button
 							variant="contained"
 							startIcon={null}
-							className="rounded-full bg-red-700">
+							className="rounded-full bg-red-700"
+							onClick={() => console.log("Not yet implemented.")}>
 							<Typography variant="button">Delete</Typography>
 						</Button>
 					</Box>
@@ -57,13 +80,17 @@ const columns = [
 	},
 ];
 
+/**
+ * A React component that displays the list of evaluations of the selected institution.
+ * @returns {React.Component}
+ */
 export default function EvaluationTable() {
 	return (
 		<>
 			<Box className="mx-16 my-4 border-2 border-text rounded-xl">
 				<DataGrid
 					getRowId={_getRowId}
-					rows={_getSampleData(100)}
+					rows={getEvaluationsList() || _getSampleData()}
 					columns={columns}
 					initialState={{
 						pagination: {

@@ -12,7 +12,10 @@ export default function AppButtonOutlined({ props }) {
 			<Button
 				variant="outlined"
 				startIcon={props.startIcon}
-				className="rounded-full text-accent border-accent">
+				className="rounded-full text-accent border-accent"
+				onClick={function () {
+					if (props.callback) props.callback();
+				}}>
 				<Typography variant="button">{props.label}</Typography>
 			</Button>
 		</>
