@@ -45,12 +45,13 @@ export function fetchIds() {
 /**
  * Retrieve an entry that satisfies the specified filter.
  * @param {Object} filter
+ * @param {Object} projection
  * @returns {Array<Document>}
  */
-export function read(filter) {
+export function read(filter = {}, projection = null) {
 	return new Promise(async function (resolve, reject) {
 		try {
-			const result = await Evaluation.find(filter).exec();
+			const result = await Evaluation.find(filter, projection).exec();
 			resolve(result);
 		} catch (err) {
 			reject(err);

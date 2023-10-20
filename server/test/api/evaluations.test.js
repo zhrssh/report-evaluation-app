@@ -3,10 +3,10 @@ import formAutoContent from "form-auto-content";
 import fs from "fs";
 import { describe, it, after, before } from "mocha";
 import mongoose from "mongoose";
+import path from "path";
 
 import fastify from "../../server.js";
 import Evaluation from "../../src/models/Evaluations.js";
-import path from "path";
 
 const assert = chai.assert;
 
@@ -15,17 +15,17 @@ describe("Evaluations API", function () {
 	async function getSampleEvaluation() {
 		let response = await fastify.inject({
 			method: "GET",
-			url: "/api/v1/eval/",
+			url: "/v1/eval/",
 		});
 
-		const { ids } = JSON.parse(response.body);
+		const { result } = JSON.parse(response.body);
 
 		assert.equal(response.statusCode, 200);
-		assert.isTrue(mongoose.isValidObjectId(ids[0]));
+		assert.isTrue(mongoose.isValidObjectId(result[0]._id));
 
 		response = await fastify.inject({
 			method: "GET",
-			url: `/api/v1/eval/view/${ids[0]}`,
+			url: `/v1/eval/${result[0]._id}`,
 		});
 
 		const doc = JSON.parse(response.body)[0];
@@ -77,7 +77,7 @@ describe("Evaluations API", function () {
 
 			const response = await fastify.inject({
 				method: "POST",
-				url: "/api/v1/eval/",
+				url: "/v1/eval/",
 				payload: test,
 			});
 
@@ -88,19 +88,19 @@ describe("Evaluations API", function () {
 			);
 		});
 
-		it("OK, GET '/api/v1/eval/' retrieves all evaluation entries", async function () {
+		it("OK, GET '/v1/eval/' retrieves all evaluation entries", async function () {
 			const response = await fastify.inject({
 				method: "GET",
-				url: "/api/v1/eval/",
+				url: "/v1/eval/",
 			});
 
-			const { ids } = JSON.parse(response.body);
+			const { result } = JSON.parse(response.body);
 
 			assert.equal(response.statusCode, 200);
-			assert.isTrue(mongoose.isValidObjectId(ids[0]));
+			assert.isTrue(mongoose.isValidObjectId(result[0]._id));
 		});
 
-		it("OK, GET '/api/v1/eval/view/:uid' retrieve a single entry", async function () {
+		it("OK, GET '/v1/eval/:uid' retrieve a single entry", async function () {
 			const doc = await getSampleEvaluation();
 			assert.isTrue(mongoose.isValidObjectId(doc._id));
 
@@ -119,13 +119,13 @@ describe("Evaluations API", function () {
 			assert.deepEqual(received, expected);
 		});
 
-		it("OK, PUT '/update/:uid' updates an evaluation entry", async function () {
+		it("OK, PUT '/:uid' updates an evaluation entry", async function () {
 			let doc = await getSampleEvaluation();
 			doc.program = "Chemical Engineering";
 
 			const response = await fastify.inject({
 				method: "PUT",
-				url: `/api/v1/eval/update/${doc._id}`,
+				url: `/v1/eval/${doc._id}`,
 				payload: doc,
 			});
 
@@ -135,7 +135,7 @@ describe("Evaluations API", function () {
 			assert.equal(newDoc.program, "Chemical Engineering");
 		});
 
-		it("OK, POST /api/v1/eval/upload/:uid uploads file and updates filepath in the entry", async function () {
+		it("OK, POST /v1/eval/upload/:uid uploads file and updates filepath in the entry", async function () {
 			const doc = await getSampleEvaluation();
 			const id = doc._id;
 
@@ -148,7 +148,7 @@ describe("Evaluations API", function () {
 
 			let response = await fastify.inject({
 				method: "POST",
-				url: `/api/v1/eval/upload/${id}`,
+				url: `/v1/eval/upload/${id}`,
 				...form,
 			});
 
@@ -158,23 +158,23 @@ describe("Evaluations API", function () {
 			assert.equal(test.attachedFiles[0], "./uploads/doge.jpg");
 		});
 
-		it("OK, DELETE /api/v1/eval/delete/:uid", async function () {
+		it("OK, DELETE /v1/eval/:uid", async function () {
 			let doc = await getSampleEvaluation();
 
 			let response = await fastify.inject({
 				method: "DELETE",
-				url: `/api/v1/eval/delete/${doc._id}`,
+				url: `/v1/eval/${doc._id}`,
 			});
 
 			assert.equal(response.statusCode, 200);
 
 			response = await fastify.inject({
 				method: "GET",
-				url: "/api/v1/eval/",
+				url: "/v1/eval/",
 			});
 
 			assert.equal(response.statusCode, 200);
-			assert.isEmpty(JSON.parse(response.body).ids);
+			assert.isEmpty(JSON.parse(response.body).result);
 		});
 	});
 });

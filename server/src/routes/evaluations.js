@@ -1,7 +1,6 @@
 import {
 	read,
 	create,
-	fetchIds,
 	update,
 	deleteOne,
 } from "../controller/evaluationController.js";
@@ -25,14 +24,14 @@ export default function Route(fastify, opts, done) {
 	 * Gets all evaluation entries from the database
 	 */
 	fastify.get("/", async function (request, reply) {
-		const ids = await fetchIds();
-		reply.send({ ids });
+		const result = await read();
+		reply.send({ result });
 	});
 
 	/**
 	 * Retrieve a single entry from the database
 	 */
-	fastify.get("/view/:uid", async function (request, reply) {
+	fastify.get("/:uid", async function (request, reply) {
 		const { uid } = request.params;
 		const result = await read({ _id: uid });
 		reply.send(result);
@@ -41,7 +40,7 @@ export default function Route(fastify, opts, done) {
 	/**
 	 * Update an evaluation entry in the database
 	 */
-	fastify.put("/update/:uid", async function (request, reply) {
+	fastify.put("/:uid", async function (request, reply) {
 		const { uid } = request.params;
 		const data = request.body;
 		const result = await update({ _id: uid }, data);
@@ -51,7 +50,7 @@ export default function Route(fastify, opts, done) {
 	/**
 	 * Delete an entry from the database
 	 */
-	fastify.delete("/delete/:uid", async function (request, reply) {
+	fastify.delete("/:uid", async function (request, reply) {
 		const { uid } = request.params;
 		if (await deleteOne(uid)) reply.send(200);
 		else reply.code(400);

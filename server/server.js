@@ -13,7 +13,7 @@ const logger = pino({
 	},
 });
 const fastify = Fastify({
-	logger: logger,
+	logger: false,
 });
 
 /**
@@ -47,7 +47,7 @@ fastify.get("/", function (request, reply) {
  */
 import evaluations from "./src/routes/evaluations.js";
 
-fastify.register(evaluations, { prefix: "/api/v1/eval" });
+fastify.register(evaluations, { prefix: "/v1/eval" });
 
 /**
  * Starts the server and the database.

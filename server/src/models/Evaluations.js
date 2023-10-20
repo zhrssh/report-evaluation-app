@@ -5,7 +5,16 @@ import mongoose from "mongoose";
  */
 const evaluationSchema = new mongoose.Schema(
 	{
-		program: {
+		attachedFiles: [
+			{
+				type: String,
+			},
+		],
+		dateOfEvaluation: {
+			type: String,
+			required: true,
+		},
+		evaluator: {
 			type: String,
 			required: true,
 		},
@@ -13,15 +22,17 @@ const evaluationSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		dateOfEvaluation: {
+		kindOfVisit: {
 			type: String,
 			required: true,
 		},
-		attachedFiles: [
-			{
-				type: String,
-			},
-		],
+		program: {
+			type: String,
+			required: true,
+		},
+		remarks: {
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );
