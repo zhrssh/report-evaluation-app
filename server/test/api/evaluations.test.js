@@ -41,12 +41,17 @@ describe("Evaluations API", function () {
 	after(async function () {
 		// Delete all files in the uploads folder
 		const directory = "uploads";
-		fs.readdir(directory, function (err, files) {
+		fs.readdirSync(directory, function (err, files) {
 			if (err) throw err;
 			for (const file of files) {
-				fs.unlink(path.join(directory, file), function (err) {
-					if (err) throw err;
-				});
+				const filePath = path.join(directory, file);
+				const stats = fs.lstatSync(filePath);
+
+				if (stats.isDirectory()) {
+					fs.rmdirSync(filePath, function (err) {
+						if (err) throw err;
+					});
+				}
 			}
 		});
 
@@ -161,7 +166,7 @@ describe("Evaluations API", function () {
 			let test = JSON.parse(response.body);
 
 			assert.equal(response.statusCode, 200);
-			assert.equal(test.attachedFiles[0], "./uploads/doge.jpg");
+			assert.equal(test.attachedFiles[0], `uploads\\${id}\\doge.jpg`);
 		});
 
 		it("OK, DELETE /v1/eval/:uid", async function () {
