@@ -4,9 +4,23 @@ import {
 	update,
 	deleteOne,
 } from "../controller/evaluationController.js";
+import path from "path";
 import fs from "fs";
 import util from "util";
 import { pipeline } from "stream";
+
+const allowedExtensions = [
+	".jpg",
+	".jpeg",
+	".png",
+	".pdf",
+	".doc",
+	".docx",
+	".xlsx",
+	".xls",
+	".csv",
+	".txt",
+];
 
 export default function Route(fastify, opts, done) {
 	const pump = util.promisify(pipeline);
@@ -61,14 +75,31 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.post("/upload/:uid", async function (request, reply) {
 		const { uid } = request.params;
-		const data = request.files();
+		const files = request.files();
+
+		if (!files) {
+			return reply.send("No files uploaded.");
+		}
+
+		// Preps the parent directory
+		const parentDir = path.join("uploads", uid);
+		if (!fs.existsSync(parentDir)) {
+			fs.mkdirSync(parentDir);
+		}
 
 		// Creates array for file paths of uploaded files
 		let paths = [];
-		for await (let part of data) {
-			const path = `./uploads/${part.filename}`;
-			await pump(part.file, fs.createWriteStream(path));
-			paths.push(path);
+		for await (let part of files) {
+			// Excludes all files not included in allowed extensions
+			const ext = path.extname(part.filename).toLowerCase();
+			if (!allowedExtensions.includes(ext)) {
+				continue;
+			}
+
+			// Saves the file to storage
+			const filepath = path.join(parentDir, part.filename);
+			await pump(part.file, fs.createWriteStream(filepath));
+			paths.push(filepath);
 		}
 
 		// Add filepath in the database
