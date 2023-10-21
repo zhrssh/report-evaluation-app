@@ -33,9 +33,7 @@ export default function Header() {
 							<SettingsIcon />
 						</IconButton>
 					</Box>
-					<AppButtonContained
-						props={{ startIcon: <LogoutIcon />, label: "Log out" }}
-					/>
+					<AppButtonContained startIcon={<LogoutIcon />} label="Log out" />
 				</Box>
 			</Paper>
 		</>

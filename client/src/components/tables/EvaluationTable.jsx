@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import AppButtonContained from "../buttons/AppButtonContained";
 import AppButtonOutlined from "../buttons/AppButtonOutlined";
-import { getEvaluationsList } from "../../services/evaluationsList";
+import { getEvaluationsList } from "../../modules/evaluationsList";
 
 import { faker } from "@faker-js/faker";
 
@@ -14,7 +14,7 @@ import { faker } from "@faker-js/faker";
  * @returns
  */
 function _getRowId(row) {
-	return row.internalId;
+	return row._id ? row._id : row.internalId;
 }
 
 /**
@@ -53,18 +53,14 @@ const columns = [
 				<>
 					<Box className="flex gap-2 items-center justify-center">
 						<AppButtonContained
-							props={{
-								startIcon: null,
-								label: "View",
-								callback: () => console.log("Not yet implemented."),
-							}}
+							startIcon={null}
+							label="View"
+							onClick={() => console.log("Not yet implemented.")}
 						/>
 						<AppButtonOutlined
-							props={{
-								startIcon: null,
-								label: "Edit",
-								callback: () => console.log("Not yet implemented."),
-							}}
+							startIcon={null}
+							label="Edit"
+							onClick={() => console.log("Not yet implemented.")}
 						/>
 						<Button
 							variant="contained"
@@ -85,12 +81,24 @@ const columns = [
  * @returns {React.Component}
  */
 export default function EvaluationTable() {
+	const [rows, setRows] = useState([]);
+
+	async function fetchData() {
+		const data = await getEvaluationsList();
+		if (data) setRows(data);
+	}
+
+	// Fetch data from the backed server
+	useEffect(function () {
+		fetchData();
+	}, []);
+
 	return (
 		<>
-			<Box className="mx-16 my-4 border-2 border-text rounded-xl">
+			<Box className="mx-16 my-4 border-2 border-text rounded-xl overflow-auto">
 				<DataGrid
 					getRowId={_getRowId}
-					rows={getEvaluationsList() || _getSampleData()}
+					rows={rows.length == 0 ? _getSampleData(5) : rows}
 					columns={columns}
 					initialState={{
 						pagination: {

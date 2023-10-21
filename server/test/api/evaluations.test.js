@@ -18,7 +18,7 @@ describe("Evaluations API", function () {
 			url: "/v1/eval/",
 		});
 
-		const { result } = JSON.parse(response.body);
+		const result = JSON.parse(response.body);
 
 		assert.equal(response.statusCode, 200);
 		assert.isTrue(mongoose.isValidObjectId(result[0]._id));
@@ -70,9 +70,11 @@ describe("Evaluations API", function () {
 	describe("API /api/v1/eval/", function () {
 		it("OK, POST '/' create evaluation entry", async function () {
 			const test = {
-				program: "Computer Engineering",
+				dateOfEvaluation: "2023-01-01",
+				evaluator: "Kenny",
 				governmentAuthority: "G.A. 12345",
-				dateOfEvaluation: new Date("2023-01-01"),
+				kindOfVisit: "evaluation",
+				program: "Computer Engineering",
 			};
 
 			const response = await fastify.inject({
@@ -94,7 +96,7 @@ describe("Evaluations API", function () {
 				url: "/v1/eval/",
 			});
 
-			const { result } = JSON.parse(response.body);
+			const result = JSON.parse(response.body);
 
 			assert.equal(response.statusCode, 200);
 			assert.isTrue(mongoose.isValidObjectId(result[0]._id));
@@ -105,15 +107,19 @@ describe("Evaluations API", function () {
 			assert.isTrue(mongoose.isValidObjectId(doc._id));
 
 			const expected = {
-				program: "Computer Engineering",
+				dateOfEvaluation: "2023-01-01",
+				evaluator: "Kenny",
 				governmentAuthority: "G.A. 12345",
-				dateOfEvaluation: "2023-01-01T00:00:00.000Z",
+				kindOfVisit: "evaluation",
+				program: "Computer Engineering",
 			};
 
 			const received = {
-				program: doc.program,
-				governmentAuthority: doc.governmentAuthority,
 				dateOfEvaluation: doc.dateOfEvaluation,
+				evaluator: doc.evaluator,
+				governmentAuthority: doc.governmentAuthority,
+				kindOfVisit: doc.kindOfVisit,
+				program: doc.program,
 			};
 
 			assert.deepEqual(received, expected);
@@ -174,7 +180,7 @@ describe("Evaluations API", function () {
 			});
 
 			assert.equal(response.statusCode, 200);
-			assert.isEmpty(JSON.parse(response.body).result);
+			assert.isEmpty(JSON.parse(response.body));
 		});
 	});
 });

@@ -6,6 +6,9 @@ import "./index.css";
 import { StyledEngineProvider, createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 const rootElement = document.getElementById("root");
 const root = ReactDOM.createRoot(rootElement);
 
@@ -37,9 +40,11 @@ const theme = createTheme({
 root.render(
 	<React.StrictMode>
 		<StyledEngineProvider injectFirst>
-			<ThemeProvider theme={theme}>
-				<App />
-			</ThemeProvider>
+			<LocalizationProvider dateAdapter={AdapterDayjs}>
+				<ThemeProvider theme={theme}>
+					<App />
+				</ThemeProvider>
+			</LocalizationProvider>
 		</StyledEngineProvider>
 	</React.StrictMode>
 );

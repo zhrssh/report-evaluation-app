@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AppButtonContained from "./buttons/AppButtonContained";
 import AppButtonOutlined from "./buttons/AppButtonOutlined";
 
-export default function SearchBar({ createCallback }) {
+function SearchBar(props, ref) {
 	return (
 		<>
 			<Box className="flex mx-16 gap-8 items-center">
@@ -23,35 +23,29 @@ export default function SearchBar({ createCallback }) {
 				/>
 				<Box className="flex flex-2 gap-4">
 					<AppButtonContained
-						props={{
-							startIcon: null,
-							label: "Search",
-							callback: () => console.log("Not yet implemented."),
-						}}
+						startIcon={null}
+						label="Search"
+						onClick={() => console.log("Not yet implemented.")}
 					/>
 					<AppButtonOutlined
-						props={{
-							startIcon: null,
-							label: "Sort by",
-							callback: () => console.log("Not yet implemented."),
-						}}
+						startIcon={null}
+						label="Sort by"
+						onClick={() => console.log("Not yet implemented.")}
 					/>
 					<AppButtonOutlined
-						props={{
-							startIcon: null,
-							label: "Filters",
-							callback: () => console.log("Not yet implemented."),
-						}}
+						startIcon={null}
+						label="Filters"
+						onClick={() => console.log("Not yet implemented.")}
 					/>
 					<AppButtonContained
-						props={{
-							startIcon: null,
-							label: "Create",
-							callback: createCallback,
-						}}
+						startIcon={null}
+						label="Create"
+						onClick={props.createButtonCallback}
 					/>
 				</Box>
 			</Box>
 		</>
 	);
 }
+
+export default React.forwardRef(SearchBar);

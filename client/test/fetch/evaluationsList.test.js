@@ -3,7 +3,7 @@ import { describe, it, after, before } from "mocha";
 
 const assert = chai.assert;
 
-import { getEvaluationsList } from "../../src/services/evaluationsList.js";
+import { getEvaluationsList } from "../../src/modules/evaluationsList.js";
 
 describe("Testing fetch functions", function () {
 	const url = "http://127.0.0.1:3000/v1/eval";
@@ -11,9 +11,11 @@ describe("Testing fetch functions", function () {
 	// Insert a single evaluation entry for testing
 	before(async function () {
 		const sample = {
-			program: "Computer Engineering",
+			dateOfEvaluation: "2023-01-01",
+			evaluator: "Kenny",
 			governmentAuthority: "G.A. 12345",
-			dateOfEvaluation: new Date("2023-01-01"),
+			kindOfVisit: "evaluation",
+			program: "Computer Engineering",
 		};
 
 		const response = await fetch(url, {
@@ -31,13 +33,11 @@ describe("Testing fetch functions", function () {
 	after(async function () {
 		// Gets data from the server
 		const jsonBody = await getEvaluationsList();
-		const result = jsonBody.result;
-
-		assert.isNotEmpty(result);
+		assert.isNotEmpty(jsonBody);
 
 		// Deletes data from the server
 		let response;
-		for (let doc of result) {
+		for (let doc of jsonBody) {
 			response = await fetch(`${url}/${doc._id}`, {
 				method: "DELETE",
 			});
@@ -49,5 +49,28 @@ describe("Testing fetch functions", function () {
 	it("OK, fetches data from the server", async function () {
 		const jsonBody = await getEvaluationsList();
 		assert.isNotEmpty(jsonBody);
+	});
+
+	it("OK, fetches defined and correct data from the server", async function () {
+		const jsonBody = await getEvaluationsList();
+		assert.isNotEmpty(jsonBody);
+
+		const expected = {
+			dateOfEvaluation: "2023-01-01",
+			evaluator: "Kenny",
+			governmentAuthority: "G.A. 12345",
+			kindOfVisit: "evaluation",
+			program: "Computer Engineering",
+		};
+
+		const received = {
+			dateOfEvaluation: jsonBody[0].dateOfEvaluation,
+			evaluator: jsonBody[0].evaluator,
+			governmentAuthority: jsonBody[0].governmentAuthority,
+			kindOfVisit: jsonBody[0].kindOfVisit,
+			program: jsonBody[0].program,
+		};
+
+		assert.deepEqual(received, expected);
 	});
 });

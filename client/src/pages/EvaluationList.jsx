@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Modal } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { Dialog } from "@mui/material";
 
 import EvaluationModal from "../components/modals/EvaluationModal";
 import EvaluationTable from "../components/tables/EvaluationTable";
@@ -8,13 +8,13 @@ import InstitutionBlock from "../components/InstitutionBlock";
 import SearchBar from "../components/SearchBar";
 
 export default function EvaluationList() {
-	const [isModalOpen, setIsModalOpen] = useState(true);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const openModal = () => {
+	const handleOpen = () => {
 		setIsModalOpen(true);
 	};
 
-	const closeModal = () => {
+	const handleClose = () => {
 		setIsModalOpen(false);
 	};
 
@@ -22,11 +22,11 @@ export default function EvaluationList() {
 		<>
 			<Header />
 			<InstitutionBlock />
-			<SearchBar createCallback={openModal} />
+			<SearchBar createButtonCallback={handleOpen} />
 			<EvaluationTable />
-			<Modal open={isModalOpen} onClose={closeModal}>
-				<EvaluationModal closeModalCallback={closeModal} />
-			</Modal>
+			<Dialog open={isModalOpen} onClose={handleClose}>
+				<EvaluationModal closeModalCallback={handleClose} />
+			</Dialog>
 		</>
 	);
 }

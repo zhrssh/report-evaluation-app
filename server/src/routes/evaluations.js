@@ -25,7 +25,7 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.get("/", async function (request, reply) {
 		const result = await read();
-		reply.send({ result });
+		reply.send(result);
 	});
 
 	/**
