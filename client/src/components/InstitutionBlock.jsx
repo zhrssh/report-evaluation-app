@@ -12,7 +12,7 @@ export default function InstitutionBlock() {
 				<Box className="flex-2 flex-row items-center gap-4">
 					<img src={tipLogo} alt="institution logo" className="w-28" />
 					<Typography className="font-bold text-3xl text-accent underline">
-						Technological Institution of the Philippines
+						Technological Institute of the Philippines
 					</Typography>
 				</Box>
 				<Box className="flex-1 flex-col items-center gap-4 text-accent text-right">

@@ -1,10 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import AppButtonContained from "../buttons/AppButtonContained";
 import AppButtonOutlined from "../buttons/AppButtonOutlined";
-import { getEvaluationsList } from "../../modules/evaluationsList";
 
 import { faker } from "@faker-js/faker";
 
@@ -80,25 +79,13 @@ const columns = [
  * A React component that displays the list of evaluations of the selected institution.
  * @returns {React.Component}
  */
-export default function EvaluationTable() {
-	const [rows, setRows] = useState([]);
-
-	async function fetchData() {
-		const data = await getEvaluationsList();
-		if (data) setRows(data);
-	}
-
-	// Fetch data from the backed server
-	useEffect(function () {
-		fetchData();
-	}, []);
-
+function EvaluationTable(props, ref) {
 	return (
 		<>
 			<Box className="mx-16 my-4 border-2 border-text rounded-xl overflow-auto">
 				<DataGrid
 					getRowId={_getRowId}
-					rows={rows.length == 0 ? _getSampleData(5) : rows}
+					rows={props.rows}
 					columns={columns}
 					initialState={{
 						pagination: {
@@ -112,3 +99,5 @@ export default function EvaluationTable() {
 		</>
 	);
 }
+
+export default React.forwardRef(EvaluationTable);
