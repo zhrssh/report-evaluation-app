@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Paper, Typography, TextField, Button, Box } from '@mui/material';
 import './AdminLogin.css';
 
 const AdminComponent = () => {
@@ -6,62 +7,71 @@ const AdminComponent = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = (e) => {
-    e.preventDefault(); // Prevents the form from submitting (since it's a single page application)
-    // Add your login logic here, using the username and password states
+    e.preventDefault();
     console.log('Username:', username, 'Password:', password);
+    // Add your login logic here, using the username and password states
   };
 
   return (
-    <div className="Admin">
+    <Paper elevation={0} className="Admin">
       <div className="Rectangle93"></div>
-      <div className="NavigationBar">
-        <div className="NavigationBar"></div>
+      <Box className="NavigationBar">
         <div className="Register">Register</div>
         <div className="Logo">
           <img className="A13" src="./src/Pictures/Qwikley.png" alt="Logo" />
           <div className="Line4"></div>
-          <div className="ForUseByChedTcCpe">For use by CHED-TC CpE</div>
+          <Typography variant="caption" className="ForUseByChedTcCpe">
+            For use by CHED-TC CpE
+          </Typography>
         </div>
-      </div>
-      <div className="LoginBlock">
-        <div className="Frame1">
-          <div className="AdministratorLogIn">Administrator Log In</div>
-          <div className="PleaseEnterYourDetails">Please enter your details</div>
-        </div>
-        <div className="Login">
+      </Box>
+      <Box className="LoginBlock">
+        <Box className="Frame1">
+          <Typography variant="h4" className="AdministratorLogIn">
+            Administrator Log In
+          </Typography>
+          <Typography variant="body1" className="PleaseEnterYourDetails">
+            Please enter your details
+          </Typography>
+        </Box>
+        <Box className="Login">
           <form onSubmit={handleLogin}>
-            <div className="Frame1">
-              <div className="Username">
-                <div className="Label">Username</div>
-                <input
+            <Box className="Frame1">
+              <Box className="Username">
+                <Typography variant="body2" className="Label">
+                  Username
+                </Typography>
+                <TextField
                   type="text"
                   className="TextInput"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
-              </div>
-            </div>
-            <div className="Frame1">
-              <div className="Password">
-                <div className="Label">Password</div>
-                <input
+              </Box>
+            </Box>
+            <Box className="Frame1">
+              <Box className="Password">
+                <Typography variant="body2" className="Label">
+                  Password
+                </Typography>
+                <TextField
                   type="password"
                   className="TextInput"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-              </div>
-            </div>
-            <div className="AppButton">
-              <div className="Frame"></div>
-              <button type="submit" className="Text">
+              </Box>
+            </Box>
+            <Box className="AppButton">
+              <Box className="Frame"></Box>
+              <Button type="submit" className="Text">
                 Log In
-              </button>
-            </div>
+              </Button>
+            </Box>
           </form>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Paper>
   );
 };
 
