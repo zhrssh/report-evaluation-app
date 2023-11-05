@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, Typography, TextField, Button, Box } from '@mui/material';
+import { Box, Paper, Typography, TextField, Button } from '@mui/material';
 import './AdminLogin.css';
 
 const AdminComponent = () => {
@@ -9,38 +9,30 @@ const AdminComponent = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     console.log('Username:', username, 'Password:', password);
-    // Add your login logic here, using the username and password states
   };
 
   return (
-    <Paper elevation={0} className="Admin">
-      <div className="Rectangle93"></div>
+    <Box className="Admin">
+      <Box className="Rectangle93"></Box>
       <Box className="NavigationBar">
-        <div className="Register">Register</div>
-        <div className="Logo">
+        <Box className="NavigationBar"></Box>
+        <Typography className="Register">Register</Typography>
+        <Box className="Logo">
           <img className="A13" src="./src/Pictures/Qwikley.png" alt="Logo" />
-          <div className="Line4"></div>
-          <Typography variant="caption" className="ForUseByChedTcCpe">
-            For use by CHED-TC CpE
-          </Typography>
-        </div>
+          <Box className="Line4"></Box>
+          <Typography className="ForUseByChedTcCpe">For use by CHED-TC CpE</Typography>
+        </Box>
       </Box>
       <Box className="LoginBlock">
-        <Box className="Frame1">
-          <Typography variant="h4" className="AdministratorLogIn">
-            Administrator Log In
-          </Typography>
-          <Typography variant="body1" className="PleaseEnterYourDetails">
-            Please enter your details
-          </Typography>
-        </Box>
+        <Paper className="Frame1">
+          <Typography className="AdministratorLogIn">Administrator Log In</Typography>
+          <Typography className="PleaseEnterYourDetails">Please enter your details</Typography>
+        </Paper>
         <Box className="Login">
           <form onSubmit={handleLogin}>
-            <Box className="Frame1">
+            <Paper className="Frame1">
               <Box className="Username">
-                <Typography variant="body2" className="Label">
-                  Username
-                </Typography>
+                <Typography className="Label">Username</Typography>
                 <TextField
                   type="text"
                   className="TextInput"
@@ -48,12 +40,10 @@ const AdminComponent = () => {
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </Box>
-            </Box>
-            <Box className="Frame1">
+            </Paper>
+            <Paper className="Frame1">
               <Box className="Password">
-                <Typography variant="body2" className="Label">
-                  Password
-                </Typography>
+                <Typography className="Label">Password</Typography>
                 <TextField
                   type="password"
                   className="TextInput"
@@ -61,9 +51,9 @@ const AdminComponent = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Box>
-            </Box>
+            </Paper>
             <Box className="AppButton">
-              <Box className="Frame"></Box>
+              <Paper className="Frame"></Paper>
               <Button type="submit" className="Text">
                 Log In
               </Button>
@@ -71,7 +61,7 @@ const AdminComponent = () => {
           </form>
         </Box>
       </Box>
-    </Paper>
+    </Box>
   );
 };
 

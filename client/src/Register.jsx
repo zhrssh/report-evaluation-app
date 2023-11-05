@@ -1,68 +1,76 @@
 import React from 'react';
-import './Register.css';
+import { Box, Paper, Typography } from '@mui/material';
+import HelpIcon from '@mui/icons-material/Help';
+import InfoIcon from '@mui/icons-material/Info';
+import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const Register = () => {
   return (
-    <div className="Register">
-      <div className="NavigationBar">
-        <div className="NavigationBar"></div>
-        <div className="AlreadyHaveAnAccount">Already have an Account?</div>
-        <div className="Logo">
+    <Box className="Register">
+      <Paper elevation={2} className="NavigationBar">
+        <Box className="AlreadyHaveAnAccount">Already have an Account?</Box>
+        <Box className="Logo">
           <img className="A13" src="src/Pictures/Qwikley.png" alt="Logo" />
-          <div className="Line4"></div>
-          <div className="ForUseByChedTcCpe">For use by CHED-TC CpE</div>
-        </div>
-      </div>
-      <div className="Rectangle93"></div>
-      <div className="LoginBlock">
-        <div className="Frame1">
-          <div className="SignUp">SIGN UP</div>
-          <div className="EnterYourDetailsToRegister">Enter your details to register.</div>
-        </div>
-        <div className="Login">
-          <div className="Frame9">
-            <div className="Username">
-              <div className="Label">First Name</div>
-              <div className="TextInput"></div>
-            </div>
-            <div className="Username">
-              <div className="Label">Middle Name</div>
-              <div className="TextInput"></div>
-            </div>
-            <div className="Username">
-              <div className="Label">Last Name</div>
-              <div className="TextInput"></div>
-            </div>
-            <div className="Username" style={{width: '64px'}}>
-              <div className="Label">Suffix</div>
-              <div className="TextInput"></div>
-            </div>
-          </div>
-          <div className="Password">
-            <div className="Label">Email Address</div>
-            <div className="TextInput"></div>
-          </div>
-          <div className="Password">
-            <div className="Label">Password</div>
-            <div className="TextInput"></div>
-          </div>
-          <div className="Password">
-            <div className="Label">Confirm Password</div>
-            <div className="TextInput"></div>
-          </div>
-          <div className="Frame27">
-            <div className="AppButton">
-              <div className="Frame"></div>
-              <div className="Text">Register</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="Frame8">
-        <div className="DevelopedBy">Developed by:</div>
-        <img className="A2" src="src/Pictures/Ademix.png" alt="Developed by" />
-      </div>
-    </div>
+          <Box className="Line4"></Box>
+          <Typography className="ForUseByChedTcCpe">For use by CHED-TC CpE</Typography>
+        </Box>
+      </Paper>
+      <Box className="Container">
+        <Box className="Rectangle93">
+          <Box className="LoginBlock">
+            <Paper elevation={2} className="Frame1">
+              <Typography variant="h4" className="SignUp">SIGN UP</Typography>
+              <Typography className="EnterYourDetailsToRegister">Enter your details to register.</Typography>
+            </Paper>
+            <Paper elevation={2} className="Login">
+              <Box className="Frame9">
+                <Box className="Username">
+                  <Typography className="Label">First Name</Typography>
+                  <Box className="TextInput"></Box>
+                </Box>
+                <Box className="Username">
+                  <Typography className="Label">Middle Name</Typography>
+                  <Box className="TextInput"></Box>
+                </Box>
+                <Box className="Username">
+                  <Typography className="Label">Last Name</Typography>
+                  <Box className="TextInput"></Box>
+                </Box>
+                <Box className="Username" style={{width: '64px'}}>
+                  <Typography className="Label">Suffix</Typography>
+                  <Box className="TextInput"></Box>
+                </Box>
+              </Box>
+              <Box className="Password">
+                <Typography className="Label">Email Address</Typography>
+                <Box className="TextInput"></Box>
+              </Box>
+              <Box className="Password">
+                <Typography className="Label">Password</Typography>
+                <Box className="TextInput"></Box>
+              </Box>
+              <Box className="Password">
+                <Typography className="Label">Confirm Password</Typography>
+                <Box className="TextInput"></Box>
+              </Box>
+              <Box className="Frame27">
+                <Box className="AppButton">
+                  <Box className="Frame"></Box>
+                  <Typography className="Text">Register</Typography>
+                </Box>
+              </Box>
+            </Paper>
+            
+          </Box>
+
+        </Box>
+      </Box>
+          <Paper elevation={2} className="Frame8">
+            <Typography className="DevelopedBy">Developed by:</Typography>
+            <img className="A2" src="src/Pictures/Ademix.png" alt="Developed by" />
+          </Paper>
+    </Box>
   );
 };
 
