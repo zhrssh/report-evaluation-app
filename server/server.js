@@ -1,4 +1,8 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import Fastify from "fastify";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import pino from "pino";
 
@@ -28,46 +32,64 @@ fastify.register(cors, {
 });
 
 /**
+ * Server Routing
+ */
+import evaluations from "./src/routes/evaluations.js";
+
+fastify.get("/", function (request, reply) {
+	reply.send({ hello: "world" });
+});
+
+fastify.register(evaluations, { prefix: "/v1/eval" });
+
+/**
  * Database configurations
  */
+let DB_URL, mongod;
+if (process.env.NODE_ENVIRONMENT === "development") {
+	mongod = await MongoMemoryServer.create();
+	DB_URL = mongod.getUri();
+} else {
+	DB_URL = process.env.DB_URL;
+}
+
 const DB_OPTIONS = {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 };
 
 /**
- * The home/default route of the server.
- */
-fastify.get("/", function (request, reply) {
-	reply.send({ hello: "world" });
-});
-
-/**
- * This where the routing is organized.
- */
-import evaluations from "./src/routes/evaluations.js";
-
-fastify.register(evaluations, { prefix: "/v1/eval" });
-
-/**
  * Starts the server and the database.
  */
 
 // Connects the server to the database
-mongoose.connect("mongodb://127.0.0.1/testdb", DB_OPTIONS).then(function () {
-	fastify.listen({ port: 3000 }, function (err, address) {
-		// If error is encountered, logs error
-		if (err) {
-			fastify.log.error(err);
-			process.exit(1);
+mongoose.connect(DB_URL, DB_OPTIONS).then(function () {
+	fastify.listen(
+		{ port: process.env.SERVER_PORT },
+		async function (err, address) {
+			// If error is encountered, logs error
+			if (err) {
+				fastify.log.error(err);
+				await mongoose.connection.close();
+				await fastify.close();
+				if (mongod) {
+					await mongod.stop();
+				}
+
+				process.exit(1);
+			}
 		}
-	});
+	);
 });
 
 ["SIGINT", "SIGTERM"].forEach(function (signal) {
 	process.on(signal, async function () {
 		await mongoose.connection.close();
 		await fastify.close();
+		if (mongod) {
+			await mongod.stop();
+		}
+
 		process.exit(0);
 	});
 });
