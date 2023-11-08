@@ -7,39 +7,34 @@ import Evaluation from "../models/Evaluations.js";
 /**
  * Creates a new entry in the database.
  * @param {Object} data
- * @returns {Promise<void>}
  */
-export function create(data) {
-	return new Promise(async function (resolve, reject) {
-		try {
-			const result = await Evaluation.create(data);
-			resolve(result._id);
-		} catch (err) {
-			reject(err);
-		}
-	});
+export async function create(data) {
+	try {
+		const result = await Evaluation.create(data);
+		return result._id;
+	} catch (err) {
+		throw err;
+	}
 }
 
 /**
  * Retrieves all entries ids from the database.
  * @returns {Promise<Document>}
  */
-export function fetchIds() {
-	return new Promise(async function (resolve, reject) {
-		try {
-			const results = await Evaluation.find().exec();
+export async function fetchIds() {
+	try {
+		const results = await Evaluation.find().exec();
 
-			// Gets all the ids
-			const ids = [];
-			results.forEach((element) => {
-				ids.push(element._id);
-			});
+		// Gets all the ids
+		const ids = [];
+		results.forEach((element) => {
+			ids.push(element._id);
+		});
 
-			resolve(ids);
-		} catch (err) {
-			reject(err);
-		}
-	});
+		return ids;
+	} catch (err) {
+		throw err;
+	}
 }
 
 /**
@@ -48,15 +43,13 @@ export function fetchIds() {
  * @param {Object} projection
  * @returns {Array<Document>}
  */
-export function read(filter = {}, projection = null) {
-	return new Promise(async function (resolve, reject) {
-		try {
-			const result = await Evaluation.find(filter, projection).exec();
-			resolve(result);
-		} catch (err) {
-			reject(err);
-		}
-	});
+export async function read(filter = {}, projection = null) {
+	try {
+		const result = await Evaluation.find(filter, projection).exec();
+		return result;
+	} catch (err) {
+		throw err;
+	}
 }
 
 /**
@@ -65,27 +58,28 @@ export function read(filter = {}, projection = null) {
  * @param {Object} data
  * @returns {Document}
  */
-export function update(_id, data) {
-	return new Promise(async function (resolve, reject) {
-		try {
-			const result = await Evaluation.findOneAndUpdate({ _id }, data, {
-				new: true,
-			});
+export async function update(_id, data) {
+	try {
+		const result = await Evaluation.findOneAndUpdate({ _id }, data, {
+			new: true,
+		});
 
-			resolve(result);
-		} catch (err) {
-			reject(err);
-		}
-	});
+		return result;
+	} catch (err) {
+		throw err;
+	}
 }
 
-export function deleteOne(_id) {
-	return new Promise(async function (resolve, reject) {
-		try {
-			await Evaluation.findByIdAndDelete(_id).exec();
-			resolve(true);
-		} catch (err) {
-			reject(err);
-		}
-	});
+/**
+ * Delete evaluation by id
+ * @param {*} _id
+ * @returns
+ */
+export async function deleteOne(_id) {
+	try {
+		await Evaluation.findByIdAndDelete(_id).exec();
+		return true;
+	} catch (err) {
+		throw err;
+	}
 }

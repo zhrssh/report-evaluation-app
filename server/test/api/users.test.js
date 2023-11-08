@@ -1,7 +1,6 @@
 import chai from "chai";
 import { describe, it, after, before } from "mocha";
 import mongoose from "mongoose";
-import path from "path";
 
 import fastify from "../../server.js";
 import User from "../../src/models/Users.js";
@@ -84,4 +83,28 @@ describe("AA Services", function () {
 			message: "Verified.",
 		});
 	});
+
+	it("OK, logins the account", async function () {
+		let response;
+		response = await fastify.inject({
+			method: "POST",
+			url: "/v1/users/login",
+			payload: {
+				credentials: {
+					email: test_email,
+					password: test_password,
+				},
+			},
+		});
+
+		const json = JSON.parse(response.body);
+
+		assert.equal(response.statusCode, 200);
+		assert.equal(json.tokenType, "Bearer");
+
+		fastify.log.info(`Access Token: ${json.accessToken}`);
+		fastify.log.info(`Refresh Token: ${json.refreshToken}`);
+	});
+
+	// TODO: test verification of token
 });

@@ -1,6 +1,8 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
+import { login } from "../services/auth.js";
+
 import {
 	read,
 	create,
@@ -43,6 +45,24 @@ export default function Route(fastify, opts, done) {
 
 		const result = await verify(uid, code);
 		reply.send(result);
+	});
+
+	/**
+	 * Authenticates user to access resources
+	 */
+	fastify.post("/login", async function (request, reply) {
+		const { email, password } = request.body;
+		const token = await login(email, password);
+
+		// Payload to send to client
+		const payload = {
+			uid: token.uid,
+			accessToken: token.accessToken,
+			refreshToken: token.refreshToken,
+			tokenType: token.tokenType,
+		};
+
+		reply.send(payload);
 	});
 
 	done();
