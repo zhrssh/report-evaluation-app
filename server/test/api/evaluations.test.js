@@ -54,10 +54,6 @@ describe("Evaluations API", function () {
 				}
 			}
 		});
-
-		// Closes all connection
-		await mongoose.connection.close();
-		await fastify.close();
 	});
 
 	describe("Testing the connection", async function () {

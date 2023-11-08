@@ -11,6 +11,8 @@ import formbody from "@fastify/formbody";
 import helmet from "@fastify/helmet";
 import multipart from "@fastify/multipart";
 
+import mailer from "fastify-mailer";
+
 const logger = pino({
 	transport: {
 		target: "pino-pretty",
@@ -30,17 +32,32 @@ fastify.register(cors, {
 	origin: "*",
 	methods: ["GET", "POST", "PUT", "DELETE"],
 });
+fastify.register(mailer, {
+	defaults: { from: "<noreply@ademix.com>", subject: "Verify your account" },
+	transport: {
+		host: "smtp.gmail.com",
+		secure: true,
+		port: 465,
+		auth: {
+			user: process.env.SMTP_EMAIL,
+			pass: process.env.SMTP_PASS,
+		},
+	},
+});
 
 /**
  * Server Routing
  */
 import evaluations from "./src/routes/evaluations.js";
+import users from "./src/routes/users.js";
+import fastifyFormbody from "@fastify/formbody";
 
 fastify.get("/", function (request, reply) {
 	reply.send({ hello: "world" });
 });
 
 fastify.register(evaluations, { prefix: "/v1/eval" });
+fastify.register(users, { prefix: "/v1/users" });
 
 /**
  * Database configurations
