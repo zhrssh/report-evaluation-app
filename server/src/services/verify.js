@@ -92,7 +92,7 @@ export async function verify(uid, code) {
 			await user.save();
 		});
 
-		return { message: "Verified." };
+		return { status: user.status, message: "Verified." };
 	} catch (err) {
 		throw err;
 	}

@@ -79,6 +79,9 @@ describe("AA Services", function () {
 		const json = JSON.parse(response.body);
 
 		assert.equal(response.statusCode, 200);
-		assert.equal(json.message, "Verified.");
+		assert.deepEqual(json, {
+			status: "ACTIVE",
+			message: "Verified.",
+		});
 	});
 });
