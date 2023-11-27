@@ -30,9 +30,9 @@ export default function Route(fastify, opts, done) {
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			const code = await sendVerification(uid);
-			fastify.log.info(`Verification code: ${code}`);
 
 			if (process.env.NODE_ENVIRONMENT === "development") {
+				fastify.log.info(`Verification code: ${code}`);
 				reply.send({ verificationCode: code });
 			}
 		},
@@ -63,6 +63,11 @@ export default function Route(fastify, opts, done) {
 		handler: async function (request, reply) {
 			const { email, password } = request.body;
 			const { accessToken, refreshToken } = await login(email, password);
+
+			// Display tokens
+			if (process.env.NODE_ENVIRONMENT === "development") {
+				fastify.log.info({ accessToken, refreshToken });
+			}
 
 			// Payload to send to client
 			const payload = {

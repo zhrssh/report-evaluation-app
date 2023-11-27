@@ -114,6 +114,9 @@ describe("AA Services", function () {
 		// Sets tokens for the next test
 		test_accessToken = json["accessToken"];
 		test_refreshToken = json["refreshToken"];
+
+		// Display test tokens
+		fastify.log.info(test_accessToken);
 	});
 
 	it("OK, verifies jwt tokens", function () {

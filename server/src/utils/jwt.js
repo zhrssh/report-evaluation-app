@@ -10,16 +10,35 @@ import jwt from "jsonwebtoken";
  * @returns
  */
 export function generateToken(payload, type = "access") {
-	switch (type) {
-		case "access":
-			return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-				expiresIn: "24h",
-			});
-		case "refresh":
-			return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-				expiresIn: "7d",
-			});
-		default:
-			return null;
+	try {
+		switch (type) {
+			case "access":
+				return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+					expiresIn: "24h",
+				});
+			case "refresh":
+				return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+					expiresIn: "7d",
+				});
+			default:
+				return null;
+		}
+	} catch (err) {
+		throw err;
+	}
+}
+
+export function verifyToken(token, type = "access") {
+	try {
+		switch (type) {
+			case "access":
+				return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+			case "refresh":
+				return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+			default:
+				return null;
+		}
+	} catch (err) {
+		throw err;
 	}
 }

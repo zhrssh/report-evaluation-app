@@ -1,13 +1,15 @@
+import path from "path";
+import fs from "fs";
+import util from "util";
+import { pipeline } from "stream";
+
 import {
 	read,
 	create,
 	update,
 	deleteOne,
 } from "../controller/evaluationController.js";
-import path from "path";
-import fs from "fs";
-import util from "util";
-import { pipeline } from "stream";
+import { authenticate } from "../middleware/jwt.js";
 
 const allowedExtensions = [
 	".jpg",
@@ -31,6 +33,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "POST",
 		url: "/",
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const data = request.body;
 			const _id = await create(data);
@@ -44,6 +47,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "GET",
 		url: "/",
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const result = await read();
 			reply.send(result);
@@ -56,6 +60,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "GET",
 		url: "/:uid",
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			const result = await read({ _id: uid });
@@ -69,6 +74,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "PUT",
 		url: "/:uid",
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			const data = request.body;
@@ -83,6 +89,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "DELETE",
 		url: "/:uid",
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			if (await deleteOne(uid)) reply.send(200);
@@ -95,6 +102,7 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.route({
 		method: "POST",
+		preHandler: authenticate,
 		url: "/upload/:uid",
 		handler: async function (request, reply) {
 			const { uid } = request.params;

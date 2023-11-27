@@ -21,7 +21,7 @@ export async function login(email, password) {
 		});
 
 		// Preps payload
-		const payload = { uid: user._id, name: user.name };
+		const payload = { uid: user._id, name: user.info?.name };
 
 		// Generates a new token
 		const accessToken = generateToken(payload, "access");
