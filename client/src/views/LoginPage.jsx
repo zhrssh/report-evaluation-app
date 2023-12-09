@@ -4,23 +4,25 @@ import { TextField, Link } from "@mui/material";
 import AppButtonContained from "../components/utils/AppButtonContained";
 
 function LoginPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [credentialsFormData, setCredentialsFormData] = useState({
+        email: "",
+        password: "",
+    });
 
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
+    const handleCredentialsChange = (event) => {
+        const { name, value } = event.target;
+        setCredentialsFormData({
+            ...credentialsFormData,
+            [name]: value,
+        });
     };
 
     const handleSubmit = () => {
-        console.log("Email:", email);
-        console.log("Password:", password);
-
-        setEmail("");
-        setPassword("");
+        console.log("Credentials Data:", credentialsFormData);
+        setCredentialsFormData({
+            email: "",
+            password: "",
+        });
     };
 
     return (
@@ -37,22 +39,29 @@ function LoginPage() {
                     <h1 className="text-accent">Login</h1>
                     <span>Welcome back! Please login to continue.</span>
                     <div className="flex flex-col mt-5 gap-3">
-                        <TextField
-                            id="standard-basic"
-                            label="Email address"
-                            variant="standard"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                        <TextField
-                            id="outlined-password-input"
-                            label="Password"
-                            type="password"
-                            variant="standard"
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={handlePasswordChange}
-                        />
+                        {Object.keys(credentialsFormData).map((key) => (
+                            <TextField
+                                key={key}
+                                fullWidth
+                                id={`standard-basic-${key}`}
+                                label={
+                                    key.charAt(0).toUpperCase() +
+                                    key.slice(1).replace(/([A-Z])/g, " $1")
+                                }
+                                variant="standard"
+                                value={credentialsFormData[key]}
+                                onChange={handleCredentialsChange}
+                                type={
+                                    key.includes("password") ? "password" : ""
+                                }
+                                autoComplete={
+                                    key.includes("password")
+                                        ? "current-password"
+                                        : ""
+                                }
+                                name={key}
+                            />
+                        ))}
                         <AppButtonContained
                             label="Login"
                             onClick={() => handleSubmit()}
