@@ -109,10 +109,8 @@ export default function Route(fastify, opts, done) {
 			const files = request.files();
 
 			if (!files) {
-				return reply.send("No files uploaded.");
+				return reply.code(404).send({ message: "No files uploaded." });
 			}
-
-			fastify.log.info(files);
 
 			// Preps the parent directory
 			const parentDir = path.join("uploads", uid);
@@ -136,9 +134,12 @@ export default function Route(fastify, opts, done) {
 			}
 
 			// Add filepath in the database
-			await update({ _id: uid }, { $push: { attachedFiles: paths } });
+			const result = await update(
+				{ _id: uid },
+				{ $push: { attachedFiles: paths } }
+			);
 
-			reply.send({ paths });
+			reply.send({ paths: result.attachedFiles });
 		},
 	});
 
