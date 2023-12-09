@@ -1,14 +1,26 @@
-import "./App.css";
 import React from "react";
-
-import EvaluationList from "./pages/EvaluationList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/shared/Layout";
+import LandingPage from "./views/LandingPage.jsx";
+import LoginPage from "./views/LoginPage.jsx";
+import RegistrationPage from "./views/RegistrationPage.jsx";
 
 function App() {
-	return (
-		<div className="app-container">
-			<EvaluationList />
-		</div>
-	);
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route
+                    path="/login"
+                    element={<Layout withHeader={<LoginPage />} />}
+                />
+                <Route
+                    path="/register"
+                    element={<Layout withHeader={<RegistrationPage />} />}
+                />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
