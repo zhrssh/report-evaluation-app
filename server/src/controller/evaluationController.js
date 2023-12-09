@@ -7,31 +7,12 @@ import Evaluation from "../models/Evaluations.js";
 /**
  * Creates a new entry in the database.
  * @param {Object} data
+ * @returns {String}
  */
-export async function create(data) {
+export async function createEvaluation(data) {
 	try {
 		const result = await Evaluation.create(data);
-		return result._id;
-	} catch (err) {
-		throw err;
-	}
-}
-
-/**
- * Retrieves all entries ids from the database.
- * @returns {Promise<Document>}
- */
-export async function fetchIds() {
-	try {
-		const results = await Evaluation.find().exec();
-
-		// Gets all the ids
-		const ids = [];
-		results.forEach((element) => {
-			ids.push(element._id);
-		});
-
-		return ids;
+		return result;
 	} catch (err) {
 		throw err;
 	}
@@ -43,7 +24,7 @@ export async function fetchIds() {
  * @param {Object} projection
  * @returns {Array<Document>}
  */
-export async function read(filter = {}, projection = null) {
+export async function readEvaluations(filter = {}, projection = null) {
 	try {
 		const result = await Evaluation.find(filter, projection).exec();
 		return result;
@@ -58,7 +39,7 @@ export async function read(filter = {}, projection = null) {
  * @param {Object} data
  * @returns {Document}
  */
-export async function update(_id, data) {
+export async function updateEvaluation(_id, data) {
 	try {
 		const result = await Evaluation.findOneAndUpdate({ _id }, data, {
 			new: true,
@@ -75,7 +56,7 @@ export async function update(_id, data) {
  * @param {*} _id
  * @returns
  */
-export async function deleteOne(_id) {
+export async function deleteEvaluation(_id) {
 	try {
 		await Evaluation.findByIdAndDelete(_id).exec();
 		return true;

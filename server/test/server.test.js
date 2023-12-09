@@ -12,6 +12,7 @@ import { describe, it, after, before } from "mocha";
 
 import fastify from "../server.js";
 import Evaluation from "../src/models/Evaluations.js";
+import Institution from "../src/models/Institutions.js";
 import User from "../src/models/Users.js";
 
 const assert = chai.assert;
@@ -24,10 +25,25 @@ describe("User-Server Simulation", function () {
 	let test_id;
 	let test_accessToken;
 	let test_refreshToken;
+	let test_institutionEntry;
+	let test_evaluationEntry;
+	let test_fileEntry;
 
 	before(async function () {
 		// Clears all the users
 		User.deleteMany({});
+	});
+
+	describe("Testing the connection", async function () {
+		it("OK, hello there!", async function () {
+			const response = await fastify.inject({
+				method: "GET",
+				url: "/",
+			});
+
+			const body = response.json();
+			assert.equal(body.hello, "world");
+		});
 	});
 
 	describe("Authentication and Authorization Services", function () {
@@ -140,76 +156,165 @@ describe("User-Server Simulation", function () {
 		});
 	});
 
-	describe("CRUD Functions for Evaluations", function () {
-		// Gets sample evaluation from MongoDB
-		async function getSampleEvaluation() {
-			let response = await fastify.inject({
-				method: "GET",
-				headers: {
-					authorization: `Bearer ${test_accessToken}`,
-				},
-				url: "/v1/eval/",
-			});
-
-			const result = response.json();
-
-			assert.equal(response.statusCode, 200);
-			assert.isTrue(mongoose.isValidObjectId(result[0]._id));
-
-			response = await fastify.inject({
-				method: "GET",
-				headers: {
-					authorization: `Bearer ${test_accessToken}`,
-				},
-				url: `/v1/eval/${result[0]._id}`,
-			});
-
-			const doc = response.json()[0];
-			return doc;
-		}
-
+	describe("CRUD Functions for Institutions", function () {
 		// Clears all entries before running test
 		before(async function () {
-			await Evaluation.deleteMany({});
+			await Institution.deleteMany({});
 		});
 
-		// Closes all connections
-		after(async function () {
-			// Delete all files in the uploads folder
-			const directory = "uploads";
-			fs.readdirSync(directory, function (err, files) {
-				if (err) throw err;
-				for (const file of files) {
-					const filePath = path.join(directory, file);
-					const stats = fs.lstatSync(filePath);
+		describe("API /v1/institutions", function () {
+			it("OK, creates an institution entry", async function () {
+				// Test payload
+				const payload = {
+					institutionName: "Technological Institute of the Philippines",
+					completeAddress: "938 Aurora Boulevard, Cubao",
+					city: "Quezon City",
+					region: "Metro Manila",
+				};
 
-					if (stats.isDirectory()) {
-						fs.rmdirSync(filePath, function (err) {
-							if (err) throw err;
-						});
-					}
-				}
+				const response = await fastify.inject({
+					method: "POST",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: "/v1/institutions",
+					payload: payload,
+				});
+
+				const result = response.json();
+
+				assert.equal(response.statusCode, 200);
+				assert.isTrue(
+					mongoose.isValidObjectId(result._id),
+					"Is not a valid object ID"
+				);
 			});
-		});
 
-		describe("Testing the connection", async function () {
-			it("OK, hello there!", async function () {
+			it("OK, reads all institution entries", async function () {
 				const response = await fastify.inject({
 					method: "GET",
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: "/",
+					url: "/v1/institutions/",
 				});
 
-				const body = response.json();
-				assert.equal(body.hello, "world");
+				// Select single entry from the list
+				const result = response.json()[0];
+
+				assert.equal(response.statusCode, 200);
+				assert.isTrue(mongoose.isValidObjectId(result._id));
+				assert.equal(
+					result.institutionName,
+					"Technological Institute of the Philippines"
+				);
+
+				test_institutionEntry = result;
+			});
+
+			it("OK, reads a single institution entry", async function () {
+				const expected = {
+					institutionName: "Technological Institute of the Philippines",
+					completeAddress: "938 Aurora Boulevard, Cubao",
+					city: "Quezon City",
+					region: "Metro Manila",
+				};
+
+				const response = await fastify.inject({
+					method: "GET",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/institutions/${test_institutionEntry._id}`,
+				});
+
+				// Select single entry from the list
+				const result = response.json()[0];
+				const received = {
+					institutionName: result.institutionName,
+					completeAddress: result.completeAddress,
+					city: result.city,
+					region: result.region,
+				};
+
+				assert.equal(response.statusCode, 200);
+				assert.isTrue(mongoose.isValidObjectId(result._id));
+				assert.deepEqual(received, expected);
+			});
+
+			it("OK, updates an institution entry", async function () {
+				// Test payload
+				let payload = test_institutionEntry;
+				payload.institutionName = "University of the Philippines";
+
+				const response = await fastify.inject({
+					method: "PUT",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/institutions/${test_institutionEntry._id}`,
+					payload,
+				});
+
+				const newDoc = response.json();
+
+				assert.equal(response.statusCode, 200);
+				assert.equal(newDoc.institutionName, "University of the Philippines");
+			});
+
+			it("OK, deletes an institution entry", async function () {
+				const response = await fastify.inject({
+					method: "DELETE",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/evaluations/${test_institutionEntry._id}`,
+				});
+
+				const { message } = response.json();
+
+				assert.equal(response.statusCode, 200);
+				assert.equal(
+					message,
+					`Evaluation ${test_institutionEntry._id} deleted.`
+				);
 			});
 		});
+	});
 
-		describe("API /api/v1/eval/", function () {
-			it("OK, POST '/' create evaluation entry", async function () {
-				const test = {
+	describe("CRUD Functions for Evaluations", function () {
+		// Clears all entries before running test
+		before(async function () {
+			await Evaluation.deleteMany({});
+		});
+
+		after(async function () {
+			// Delete all files in the uploads folder
+			const directory = "./uploads";
+
+			try {
+				const files = await fs.promises.readdir(directory);
+
+				for (const file of files) {
+					const filePath = path.join(directory, file);
+					const stats = await fs.promises.lstat(filePath);
+
+					if (stats.isDirectory()) {
+						await fs.promises.rm(filePath, { recursive: true });
+					} else {
+						await fs.promises.unlink(filePath);
+					}
+				}
+				fastify.log.info("Files deleted successfully.");
+			} catch (err) {
+				fastify.log.error("Error deleting files:", err);
+			}
+		});
+
+		describe("API /v1/evaluations/", function () {
+			it("OK, create evaluation entry", async function () {
+				const payload = {
+					ownedBy: test_institutionEntry._id, // used to tell that this entry is under that instutition
 					dateOfEvaluation: "2023-01-01",
 					evaluator: "Kenny",
 					governmentAuthority: "G.A. 12345",
@@ -222,37 +327,41 @@ describe("User-Server Simulation", function () {
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: "/v1/eval/",
-					payload: test,
-				});
-
-				assert.equal(response.statusCode, 200);
-				assert.isTrue(
-					mongoose.isValidObjectId(response.json().id),
-					"Is not a valid object ID"
-				);
-			});
-
-			it("OK, GET '/v1/eval/' retrieves all evaluation entries", async function () {
-				const response = await fastify.inject({
-					method: "GET",
-					headers: {
-						authorization: `Bearer ${test_accessToken}`,
-					},
-					url: "/v1/eval/",
+					url: "/v1/evaluations/",
+					payload,
 				});
 
 				const result = response.json();
 
 				assert.equal(response.statusCode, 200);
-				assert.isTrue(mongoose.isValidObjectId(result[0]._id));
+				assert.isTrue(
+					mongoose.isValidObjectId(result._id),
+					"Is not a valid object ID"
+				);
+				assert.equal(result.ownedBy, test_institutionEntry._id);
 			});
 
-			it("OK, GET '/v1/eval/:uid' retrieve a single entry", async function () {
-				const doc = await getSampleEvaluation();
-				assert.isTrue(mongoose.isValidObjectId(doc._id));
+			it("OK, retrieves all evaluation entries", async function () {
+				const response = await fastify.inject({
+					method: "GET",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: "/v1/evaluations/",
+				});
 
+				// Get a single entry from the list
+				const result = response.json()[0];
+
+				assert.equal(response.statusCode, 200);
+				assert.isTrue(mongoose.isValidObjectId(result._id));
+
+				test_evaluationEntry = result;
+			});
+
+			it("OK, retrieve an evaluation entry", async function () {
 				const expected = {
+					ownedBy: test_institutionEntry._id,
 					dateOfEvaluation: "2023-01-01",
 					evaluator: "Kenny",
 					governmentAuthority: "G.A. 12345",
@@ -260,28 +369,42 @@ describe("User-Server Simulation", function () {
 					program: "Computer Engineering",
 				};
 
+				const response = await fastify.inject({
+					method: "GET",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/evaluations/${test_evaluationEntry._id}`,
+				});
+
+				// Get a single entry from the list
+				const result = response.json()[0];
 				const received = {
-					dateOfEvaluation: doc.dateOfEvaluation,
-					evaluator: doc.evaluator,
-					governmentAuthority: doc.governmentAuthority,
-					kindOfVisit: doc.kindOfVisit,
-					program: doc.program,
+					ownedBy: result.ownedBy,
+					dateOfEvaluation: result.dateOfEvaluation,
+					evaluator: result.evaluator,
+					governmentAuthority: result.governmentAuthority,
+					kindOfVisit: result.kindOfVisit,
+					program: result.program,
 				};
 
+				assert.equal(response.statusCode, 200);
+				assert.isTrue(mongoose.isValidObjectId(result._id));
 				assert.deepEqual(received, expected);
 			});
 
-			it("OK, PUT '/:uid' updates an evaluation entry", async function () {
-				let doc = await getSampleEvaluation();
-				doc.program = "Chemical Engineering";
+			it("OK, updates an evaluation entry", async function () {
+				// Test payload
+				let payload = test_evaluationEntry;
+				payload.program = "Chemical Engineering";
 
 				const response = await fastify.inject({
 					method: "PUT",
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: `/v1/eval/${doc._id}`,
-					payload: doc,
+					url: `/v1/evaluations/${test_evaluationEntry._id}`,
+					payload,
 				});
 
 				const newDoc = response.json();
@@ -290,16 +413,36 @@ describe("User-Server Simulation", function () {
 				assert.equal(newDoc.program, "Chemical Engineering");
 			});
 
-			it("OK, POST /v1/eval/upload/:uid uploads file and updates filepath in the entry", async function () {
-				const doc = await getSampleEvaluation();
-				const id = doc._id;
+			it("OK, deletes an evaluation entry", async function () {
+				const response = await fastify.inject({
+					method: "DELETE",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/evaluations/${test_evaluationEntry._id}`,
+				});
 
+				const { message } = response.json();
+
+				assert.equal(response.statusCode, 200);
+				assert.equal(
+					message,
+					`Evaluation ${test_evaluationEntry._id} deleted.`
+				);
+			});
+		});
+
+		describe("API /v1/uploads", function () {
+			it("OK, uploads file in the server", async function () {
 				const testFilePath = ".\\test\\images";
 				const testFilename = "doge.jpg";
 
-				// Boundary used to specify different files
-				const boundary =
-					"----Boundary" + Math.random().toString(36).substring(2);
+				const expected = {
+					ext: path.extname(testFilename).toLowerCase(),
+					filename: testFilename,
+					ownedBy: test_evaluationEntry._id,
+					path: path.join("uploads", test_evaluationEntry._id, testFilename),
+				};
 
 				// Prepares formdata
 				const pathToFile = path.join(testFilePath, testFilename);
@@ -308,7 +451,7 @@ describe("User-Server Simulation", function () {
 				});
 
 				let response = await fastify.inject({
-					url: `/v1/eval/upload/${id}`,
+					url: `/v1/files/${test_evaluationEntry._id}`,
 					method: "POST",
 					headers: {
 						...formData.headers,
@@ -317,34 +460,100 @@ describe("User-Server Simulation", function () {
 					body: formData.payload,
 				});
 
-				let test = response.json();
+				// Get a single entry from the list
+				const result = response.json()[0];
+				const received = {
+					ext: result.ext,
+					filename: result.filename,
+					ownedBy: result.ownedBy,
+					path: result.path,
+				};
 
 				assert.equal(response.statusCode, 200);
-				assert.equal(test.paths[0], `uploads\\${id}\\${testFilename}`);
+				assert.deepEqual(received, expected);
 			});
 
-			it("OK, DELETE /v1/eval/:uid", async function () {
-				let doc = await getSampleEvaluation();
-
-				let response = await fastify.inject({
-					method: "DELETE",
-					headers: {
-						authorization: `Bearer ${test_accessToken}`,
-					},
-					url: `/v1/eval/${doc._id}`,
-				});
-
-				assert.equal(response.statusCode, 200);
-
-				response = await fastify.inject({
+			it("OK, retrieves all file entries of an evaluation entry", async function () {
+				const response = await fastify.inject({
 					method: "GET",
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: "/v1/eval/",
+					url: `/v1/files/${test_evaluationEntry._id}/`,
 				});
 
+				// Get a single entry from the list
+				const result = response.json()[0];
+
 				assert.equal(response.statusCode, 200);
+				assert.isTrue(mongoose.isValidObjectId(result._id));
+
+				test_fileEntry = result;
+			});
+
+			it("OK, retrieve a file entry of an evaluation entry", async function () {
+				const expected = {
+					ext: ".jpg",
+					filename: "doge.jpg",
+					ownedBy: test_evaluationEntry._id,
+					path: path.join("uploads", test_evaluationEntry._id, "doge.jpg"),
+				};
+
+				const response = await fastify.inject({
+					method: "GET",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/files/${test_evaluationEntry._id}/${test_fileEntry._id}`,
+				});
+
+				// Get a single entry from the list
+				const result = response.json()[0];
+				const received = {
+					ext: result.ext,
+					filename: result.filename,
+					ownedBy: result.ownedBy,
+					path: result.path,
+				};
+
+				assert.equal(response.statusCode, 200);
+				assert.isTrue(mongoose.isValidObjectId(result._id));
+				assert.deepEqual(received, expected);
+			});
+
+			it("OK, updates an file entry of an evaluation entry", async function () {
+				// Test payload
+				let payload = test_fileEntry;
+				payload.filename = "doge_meme.jpg";
+
+				const response = await fastify.inject({
+					method: "PUT",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/files/${test_evaluationEntry._id}/${test_fileEntry._id}`,
+					payload,
+				});
+
+				const newDoc = response.json();
+
+				assert.equal(response.statusCode, 200);
+				assert.equal(newDoc.filename, "doge_meme.jpg");
+			});
+
+			it("OK, deletes a file entry of an evaluation entry", async function () {
+				const response = await fastify.inject({
+					method: "DELETE",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: `/v1/files/${test_evaluationEntry._id}/${test_fileEntry._id}`,
+				});
+
+				const { message } = response.json();
+
+				assert.equal(response.statusCode, 200);
+				assert.equal(message, `File ${test_fileEntry._id} deleted.`);
 			});
 		});
 	});
