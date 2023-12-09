@@ -26,6 +26,11 @@ const evaluationSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		ownedBy: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "institution",
+			required: true,
+		},
 		program: {
 			type: String,
 			required: true,

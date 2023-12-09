@@ -1,32 +1,12 @@
-import path from "path";
-import fs from "fs";
-import util from "util";
-import { pipeline } from "stream";
-
 import {
-	read,
-	create,
-	update,
-	deleteOne,
+	readEvaluations,
+	createEvaluation,
+	updateEvaluation,
+	deleteEvaluation,
 } from "../controller/evaluationController.js";
 import { authenticate } from "../middleware/jwt.js";
 
-const allowedExtensions = [
-	".jpg",
-	".jpeg",
-	".png",
-	".pdf",
-	".doc",
-	".docx",
-	".xlsx",
-	".xls",
-	".csv",
-	".txt",
-];
-
 export default function Route(fastify, opts, done) {
-	const pump = util.promisify(pipeline);
-
 	/**
 	 * Creates an evaluation entry to the database
 	 */
@@ -35,27 +15,13 @@ export default function Route(fastify, opts, done) {
 		url: "/",
 		preHandler: authenticate,
 		handler: async function (request, reply) {
-			const data = request.body;
-			const _id = await create(data);
-			reply.send({ id: _id });
-		},
-	});
-
-	/**
-	 * Gets all evaluation entries from the database
-	 */
-	fastify.route({
-		method: "GET",
-		url: "/",
-		preHandler: authenticate,
-		handler: async function (request, reply) {
-			const result = await read();
+			const result = await createEvaluation(request.body);
 			reply.send(result);
 		},
 	});
 
 	/**
-	 * Retrieve a single entry from the database
+	 * Gets evaluation entries from the database
 	 */
 	fastify.route({
 		method: "GET",
@@ -63,8 +29,14 @@ export default function Route(fastify, opts, done) {
 		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
-			const result = await read({ _id: uid });
-			reply.send(result);
+
+			if (uid) {
+				const result = await readEvaluations({ _id: uid });
+				reply.send(result);
+			} else {
+				const result = await readEvaluations();
+				reply.send(result);
+			}
 		},
 	});
 
@@ -77,8 +49,7 @@ export default function Route(fastify, opts, done) {
 		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
-			const data = request.body;
-			const result = await update({ _id: uid }, data);
+			const result = await updateEvaluation(uid, request.body);
 			reply.send(result);
 		},
 	});
@@ -92,54 +63,9 @@ export default function Route(fastify, opts, done) {
 		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
-			if (await deleteOne(uid)) reply.send(200);
+			if (await deleteEvaluation(uid))
+				reply.send({ message: `Evaluation ${uid} deleted.` });
 			else reply.code(400);
-		},
-	});
-
-	/**
-	 * Uploads a file to the uploads folder
-	 */
-	fastify.route({
-		method: "POST",
-		preHandler: authenticate,
-		url: "/upload/:uid",
-		handler: async function (request, reply) {
-			const { uid } = request.params;
-			const files = request.files();
-
-			if (!files) {
-				return reply.code(404).send({ message: "No files uploaded." });
-			}
-
-			// Preps the parent directory
-			const parentDir = path.join("uploads", uid);
-			if (!fs.existsSync(parentDir)) {
-				fs.mkdirSync(parentDir);
-			}
-
-			// Creates array for file paths of uploaded files
-			let paths = [];
-			for await (let part of files) {
-				// Excludes all files not included in allowed extensions
-				const ext = path.extname(part.filename).toLowerCase();
-				if (!allowedExtensions.includes(ext)) {
-					continue;
-				}
-
-				// Saves the file to storage
-				const filepath = path.join(parentDir, part.filename);
-				await pump(part.file, fs.createWriteStream(filepath));
-				paths.push(filepath);
-			}
-
-			// Add filepath in the database
-			const result = await update(
-				{ _id: uid },
-				{ $push: { attachedFiles: paths } }
-			);
-
-			reply.send({ paths: result.attachedFiles });
 		},
 	});
 
