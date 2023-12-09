@@ -4,7 +4,7 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 
 /**
- *
+ * Generates JWT token using provided token secrets
  * @param {*} payload
  * @param {String} type
  * @returns
@@ -28,6 +28,12 @@ export function generateToken(payload, type = "access") {
 	}
 }
 
+/**
+ * Verifies token using provided token secrets.
+ * @param {*} token 
+ * @param {*} type 
+ * @returns 
+ */
 export function verifyToken(token, type = "access") {
 	try {
 		switch (type) {
