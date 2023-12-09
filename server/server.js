@@ -50,7 +50,6 @@ fastify.register(mailer, {
  */
 import evaluations from "./src/routes/evaluations.js";
 import users from "./src/routes/users.js";
-import fastifyFormbody from "@fastify/formbody";
 
 fastify.get("/", function (request, reply) {
 	reply.send({ hello: "world" });

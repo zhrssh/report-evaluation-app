@@ -6,6 +6,8 @@ import fs from "fs";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import path from "path";
+
+import formAutoContent from "form-auto-content";
 import { describe, it, after, before } from "mocha";
 
 import fastify from "../server.js";
@@ -292,38 +294,33 @@ describe("User-Server Simulation", function () {
 				const doc = await getSampleEvaluation();
 				const id = doc._id;
 
-				const testImagePath = "./test/images";
-				const testImageFilename = "doge.jpg";
-
-				// Reads image file and converts it to BLOB
-				const imageBuffer = fs.readFileSync(
-					path.join(testImagePath, testImageFilename)
-				);
-				const imageBlob = new Blob([imageBuffer], { type: "image/jpeg" });
+				const testFilePath = ".\\test\\images";
+				const testFilename = "doge.jpg";
 
 				// Boundary used to specify different files
 				const boundary =
 					"----Boundary" + Math.random().toString(36).substring(2);
 
-				// Prepare form data
-				const formData = new FormData();
-				formData.append("image", imageBlob, "image.jpg");
+				// Prepares formdata
+				const pathToFile = path.join(testFilePath, testFilename);
+				const formData = formAutoContent({
+					file: fs.createReadStream(pathToFile),
+				});
 
 				let response = await fastify.inject({
+					url: `/v1/eval/upload/${id}`,
 					method: "POST",
 					headers: {
-						"content-type": `multipart/form-data; boundary=${boundary}`,
+						...formData.headers,
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: `/v1/eval/upload/${id}`,
-					formData,
+					body: formData.payload,
 				});
 
 				let test = response.json();
-				fastify.log.info(test);
 
 				assert.equal(response.statusCode, 200);
-				assert.equal(test.paths[0], `uploads\\${id}\\doge.jpg`);
+				assert.equal(test.paths[0], `uploads\\${id}\\${testFilename}`);
 			});
 
 			it("OK, DELETE /v1/eval/:uid", async function () {
