@@ -3,13 +3,10 @@ import { logo, chedbg, teamLogo } from "../assets/index";
 import AppButtonContained from "../components/utils/AppButtonContained";
 import AppButtonOutlined from "../components/utils/AppButtonOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useRouting from "../components/routes";
 
 function LandingPage() {
-    const navigate = useNavigate();
-
-    const proceedToLogin = () => {
-        navigate("/login");
-    };
+    const { navigateToLogin, navigateToRegistration } = useRouting();
 
     return (
         <div
@@ -31,9 +28,12 @@ function LandingPage() {
                 <div className="flex flex-col gap-2">
                     <AppButtonContained
                         label="Login"
-                        onClick={() => proceedToLogin()}
+                        onClick={() => navigateToLogin()}
                     />
-                    <AppButtonOutlined label="Register" />
+                    <AppButtonOutlined
+                        label="Register"
+                        onClick={() => navigateToRegistration()}
+                    />
                     <div className="flex flex-row justify-center items-center font-medium text-black pt-6">
                         Developed by{" "}
                         <img
