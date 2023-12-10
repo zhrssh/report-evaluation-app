@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { TextField, Link, Alert, AlertTitle } from "@mui/material";
 import AppButtonContained from "../components/utils/AppButtonContained";
+import useRouting from "../components/routes";
 
 function RegistrationPage() {
+    const { navigateToLogin } = useRouting();
     const [infoFormData, setInfoFormData] = useState({
         firstName: "",
         middleName: "",
@@ -58,6 +60,9 @@ function RegistrationPage() {
             password: "",
             confirmPassword: "",
         });
+
+        // Proceed to LoginPage but will replace to navigateVerificationPage
+        navigateToLogin();
     };
 
     return (

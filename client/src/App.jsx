@@ -4,6 +4,7 @@ import Layout from "./components/shared/Layout";
 import LandingPage from "./views/LandingPage.jsx";
 import LoginPage from "./views/LoginPage.jsx";
 import RegistrationPage from "./views/RegistrationPage.jsx";
+import HomePage from "./views/HomePage.jsx";
 
 function App() {
     return (
@@ -15,8 +16,13 @@ function App() {
                     element={<Layout withHeader={<LoginPage />} />}
                 />
                 <Route
-                    path="/register"
+                    path="/registration"
                     element={<Layout withHeader={<RegistrationPage />} />}
+                />
+                <Route
+                    path="/home"
+                    index
+                    element={<Layout withHeader={<HomePage />} />}
                 />
             </Routes>
         </Router>

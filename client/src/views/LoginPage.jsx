@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { chedbg, teamLogo } from "../assets";
 import { TextField, Link } from "@mui/material";
 import AppButtonContained from "../components/utils/AppButtonContained";
+import useRouting from "../components/routes";
 
 function LoginPage() {
+    const { navigateToHome } = useRouting();
+
     const [credentialsFormData, setCredentialsFormData] = useState({
         email: "",
         password: "",
@@ -23,6 +26,9 @@ function LoginPage() {
             email: "",
             password: "",
         });
+
+        // Navigate to Home if success: 200
+        navigateToHome();
     };
 
     return (
@@ -69,7 +75,7 @@ function LoginPage() {
                         <span className="mt-5">
                             Don't have an account?{" "}
                             <Link
-                                href="/register"
+                                href="/registration"
                                 underline="hover"
                                 className="text-accent font-bold"
                             >
