@@ -282,7 +282,7 @@ describe("User-Server Simulation", function () {
 		});
 	});
 
-	describe("CRUD Functions for Evaluations", function () {
+	describe("CRUD Functions for Evaluations and File Entries", function () {
 		// Clears all entries before running test
 		before(async function () {
 			await Evaluation.deleteMany({});
@@ -556,5 +556,9 @@ describe("User-Server Simulation", function () {
 				assert.equal(message, `File ${test_fileEntry._id} deleted.`);
 			});
 		});
+	});
+
+	describe("CRUD Functions for Adding Evaluation Fields", function () {
+		// NOT YET IMPLEMENTED
 	});
 });

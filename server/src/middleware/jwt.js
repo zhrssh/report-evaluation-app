@@ -1,6 +1,4 @@
 import jwt from "jsonwebtoken";
-
-import fastify from "../../server.js";
 import { verifyToken } from "../utils/jwt.js";
 
 export function authenticate(request, reply, done) {
