@@ -3,7 +3,7 @@ import Header from "./Header.jsx";
 
 function Layout({ withHeader, ...rest }) {
     return (
-        <div className="flex flex-col w-screen h-screen overflow-hidden body-font font-inter">
+        <div className="flex flex-col overflow-hidden body-font font-inter">
             {/* Conditionally render the Header */}
             {withHeader && <Header />}
             <div className="flex flex-col flex-1 gap-5 body-font font-inter">

@@ -1,3 +1,5 @@
+import { tipLogo } from "../../assets";
+
 const institutionsData = [
     {
         id: 1,
@@ -52,4 +54,12 @@ const institutionsData = [
     },
 ];
 
-export default institutionsData;
+const singleInstitution = {
+    logoSrc: tipLogo,
+    institutionName: "Technological Institute of the Philippines",
+    address: "938 Aurora Boulevard, Cubao, Quezon City",
+    telephoneNumber: "(+6) 8911-0964",
+    email: "info@tip.edu.ph",
+};
+
+export default [institutionsData, singleInstitution];

@@ -8,28 +8,31 @@ import HomePage from "./views/HomePage.jsx";
 import EvaluationPage from "./views/EvaluationPage";
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Layout withHeader={<LoginPage />} />} />
-        <Route
-          path="/registration"
-          element={<Layout withHeader={<RegistrationPage />} />}
-        />
-        <Route
-          path="/home"
-          index
-          element={<Layout withHeader={<HomePage />} />}
-        />
-        <Route
-          path="/evaluations"
-          index
-          element={<Layout withHeader={<EvaluationPage />} />}
-        />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route
+                    path="/login"
+                    element={<Layout withHeader={<LoginPage />} />}
+                />
+                <Route
+                    path="/registration"
+                    element={<Layout withHeader={<RegistrationPage />} />}
+                />
+                <Route
+                    path="/home"
+                    index
+                    element={<Layout withHeader={<HomePage />} />}
+                />
+                <Route
+                    path="/evaluations"
+                    index
+                    element={<Layout withHeader={<EvaluationPage />} />}
+                />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
