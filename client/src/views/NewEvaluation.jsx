@@ -30,14 +30,13 @@ function NewEvaluation() {
 	// Used for getting the institution id
 	const { state } = useLocation();
 
-	let label = "";
 	const { navigateToEvaluation } = useRouting();
 	const [evaluationFormData, setEvaluationFormData] = React.useState({
 		program: "",
 		governmentAuthority: "",
 		evaluator: "",
 		kindOfVisit: "",
-		dateOfEvaluation: "",
+		dateOfEvaluation: null,
 	});
 	const [uploadedFiles, setUploadedFiles] = React.useState([]);
 
@@ -80,7 +79,7 @@ function NewEvaluation() {
 			const jsonBody = await response.json();
 
 			setEvaluationFormData({
-				dateOfEvaluation: "",
+				dateOfEvaluation: null,
 				evaluator: "",
 				governmentAuthority: "",
 				kindOfVisit: "",
