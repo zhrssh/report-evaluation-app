@@ -10,14 +10,17 @@ import { generateToken } from "../utils/jwt.js";
 export async function login(email, password) {
 	try {
 		const user = await User.findOne({ email: email });
+		if (!user) throw new Error("User not found.");
 
 		// Compares the candidate password to the actual password from the database.
 		user.comparePassword(password, function (err, isMatch) {
-			if (err) {
-				throw err;
-			}
+			try {
+				if (err) {
+					throw err;
+				}
 
-			if (!isMatch) throw new Error("Password is not matching.");
+				if (!isMatch) throw new Error("Password is not matching.");
+			} catch (err) {}
 		});
 
 		// Preps payload
