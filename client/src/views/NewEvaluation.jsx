@@ -37,7 +37,7 @@ function NewEvaluation() {
 		governmentAuthority: "",
 		evaluator: "",
 		kindOfVisit: "",
-		dateOfEvaluation: "",
+		dateOfEvaluation: null,
 	});
 	const [uploadedFiles, setUploadedFiles] = React.useState([]);
 
@@ -48,9 +48,13 @@ function NewEvaluation() {
 		});
 	};
 
+	const handleDateChange = (data) => {
+		onHandleEvaluationFormChange("dateOfEvaluation", data);
+	};
+
 	const handleFileChange = (event) => {
 		const files = event.target.files;
-		setUploadedFiles((currentValue) => [...currentValue, ...files]);
+		setUploadedFiles([...uploadedFiles, ...files]);
 	};
 
 	// Function to submit entries to backend
@@ -67,6 +71,8 @@ function NewEvaluation() {
 			program: evaluationFormData.program,
 		};
 
+		console.log(payload);
+
 		const response = await fetch(SERVER_URL + "/v1/evaluations/", {
 			method: "POST",
 			headers: {
@@ -76,9 +82,12 @@ function NewEvaluation() {
 			body: JSON.stringify(payload),
 		});
 
-		if (response.ok) {
-			const jsonBody = await response.json();
+		// Implement here file upload to backend
+		if (uploadedFiles) {
+			// TO BE IMPLEMENTED
+		}
 
+		if (response.ok) {
 			setEvaluationFormData({
 				dateOfEvaluation: "",
 				evaluator: "",
@@ -86,37 +95,7 @@ function NewEvaluation() {
 				kindOfVisit: "",
 				program: "",
 			});
-
-			console.log("Response ok!");
-
-			// Implement here file upload to backend
-			if (uploadedFiles) {
-				// Converts files into blobs
-				console.log("Uploading files!");
-
-				for (const file of uploadedFiles) {
-					const formData = new FormData();
-					formData.append("file", file);
-
-					const response = await fetch(
-						SERVER_URL + `/v1/files/${jsonBody.ownedBy}`,
-						{
-							method: "POST",
-							headers: {
-								authorization: `Bearer ${accessToken}`,
-							},
-							body: formData,
-						}
-					);
-
-					if (response.ok) {
-						console.log("File uploaded!");
-					} else {
-						console.error("Error uploading files.");
-					}
-				}
-			}
-
+			console.log("Response ok!", response.message);
 			navigateToEvaluation(state);
 		} else {
 			console.log(response.message);
@@ -160,11 +139,22 @@ function NewEvaluation() {
 									value={evaluationFormData[fieldName]}
 									// onChange={handleDateChange}
 									onChange={(value) => {
-										const target = {
-											name: "dateOfEvaluation",
-											value: value.toString(),
-										};
-										onHandleEvaluationFormChange(target);
+										if (value) {
+											const selectedDate = new Date(value);
+											const formattedDate = `${
+												selectedDate.getMonth() + 1
+											}/${selectedDate.getDate()}/${selectedDate.getFullYear()}`;
+											const target = {
+												name: "dateOfEvaluation",
+												value: formattedDate,
+											};
+											onHandleEvaluationFormChange(target);
+										} else {
+											onHandleEvaluationFormChange({
+												name: "dateOfEvaluation",
+												value: null,
+											});
+										}
 									}}
 									renderInput={(params) => <TextField {...params} fullWidth />}
 								/>
