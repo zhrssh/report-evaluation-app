@@ -61,14 +61,11 @@ const columns = [
                             label="Edit"
                             onClick={() => console.log("Not yet implemented.")}
                         />
-                        <Button
-                            variant="contained"
-                            startIcon={null}
-                            className="rounded-full bg-red-700"
+                        <AppButtonContained
+                            label="Delete"
+                            color="bg-red-700"
                             onClick={() => console.log("Not yet implemented.")}
-                        >
-                            <Typography variant="button">Delete</Typography>
-                        </Button>
+                        />
                     </Box>
                 </>
             );
