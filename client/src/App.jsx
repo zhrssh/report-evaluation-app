@@ -6,6 +6,7 @@ import LoginPage from "./views/LoginPage.jsx";
 import RegistrationPage from "./views/RegistrationPage.jsx";
 import HomePage from "./views/HomePage.jsx";
 import EvaluationPage from "./views/EvaluationPage";
+import NewInstitution from "./views/NewInstitution";
 
 function App() {
   return (
@@ -26,7 +27,10 @@ function App() {
           path="/evaluations"
           element={<Layout withHeader={<EvaluationPage />} />}
         />
-        <Route path="/add-institution" element={<Layout />} />
+        <Route
+          path="/add-institution"
+          element={<Layout withHeader={<NewInstitution />} />}
+        />
       </Routes>
     </Router>
   );

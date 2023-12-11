@@ -95,7 +95,7 @@ function RegistrationPage() {
   };
 
   return (
-    <div className="flex justify-center mt-8 items-center font-inter">
+    <div className="flex justify-center items-center font-inter">
       <div className="flex flex-col p-10 w-1/2 justify-center rounded-lg shadow-lg bg-white">
         <h1 className="text-accent">Register</h1>
         <span>Welcome! Create a new account.</span>

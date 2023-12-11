@@ -3,12 +3,15 @@ import InstitutionTable from "../components/utils/InstitutionTable.jsx";
 import institutionsData from "../components/data/dummy.js";
 import AppButtonContained from "../components/utils/AppButtonContained.jsx";
 import { TextField } from "@mui/material";
+import useRouting from "../components/routes.jsx";
 
 import { SERVER_URL } from "../../Globals.js";
 
 function HomePage() {
   const [rows, setRows] = React.useState([]);
   const [searchQuery, setSearchQuery] = React.useState("");
+
+  const { navigateToCreateInstitution } = useRouting();
 
   React.useEffect(() => {
     fetchData();
@@ -58,10 +61,13 @@ function HomePage() {
         <div className="flex justify-end gap-2">
           <AppButtonContained label="Sort By" />
           <AppButtonContained label="Filters" />
-          <AppButtonContained label="Create" />
+          <AppButtonContained
+            label="Create"
+            onClick={navigateToCreateInstitution}
+          />
         </div>
       </div>
-      <InstitutionTable rows={rows} />
+      <InstitutionTable rows={filteredRows} />
     </div>
   );
 }

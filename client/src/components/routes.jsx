@@ -23,10 +23,15 @@ const useRouting = () => {
     navigate("/evaluations");
   };
 
+  const navigateToCreateInstitution = () => {
+    navigate("/add-institution");
+  };
   return {
     navigateToLogin,
     navigateToRegistration,
     navigateToHome,
+    navigateToEvaluation,
+    navigateToCreateInstitution,
   };
 };
 
