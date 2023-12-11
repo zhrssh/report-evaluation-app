@@ -82,10 +82,75 @@ function NewEvaluation() {
             body: JSON.stringify(payload),
         });
 
-        // Implement here file upload to backend
-        if (uploadedFiles) {
-            // TO BE IMPLEMENTED
-        }
+// Function to submit entries to backend
+	const handleSubmit = async () => {
+		const accessToken = localStorage.getItem("accessToken");
+
+		// Prepare payload to send for text data
+		const payload = {
+			ownedBy: state._id,
+			dateOfEvaluation: evaluationFormData.dateOfEvaluation.toString(),
+			evaluator: evaluationFormData.evaluator,
+			governmentAuthority: evaluationFormData.governmentAuthority,
+			kindOfVisit: evaluationFormData.kindOfVisit,
+			program: evaluationFormData.program,
+		};
+
+		const response = await fetch(SERVER_URL + "/v1/evaluations/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				authorization: `Bearers ${accessToken}`,
+			},
+			body: JSON.stringify(payload),
+		});
+
+		if (response.ok) {
+			const jsonBody = await response.json();
+
+			setEvaluationFormData({
+				dateOfEvaluation: "",
+				evaluator: "",
+				governmentAuthority: "",
+				kindOfVisit: "",
+				program: "",
+			});
+
+			console.log("Response ok!");
+
+			// Implement here file upload to backend
+			if (uploadedFiles) {
+				// Converts files into blobs
+				console.log("Uploading files!");
+
+				for (const file of uploadedFiles) {
+					const formData = new FormData();
+					formData.append("file", file);
+
+					const response = await fetch(
+						SERVER_URL + `/v1/files/${jsonBody.ownedBy}`,
+						{
+							method: "POST",
+							headers: {
+								authorization: `Bearer ${accessToken}`,
+							},
+							body: formData,
+						}
+					);
+
+					if (response.ok) {
+						console.log("File uploaded!");
+					} else {
+						console.error("Error uploading files.");
+					}
+				}
+			}
+
+			navigateToEvaluation(state);
+		} else {
+			console.log(response.message);
+		}
+	};
 
         if (response.ok) {
             setEvaluationFormData({
