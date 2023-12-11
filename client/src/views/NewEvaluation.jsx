@@ -48,13 +48,9 @@ function NewEvaluation() {
 		});
 	};
 
-	const handleDateChange = (data) => {
-		onHandleEvaluationFormChange("dateOfEvaluation", data);
-	};
-
 	const handleFileChange = (event) => {
 		const files = event.target.files;
-		setUploadedFiles([...uploadedFiles, ...files]);
+		setUploadedFiles((currentValue) => [...currentValue, ...files]);
 	};
 
 	// Function to submit entries to backend
@@ -71,8 +67,6 @@ function NewEvaluation() {
 			program: evaluationFormData.program,
 		};
 
-		console.log(payload);
-
 		const response = await fetch(SERVER_URL + "/v1/evaluations/", {
 			method: "POST",
 			headers: {
@@ -82,12 +76,9 @@ function NewEvaluation() {
 			body: JSON.stringify(payload),
 		});
 
-		// Implement here file upload to backend
-		if (uploadedFiles) {
-			// TO BE IMPLEMENTED
-		}
-
 		if (response.ok) {
+			const jsonBody = await response.json();
+
 			setEvaluationFormData({
 				dateOfEvaluation: "",
 				evaluator: "",
@@ -95,7 +86,37 @@ function NewEvaluation() {
 				kindOfVisit: "",
 				program: "",
 			});
-			console.log("Response ok!", response.message);
+
+			console.log("Response ok!");
+
+			// Implement here file upload to backend
+			if (uploadedFiles) {
+				// Converts files into blobs
+				console.log("Uploading files!");
+
+				for (const file of uploadedFiles) {
+					const formData = new FormData();
+					formData.append("file", file);
+
+					const response = await fetch(
+						SERVER_URL + `/v1/files/${jsonBody.ownedBy}`,
+						{
+							method: "POST",
+							headers: {
+								authorization: `Bearer ${accessToken}`,
+							},
+							body: formData,
+						}
+					);
+
+					if (response.ok) {
+						console.log("File uploaded!");
+					} else {
+						console.error("Error uploading files.");
+					}
+				}
+			}
+
 			navigateToEvaluation(state);
 		} else {
 			console.log(response.message);
