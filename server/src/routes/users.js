@@ -61,7 +61,7 @@ export default function Route(fastify, opts, done) {
 		method: "POST",
 		url: "/login",
 		handler: async function (request, reply) {
-			const { email, password } = request.body;
+			const { email, password } = request.body.credentials;
 			const { accessToken, refreshToken } = await login(email, password);
 
 			// Display tokens

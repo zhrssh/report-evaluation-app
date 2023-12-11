@@ -32,7 +32,32 @@ describe("User-Server Simulation", function () {
 
 	before(async function () {
 		// Clears all the users
-		User.deleteMany({});
+		await User.deleteMany({});
+		await Institution.deleteMany({});
+		await Evaluation.deleteMany({});
+	});
+
+	after(async function () {
+		// Delete all files in the uploads folder
+		const directory = "./uploads";
+
+		try {
+			const files = await fs.promises.readdir(directory);
+
+			for (const file of files) {
+				const filePath = path.join(directory, file);
+				const stats = await fs.promises.lstat(filePath);
+
+				if (stats.isDirectory()) {
+					await fs.promises.rm(filePath, { recursive: true });
+				} else {
+					await fs.promises.unlink(filePath);
+				}
+			}
+			fastify.log.info("Files deleted successfully.");
+		} catch (err) {
+			fastify.log.error("Error deleting files:", err);
+		}
 	});
 
 	describe("Testing the connection", async function () {
@@ -158,11 +183,6 @@ describe("User-Server Simulation", function () {
 	});
 
 	describe("CRUD Functions for Institutions", function () {
-		// Clears all entries before running test
-		before(async function () {
-			await Institution.deleteMany({});
-		});
-
 		describe("API /v1/institutions", function () {
 			it("OK, creates an institution entry", async function () {
 				// Test payload
@@ -284,34 +304,6 @@ describe("User-Server Simulation", function () {
 	});
 
 	describe("CRUD Functions for Evaluations and File Entries", function () {
-		// Clears all entries before running test
-		before(async function () {
-			await Evaluation.deleteMany({});
-		});
-
-		after(async function () {
-			// Delete all files in the uploads folder
-			const directory = "./uploads";
-
-			try {
-				const files = await fs.promises.readdir(directory);
-
-				for (const file of files) {
-					const filePath = path.join(directory, file);
-					const stats = await fs.promises.lstat(filePath);
-
-					if (stats.isDirectory()) {
-						await fs.promises.rm(filePath, { recursive: true });
-					} else {
-						await fs.promises.unlink(filePath);
-					}
-				}
-				fastify.log.info("Files deleted successfully.");
-			} catch (err) {
-				fastify.log.error("Error deleting files:", err);
-			}
-		});
-
 		describe("API /v1/evaluations/", function () {
 			it("OK, create evaluation entry", async function () {
 				const payload = {

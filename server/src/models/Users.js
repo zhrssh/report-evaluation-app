@@ -72,18 +72,16 @@ userSchema.pre("save", function (next) {
 userSchema.pre("save", function (next) {
 	const user = this;
 
-	// Only hash the password if it has been modified (or is new)
-	if (!user.isModified("password")) return next();
-
 	// Generate a salt
+	const SALT_WORK_FACTOR = 10;
 	bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
 		if (err) return next(err);
 
 		// Hash the password using our new salt
-		bcrypt.hash(user.password, salt, function (err, hash) {
+		bcrypt.hash(user.credentials.password, salt, function (err, hash) {
 			if (err) return next(err);
 			// Override the cleartext password with the hashed one
-			user.password = hash;
+			user.credentials.password = hash;
 			next();
 		});
 	});
