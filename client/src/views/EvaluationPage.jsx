@@ -4,10 +4,13 @@ import AppButtonContained from "../components/utils/AppButtonContained";
 import { TextField } from "@mui/material";
 import InstitutionBlock from "../components/utils/InstitutionBlock";
 import { tipLogo } from "../assets";
+import useRouting from "../components/routes";
 
 function EvaluationPage() {
     const [rows, setRows] = React.useState([]);
     const [searchQuery, setSearchQuery] = React.useState("");
+
+    const { navigateToCreateEvaluation } = useRouting();
 
     const singleInstitution = {
         logoSrc: tipLogo,
@@ -74,7 +77,10 @@ function EvaluationPage() {
                 <div className="flex justify-end gap-2 md:w-full">
                     <AppButtonContained label="Sort By" />
                     <AppButtonContained label="Filters" />
-                    <AppButtonContained label="Create" />
+                    <AppButtonContained
+                        label="Create"
+                        onClick={navigateToCreateEvaluation}
+                    />
                 </div>
             </div>
 
