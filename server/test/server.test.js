@@ -568,6 +568,9 @@ describe("User-Server Simulation", function () {
 						schemaName: "evaluation",
 						newField: "testField",
 						fieldType: "String",
+						opts: {
+							required: true,
+						},
 					},
 				];
 
@@ -583,6 +586,22 @@ describe("User-Server Simulation", function () {
 
 				assert.equal(response.statusCode, 200);
 				assert.equal(response.json().message, "Added new field.");
+			});
+
+			it("OK, retrieves the schemas", async function () {
+				// Sending request to the server
+				const response = await fastify.inject({
+					method: "GET",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: "/v1/admin/fields/evaluation",
+				});
+
+				assert.equal(response.statusCode, 200);
+
+				// Shows the schema
+				fastify.log.info(response.json());
 			});
 		});
 	});

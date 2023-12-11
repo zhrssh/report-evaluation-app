@@ -11,8 +11,8 @@ import { Model, Schema } from "mongoose";
  */
 export function addNewFieldToSchema(fields) {
 	try {
-		for (let i in fields) {
-			const { schemaName, newField, fieldType } = fields[i];
+		for (let field of fields) {
+			const { schemaName, newField, fieldType, opts } = field;
 
 			// Fetch the schema dynamically by name
 			const schema = mongoose.connection.model(schemaName).schema;
@@ -30,7 +30,7 @@ export function addNewFieldToSchema(fields) {
 			}
 
 			// Add the new field with the selected type to the schema
-			schema.add({ [newField]: selectedType });
+			schema.add({ [newField]: { type: selectedType, ...opts } });
 
 			// Recompile the model
 			mongoose.connection.models[schemaName] = mongoose.model(
@@ -46,8 +46,19 @@ export function addNewFieldToSchema(fields) {
 // Get fields from model
 export function getFieldsFromSchema(schemaName) {
 	try {
+		// Converts schema to object
+		function toObject(schema) {
+			const obj = {};
+			for (const key in schema.paths) {
+				obj[key] = schema.paths[key].instance;
+			}
+			return obj;
+		}
+
 		const schema = mongoose.connection.model(schemaName).schema;
-		return schema;
+		const obj = toObject(schema);
+
+		return obj;
 	} catch (err) {
 		throw err;
 	}

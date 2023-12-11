@@ -1,6 +1,6 @@
 import {
 	addNewFieldToSchema,
-	updateModel,
+	getFieldsFromSchema,
 } from "../controller/fieldController.js";
 import { authenticate } from "../middleware/jwt.js";
 
@@ -10,13 +10,11 @@ export default function Route(fastify, opts, done) {
 		url: "/",
 		preHandler: authenticate,
 		handler: function (request, reply) {
-			const user = request.user;
-
 			/** FOR DEVELOPMENT ONLY */
-			user.userType = "ADMIN";
+			request.user.userType = "ADMIN";
 
 			// Checks if the user is an admin
-			if (!user || user.userType !== "ADMIN") {
+			if (!request.user || request.user.userType !== "ADMIN") {
 				return reply
 					.code(403)
 					.send({ message: "You are forbidden to access beyond this point." });
@@ -33,10 +31,15 @@ export default function Route(fastify, opts, done) {
 
 	fastify.route({
 		method: "GET",
-		url: "/",
+		url: "/:schemaName",
 		preHandler: authenticate,
 		handler: function (request, reply) {
-			// TO BE IMPLEMENTED
+			const { schemaName } = request.params;
+
+			// Gets fields from schema
+			const schema = getFieldsFromSchema(schemaName);
+
+			return reply.send(schema);
 		},
 	});
 
