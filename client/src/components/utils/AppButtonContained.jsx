@@ -7,13 +7,13 @@ import { Button, Typography } from "@mui/material";
  * @returns
  */
 function AppButtonContained(props, ref) {
-	return (
-		<>
-			<Button {...props} variant="contained" className="rounded-full bg-accent">
-				<Typography variant="button">{props.label}</Typography>
-			</Button>
-		</>
-	);
+  return (
+    <>
+      <Button {...props} variant="contained" className="rounded-sm bg-accent">
+        <Typography variant="button">{props.label}</Typography>
+      </Button>
+    </>
+  );
 }
 
 export default React.forwardRef(AppButtonContained);

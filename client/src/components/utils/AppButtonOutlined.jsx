@@ -7,16 +7,17 @@ import { Button, Typography } from "@mui/material";
  * @returns
  */
 function AppButtonOutlined(props, ref) {
-	return (
-		<>
-			<Button
-				{...props}
-				variant="outlined"
-				className="rounded-full text-accent border-accent">
-				<Typography variant="button">{props.label}</Typography>
-			</Button>
-		</>
-	);
+  return (
+    <>
+      <Button
+        {...props}
+        variant="outlined"
+        className="rounded-sm text-accent border-accent"
+      >
+        <Typography variant="button">{props.label}</Typography>
+      </Button>
+    </>
+  );
 }
 
 export default React.forwardRef(AppButtonOutlined);
