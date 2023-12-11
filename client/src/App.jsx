@@ -8,6 +8,7 @@ import HomePage from "./views/HomePage.jsx";
 import EvaluationPage from "./views/EvaluationPage";
 import NewInstitution from "./views/NewInstitution";
 import NewEvaluation from "./views/NewEvaluation.jsx";
+import EvaluationView from "./views/EvaluationView.jsx";
 
 function App() {
     return (
@@ -38,6 +39,10 @@ function App() {
                 <Route
                     path="/add-evaluation"
                     element={<Layout withHeader={<NewEvaluation />} />}
+                />
+                <Route
+                    path="/view-evaluation"
+                    element={<Layout withHeader={<EvaluationView />} />}
                 />
             </Routes>
         </Router>
