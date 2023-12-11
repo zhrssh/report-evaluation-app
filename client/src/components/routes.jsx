@@ -1,44 +1,44 @@
 import { useNavigate } from "react-router-dom";
 
 const useRouting = () => {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    // Function to route to LoginPage
-    const navigateToLogin = () => {
-        navigate("/login");
-    };
+	// Function to route to LoginPage
+	const navigateToLogin = (opts) => {
+		navigate("/login", { state: { ...opts } });
+	};
 
-    // Function to route to RegistrationPage
-    const navigateToRegistration = () => {
-        navigate("/registration");
-    };
+	// Function to route to RegistrationPage
+	const navigateToRegistration = (opts) => {
+		navigate("/registration", { state: { ...opts } });
+	};
 
-    // Function to route to Home
-    const navigateToHome = () => {
-        navigate("/home");
-    };
+	// Function to route to Home
+	const navigateToHome = (opts) => {
+		navigate("/home", { state: { ...opts } });
+	};
 
-    // Function to route to Home
-    const navigateToEvaluation = () => {
-        navigate("/evaluations");
-    };
+	// Function to route to Home
+	const navigateToEvaluation = (opts) => {
+		navigate("/evaluations", { state: { ...opts } });
+	};
 
-    const navigateToCreateInstitution = () => {
-        navigate("/add-institution");
-    };
+	const navigateToCreateInstitution = (opts) => {
+		navigate("/add-institution", { state: { ...opts } });
+	};
 
-    const navigateToCreateEvaluation = () => {
-        navigate("/add-evaluation");
-    };
+	const navigateToCreateEvaluation = (opts) => {
+		navigate("/add-evaluation", { state: { ...opts } });
+	};
 
-    return {
-        navigateToLogin,
-        navigateToRegistration,
-        navigateToHome,
-        navigateToEvaluation,
-        navigateToCreateInstitution,
-        navigateToCreateEvaluation,
-    };
+	return {
+		navigateToLogin,
+		navigateToRegistration,
+		navigateToHome,
+		navigateToEvaluation,
+		navigateToCreateInstitution,
+		navigateToCreateEvaluation,
+	};
 };
 
 export default useRouting;

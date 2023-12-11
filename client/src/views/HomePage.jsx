@@ -63,7 +63,7 @@ function HomePage() {
 					<AppButtonContained label="Filters" />
 					<AppButtonContained
 						label="Create"
-						onClick={navigateToCreateInstitution}
+						onClick={() => navigateToCreateInstitution()}
 					/>
 				</div>
 			</div>

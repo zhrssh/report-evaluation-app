@@ -4,6 +4,8 @@ import React from "react";
 import AppButtonContained from "./AppButtonContained";
 import AppButtonOutlined from "./AppButtonOutlined";
 
+import useRouting from "../routes";
+
 import { faker } from "@faker-js/faker"; // Change the import statement
 
 /**
@@ -46,14 +48,17 @@ const columns = [
 		headerName: "Action",
 		flex: 2,
 		sortable: false,
-		renderCell: function () {
+		renderCell: function (params) {
+			const { row } = params;
+			const { navigateToEvaluation } = useRouting();
+
 			return (
 				<>
 					<Box className="flex gap-2 items-center justify-center">
 						<AppButtonContained
 							startIcon={null}
 							label="View"
-							onClick={() => console.log("Not yet implemented.")}
+							onClick={() => navigateToEvaluation(row)}
 						/>
 						<AppButtonOutlined
 							startIcon={null}
