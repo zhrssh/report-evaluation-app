@@ -12,12 +12,12 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.route({
 		method: "GET",
-		url: "/:uid",
+		url: "/:institutionId",
 		preHandler: authenticate,
 		handler: async function (request, reply) {
-			const { uid } = request.params;
-			if (uid) {
-				const result = await readInstitutions({ _id: uid });
+			const { institutionId } = request.params;
+			if (institutionId) {
+				const result = await readInstitutions({ _id: institutionId });
 				return reply.send(result);
 			} else {
 				const result = await readInstitutions();
@@ -44,11 +44,11 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.route({
 		method: "PUT",
-		url: "/:uid",
+		url: "/:institutionId",
 		preHandler: authenticate,
 		handler: async function (request, reply) {
-			const { uid } = request.params;
-			const result = await updateInstitution(uid, request.body);
+			const { institutionId } = request.params;
+			const result = await updateInstitution(institutionId, request.body);
 			return reply.send(result);
 		},
 	});
@@ -58,12 +58,12 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.route({
 		method: "DELETE",
-		url: "/:uid",
+		url: "/:institutionId",
 		preHandler: authenticate,
 		handler: async function (request, reply) {
-			const { uid } = request.params;
-			if (await deleteInstitution(uid))
-				return reply.send({ message: `Institution ${uid} deleted.` });
+			const { institutionId } = request.params;
+			if (await deleteInstitution(institutionId))
+				return reply.send({ message: `Institution ${institutionId} deleted.` });
 			else return reply.code(400);
 		},
 	});

@@ -35,13 +35,13 @@ export async function readEvaluations(filter = {}, projection = null) {
 
 /**
  * Updates a single entry from the database
- * @param {Object | String} _id
+ * @param {Object} filter
  * @param {Object} data
  * @returns {Document}
  */
-export async function updateEvaluation(_id, data) {
+export async function updateEvaluation(filter = {}, data = {}) {
 	try {
-		const result = await Evaluation.findOneAndUpdate({ _id }, data, {
+		const result = await Evaluation.findOneAndUpdate(filter, data, {
 			new: true,
 		});
 
@@ -52,13 +52,13 @@ export async function updateEvaluation(_id, data) {
 }
 
 /**
- * Delete evaluation by id
- * @param {*} _id
+ * Delete evaluation by filter
+ * @param {*} filter
  * @returns
  */
-export async function deleteEvaluation(_id) {
+export async function deleteEvaluation(filter = {}) {
 	try {
-		await Evaluation.findByIdAndDelete(_id).exec();
+		await Evaluation.findByIdAndDelete(filter).exec();
 		return true;
 	} catch (err) {
 		throw err;

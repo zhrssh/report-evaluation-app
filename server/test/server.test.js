@@ -289,7 +289,7 @@ describe("User-Server Simulation", function () {
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: `/v1/evaluations/${test_institutionEntry._id}`,
+					url: `/v1/institutions/${test_institutionEntry._id}`,
 				});
 
 				const { message } = response.json();
@@ -297,7 +297,7 @@ describe("User-Server Simulation", function () {
 				assert.equal(response.statusCode, 200);
 				assert.equal(
 					message,
-					`Evaluation ${test_institutionEntry._id} deleted.`
+					`Institution ${test_institutionEntry._id} deleted.`
 				);
 			});
 		});
@@ -340,7 +340,7 @@ describe("User-Server Simulation", function () {
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: "/v1/evaluations/",
+					url: `/v1/evaluations/${test_institutionEntry._id}/`,
 				});
 
 				// Get a single entry from the list
@@ -367,7 +367,7 @@ describe("User-Server Simulation", function () {
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: `/v1/evaluations/${test_evaluationEntry._id}`,
+					url: `/v1/evaluations/${test_institutionEntry._id}/${test_evaluationEntry._id}`,
 				});
 
 				// Get a single entry from the list
@@ -396,7 +396,7 @@ describe("User-Server Simulation", function () {
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: `/v1/evaluations/${test_evaluationEntry._id}`,
+					url: `/v1/evaluations/${test_institutionEntry._id}/${test_evaluationEntry._id}`,
 					payload,
 				});
 
@@ -412,7 +412,7 @@ describe("User-Server Simulation", function () {
 					headers: {
 						authorization: `Bearer ${test_accessToken}`,
 					},
-					url: `/v1/evaluations/${test_evaluationEntry._id}`,
+					url: `/v1/evaluations/${test_institutionEntry._id}/${test_evaluationEntry._id}`,
 				});
 
 				const { message } = response.json();

@@ -25,17 +25,19 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.route({
 		method: "GET",
-		url: "/:uid",
+		url: "/:ownedBy/:evalId",
 		preHandler: authenticate,
 		handler: async function (request, reply) {
-			const { uid } = request.params;
+			const { ownedBy, evalId } = request.params;
 
-			if (uid) {
-				const result = await readEvaluations({ _id: uid });
+			if (ownedBy && evalId) {
+				const result = await readEvaluations({ _id: evalId, ownedBy: ownedBy });
+				return reply.send(result);
+			} else if (ownedBy) {
+				const result = await readEvaluations({ ownedBy: ownedBy });
 				return reply.send(result);
 			} else {
-				const result = await readEvaluations();
-				return reply.send(result);
+				return reply.status(400).send({ message: "Provide ownedBy ID" });
 			}
 		},
 	});
@@ -45,11 +47,14 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.route({
 		method: "PUT",
-		url: "/:uid",
+		url: "/:ownedBy/:evalId",
 		preHandler: authenticate,
 		handler: async function (request, reply) {
-			const { uid } = request.params;
-			const result = await updateEvaluation(uid, request.body);
+			const { ownedBy, evalId } = request.params;
+			const result = await updateEvaluation(
+				{ ownedBy, _id: evalId },
+				request.body
+			);
 			return reply.send(result);
 		},
 	});
@@ -59,12 +64,12 @@ export default function Route(fastify, opts, done) {
 	 */
 	fastify.route({
 		method: "DELETE",
-		url: "/:uid",
+		url: "/:ownedBy/:evalId",
 		preHandler: authenticate,
 		handler: async function (request, reply) {
-			const { uid } = request.params;
-			if (await deleteEvaluation(uid))
-				return reply.send({ message: `Evaluation ${uid} deleted.` });
+			const { ownedBy, evalId } = request.params;
+			if (await deleteEvaluation({ ownedBy, _id: evalId }))
+				return reply.send({ message: `Evaluation ${evalId} deleted.` });
 			else return reply.code(400);
 		},
 	});
