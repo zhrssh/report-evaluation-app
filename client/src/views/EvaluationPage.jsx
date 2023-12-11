@@ -1,17 +1,21 @@
 import React from "react";
-import InstitutionTable from "../components/utils/InstitutionTable.jsx";
-import institutionsData from "../components/data/dummy.js";
-import AppButtonContained from "../components/utils/AppButtonContained.jsx";
+import EvaluationTable from "../components/utils/EvaluationTable";
+import AppButtonContained from "../components/utils/AppButtonContained";
 import { TextField } from "@mui/material";
-import useRouting from "../components/routes.jsx";
+import InstitutionBlock from "../components/utils/InstitutionBlock";
+import { tipLogo } from "../assets";
 
-import { SERVER_URL } from "../../Globals.js";
-
-function HomePage() {
+function EvaluationPage() {
   const [rows, setRows] = React.useState([]);
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  const { navigateToCreateInstitution } = useRouting();
+  const singleInstitution = {
+    logoSrc: tipLogo,
+    institutionName: "Technological Institute of the Philippines",
+    address: "938 Aurora Boulevard, Cubao, Quezon City",
+    contactNumber: "(+632) 8911-0964",
+    email: "info@tip.edu.ph",
+  };
 
   React.useEffect(() => {
     fetchData();
@@ -22,14 +26,15 @@ function HomePage() {
     const accessToken = sessionStorage.getItem("accessToken");
 
     // Sends request to the server
-    const response = await fetch(SERVER_URL + "/v1/institutions", {
+    const response = await fetch(SERVER_URL + "/v1/evaluations", {
       method: "GET",
       headers: {
         authorization: `Bearer ${accessToken}`,
       },
     });
 
-    setRows(response.json());
+    const data = await response.json();
+    setRows(data);
   };
 
   // Function to handle search input change
@@ -49,7 +54,15 @@ function HomePage() {
 
   return (
     <div className="p-5">
-      <h2>List of Institutions</h2>
+      {/*Pass currently viewing institution*/}
+      <InstitutionBlock
+        logoSrc={singleInstitution.logoSrc}
+        institutionName={singleInstitution.institutionName}
+        address={singleInstitution.address}
+        contactNumber={singleInstitution.contactNumber}
+        email={singleInstitution.email}
+      />
+
       <div className="flex flex-row justify-between mt-2 items-center">
         <TextField
           className="w-3/4"
@@ -61,15 +74,13 @@ function HomePage() {
         <div className="flex justify-end gap-2">
           <AppButtonContained label="Sort By" />
           <AppButtonContained label="Filters" />
-          <AppButtonContained
-            label="Create"
-            onClick={navigateToCreateInstitution}
-          />
+          <AppButtonContained label="Create" />
         </div>
       </div>
-      <InstitutionTable rows={filteredRows} />
+
+      <EvaluationTable rows={filteredRows} />
     </div>
   );
 }
 
-export default HomePage;
+export default EvaluationPage;
