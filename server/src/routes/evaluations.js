@@ -16,7 +16,7 @@ export default function Route(fastify, opts, done) {
 		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const result = await createEvaluation(request.body);
-			reply.send(result);
+			return reply.send(result);
 		},
 	});
 
@@ -32,10 +32,10 @@ export default function Route(fastify, opts, done) {
 
 			if (uid) {
 				const result = await readEvaluations({ _id: uid });
-				reply.send(result);
+				return reply.send(result);
 			} else {
 				const result = await readEvaluations();
-				reply.send(result);
+				return reply.send(result);
 			}
 		},
 	});
@@ -50,7 +50,7 @@ export default function Route(fastify, opts, done) {
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			const result = await updateEvaluation(uid, request.body);
-			reply.send(result);
+			return reply.send(result);
 		},
 	});
 
@@ -64,8 +64,8 @@ export default function Route(fastify, opts, done) {
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			if (await deleteEvaluation(uid))
-				reply.send({ message: `Evaluation ${uid} deleted.` });
-			else reply.code(400);
+				return reply.send({ message: `Evaluation ${uid} deleted.` });
+			else return reply.code(400);
 		},
 	});
 

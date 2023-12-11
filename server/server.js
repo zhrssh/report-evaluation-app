@@ -19,7 +19,7 @@ const logger = pino({
 	},
 });
 const fastify = Fastify({
-	logger: logger,
+	logger: false,
 });
 
 /**
@@ -48,6 +48,7 @@ fastify.register(mailer, {
 /**
  * Server Routing
  */
+import admin from "./src/routes/admin.js";
 import evaluations from "./src/routes/evaluations.js";
 import files from "./src/routes/files.js";
 import institutions from "./src/routes/institutions.js";
@@ -57,6 +58,7 @@ fastify.get("/", function (request, reply) {
 	reply.send({ hello: "world" });
 });
 
+fastify.register(admin, { prefix: "/v1/admin/fields" });
 fastify.register(evaluations, { prefix: "/v1/evaluations" });
 fastify.register(files, { prefix: "/v1/files" });
 fastify.register(institutions, { prefix: "/v1/institutions" });

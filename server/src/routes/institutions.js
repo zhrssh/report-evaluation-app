@@ -13,7 +13,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "GET",
 		url: "/:uid",
-		prehandler: authenticate,
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			if (uid) {
@@ -32,7 +32,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "POST",
 		url: "/",
-		prehandler: authenticate,
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const result = await createInstitution(request.body);
 			return reply.send(result);
@@ -45,11 +45,11 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "PUT",
 		url: "/:uid",
-		prehandler: authenticate,
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			const result = await updateInstitution(uid, request.body);
-			reply.send(result);
+			return reply.send(result);
 		},
 	});
 
@@ -63,8 +63,8 @@ export default function Route(fastify, opts, done) {
 		handler: async function (request, reply) {
 			const { uid } = request.params;
 			if (await deleteInstitution(uid))
-				reply.send({ message: `Institution ${uid} deleted.` });
-			else reply.code(400);
+				return reply.send({ message: `Institution ${uid} deleted.` });
+			else return reply.code(400);
 		},
 	});
 

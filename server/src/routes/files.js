@@ -34,7 +34,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "POST",
 		url: "/:evalId",
-		prehandler: authenticate,
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { evalId } = request.params;
 			const files = request.files();
@@ -73,7 +73,7 @@ export default function Route(fastify, opts, done) {
 				results.push(result);
 			}
 
-			reply.send(results);
+			return reply.send(results);
 		},
 	});
 
@@ -83,7 +83,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "GET",
 		url: "/:evalId/:fileId",
-		prehandler: authenticate,
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { evalId, fileId } = request.params;
 			if (evalId && fileId) {
@@ -102,7 +102,7 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "PUT",
 		url: "/:evalId/:fileId",
-		prehandler: authenticate,
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { evalId, fileId } = request.params;
 			const result = await updateFile(fileId, evalId, request.body);
@@ -116,12 +116,12 @@ export default function Route(fastify, opts, done) {
 	fastify.route({
 		method: "DELETE",
 		url: "/:evalId/:fileId",
-		prehandler: authenticate,
+		preHandler: authenticate,
 		handler: async function (request, reply) {
 			const { evalId, fileId } = request.params;
 			if (await deleteFile(fileId, evalId))
-				reply.send({ message: `File ${fileId} deleted.` });
-			else reply.code(400);
+				return reply.send({ message: `File ${fileId} deleted.` });
+			else return reply.code(400);
 		},
 	});
 

@@ -16,7 +16,7 @@ export default function Route(fastify, opts, done) {
 		handler: async function (request, reply) {
 			const data = request.body;
 			const _id = await create(data);
-			reply.send({ id: _id });
+			return reply.send({ id: _id });
 		},
 	});
 
@@ -33,7 +33,7 @@ export default function Route(fastify, opts, done) {
 
 			if (process.env.NODE_ENVIRONMENT === "development") {
 				fastify.log.info(`Verification code: ${code}`);
-				reply.send({ verificationCode: code });
+				return reply.send({ verificationCode: code });
 			}
 		},
 	});
@@ -50,7 +50,7 @@ export default function Route(fastify, opts, done) {
 			const code = request.body.code;
 
 			const result = await verifyUser(uid, code);
-			reply.send(result);
+			return reply.send(result);
 		},
 	});
 
@@ -76,7 +76,7 @@ export default function Route(fastify, opts, done) {
 				tokenType: "Bearer",
 			};
 
-			reply.send(payload);
+			return reply.send(payload);
 		},
 	});
 

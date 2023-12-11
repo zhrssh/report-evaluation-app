@@ -14,6 +14,7 @@ import fastify from "../server.js";
 import Evaluation from "../src/models/Evaluations.js";
 import Institution from "../src/models/Institutions.js";
 import User from "../src/models/Users.js";
+import fastifyMultipart from "@fastify/multipart";
 
 const assert = chai.assert;
 
@@ -559,6 +560,30 @@ describe("User-Server Simulation", function () {
 	});
 
 	describe("CRUD Functions for Adding Evaluation Fields", function () {
-		// NOT YET IMPLEMENTED
+		describe("API /v1/admin/fields", function () {
+			it("OK, add new fields to the schema", async function () {
+				// Preparing payload
+				const payload = [
+					{
+						schemaName: "evaluation",
+						newField: "testField",
+						fieldType: "String",
+					},
+				];
+
+				// Send request to server
+				const response = await fastify.inject({
+					method: "POST",
+					headers: {
+						authorization: `Bearer ${test_accessToken}`,
+					},
+					url: "/v1/admin/fields",
+					payload: payload,
+				});
+
+				assert.equal(response.statusCode, 200);
+				assert.equal(response.json().message, "Added new field.");
+			});
+		});
 	});
 });

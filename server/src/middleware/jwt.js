@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { verifyToken } from "../utils/jwt.js";
 
-export function authenticate(request, reply, done) {
+export function authenticate(request, reply, next) {
 	const authHeader = request.headers["authorization"];
 	if (!authHeader) {
 		reply.code(401).send({ message: "No authorization header found." });
@@ -10,7 +10,7 @@ export function authenticate(request, reply, done) {
 	// Get access token
 	const token = authHeader.split(" ")[1];
 	if (!token) {
-		reply.code(401).send({ message: "No JWT token found." });
+		return reply.code(401).send({ message: "No JWT token found." });
 	}
 
 	// Verify token
@@ -19,11 +19,11 @@ export function authenticate(request, reply, done) {
 		request.user = user;
 	} catch (err) {
 		if (err instanceof jwt.JsonWebTokenError) {
-			reply.code(401).send({ message: "JWT token is invalid." });
+			return reply.code(401).send({ message: "JWT token is invalid." });
 		} else if (err instanceof jwt.TokenExpiredError) {
-			reply.code(403).send({ message: "JWT token is expired." });
+			return reply.code(403).send({ message: "JWT token is expired." });
 		}
 	}
 
-	done();
+	next();
 }
