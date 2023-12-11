@@ -12,7 +12,7 @@ import { faker } from "@faker-js/faker"; // Change the import statement
  * @returns
  */
 function _getRowId(row) {
-  return row._id ? row._id : row.internalId;
+	return row._id ? row._id : row.internalId;
 }
 
 /**
@@ -21,58 +21,57 @@ function _getRowId(row) {
  * @returns {Array<Object>}
  */
 function _getSampleData(count = 100) {
-  let rows = [];
-  for (let i = 0; i < count; i++) {
-    rows.push({
-      internalId: i,
-      nameOfInstitution: faker.date.anytime(),
-      address: faker.lorem.words(),
-      city: faker.person.fullName(),
-      region: faker.lorem.words(),
-    });
-  }
+	let rows = [];
+	for (let i = 0; i < count; i++) {
+		rows.push({
+			internalId: i,
+			nameOfInstitution: faker.date.anytime(),
+			address: faker.lorem.words(),
+			city: faker.person.fullName(),
+			region: faker.lorem.words(),
+		});
+	}
 
-  return rows;
+	return rows;
 }
 
 // Defines the column of the table
 const columns = [
-  { field: "nameOfInstitution", headerName: "Name of Institution", flex: 3 },
-  { field: "address", headerName: "Address", flex: 2 },
-  { field: "city", headerName: "City", flex: 2 },
-  { field: "region", headerName: "Region", flex: 2 },
-  {
-    field: "action",
-    headerName: "Action",
-    flex: 2,
-    sortable: false,
-    renderCell: function () {
-      return (
-        <>
-          <Box className="flex gap-2 items-center justify-center">
-            <AppButtonContained
-              startIcon={null}
-              label="View"
-              onClick={() => console.log("Not yet implemented.")}
-            />
-            <AppButtonOutlined
-              startIcon={null}
-              label="Edit"
-              onClick={() => console.log("Not yet implemented.")}
-            />
-            <Button
-              variant="contained"
-              startIcon={null}
-              className="rounded-full bg-red-700"
-              onClick={() => console.log("Not yet implemented.")}
-            >
-              <Typography variant="button">Delete</Typography>
-            </Button>
-          </Box>
-        </>
-      );
-    },
-  },
+	{ field: "institutionName", headerName: "Name of Institution", flex: 3 },
+	{ field: "completeAddress", headerName: "Address", flex: 2 },
+	{ field: "city", headerName: "City", flex: 2 },
+	{ field: "region", headerName: "Region", flex: 2 },
+	{
+		field: "action",
+		headerName: "Action",
+		flex: 2,
+		sortable: false,
+		renderCell: function () {
+			return (
+				<>
+					<Box className="flex gap-2 items-center justify-center">
+						<AppButtonContained
+							startIcon={null}
+							label="View"
+							onClick={() => console.log("Not yet implemented.")}
+						/>
+						<AppButtonOutlined
+							startIcon={null}
+							label="Edit"
+							onClick={() => console.log("Not yet implemented.")}
+						/>
+						<Button
+							variant="contained"
+							startIcon={null}
+							className="rounded-full bg-red-700"
+							onClick={() => console.log("Not yet implemented.")}>
+							<Typography variant="button">Delete</Typography>
+						</Button>
+					</Box>
+				</>
+			);
+		},
+	},
 ];
 
 /**
@@ -80,26 +79,25 @@ const columns = [
  * @returns {React.Component}
  */
 function InstitutionTable(props, ref) {
-  // const sampleRows = _getSampleData();
-  return (
-    <>
-      <Box className="my-4 border-2 border-text rounded-xl overflow-auto">
-        <DataGrid
-          getRowId={props.rows.id}
-          rows={props.rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 10 },
-            },
-          }}
-          pageSizeOptions={[10, 25, 50, 100]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        ></DataGrid>
-      </Box>
-    </>
-  );
+	// const sampleRows = _getSampleData();
+	return (
+		<>
+			<Box className="my-4 border-2 border-text rounded-xl overflow-auto">
+				<DataGrid
+					getRowId={_getRowId}
+					rows={props.rows}
+					columns={columns}
+					initialState={{
+						pagination: {
+							paginationModel: { page: 0, pageSize: 10 },
+						},
+					}}
+					pageSizeOptions={[10, 25, 50, 100]}
+					checkboxSelection
+					disableRowSelectionOnClick></DataGrid>
+			</Box>
+		</>
+	);
 }
 
 export default React.forwardRef(InstitutionTable);
