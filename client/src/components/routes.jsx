@@ -31,6 +31,10 @@ const useRouting = () => {
 		navigate("/add-evaluation", { state: { ...opts } });
 	};
 
+	const navigateToEvaluationView = (opts) => {
+		navigate("/view-evaluation", { state: { ...opts } });
+	};
+
 	return {
 		navigateToLogin,
 		navigateToRegistration,
@@ -38,6 +42,7 @@ const useRouting = () => {
 		navigateToEvaluation,
 		navigateToCreateInstitution,
 		navigateToCreateEvaluation,
+		navigateToEvaluationView,
 	};
 };
 

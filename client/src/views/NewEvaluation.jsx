@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { tipLogo } from "../assets";
 import { TextField, Input, Button } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -29,8 +29,9 @@ const VisuallyHiddenInput = styled("input")({
 function NewEvaluation() {
 	// Used for getting the institution id
 	const { state } = useLocation();
-
 	const { navigateToEvaluation } = useRouting();
+
+	const [disabled, setDisabled] = useState(false);
 	const [evaluationFormData, setEvaluationFormData] = React.useState({
 		program: "",
 		governmentAuthority: "",
@@ -219,7 +220,14 @@ function NewEvaluation() {
 						</div>
 					</div>
 					<div className="flex flex-row mt-5 justify-end gap-2">
-						<AppButtonContained label="Submit" onClick={() => handleSubmit()} />
+						<AppButtonContained
+							label="Submit"
+							onClick={async () => {
+								setDisabled(true);
+								await handleSubmit();
+								setDisabled(false);
+							}}
+						/>
 						<AppButtonOutlined
 							label="Cancel"
 							onClick={() => navigateToEvaluation(state)}
