@@ -25,6 +25,7 @@ function EvaluationView() {
 		evaluator: state.evaluator,
 		governmentAuthority: state.governmentAuthority,
 		program: state.program,
+		kindOfVisit: state.kindOfVisit,
 	};
 
 	// Filter out ownedBy and dateOfEvaluation keys
@@ -92,6 +93,9 @@ function EvaluationView() {
 										key.charAt(0).toUpperCase() +
 										key.slice(1).replace(/([A-Z])/g, " $1")
 									}
+									InputProps={{
+										readOnly: true,
+									}}
 									value={singleEvaluation[key]}
 								/>
 							))}
@@ -105,7 +109,7 @@ function EvaluationView() {
 							{listOfFiles.length > 0 ? (
 								<List>
 									{listOfFiles.map((value) => (
-										<Card className="mt-4 py-2 px-1">
+										<Card className="w-full mt-4 py-2 px-1">
 											<ListItem
 												key={value._id}
 												secondaryAction={

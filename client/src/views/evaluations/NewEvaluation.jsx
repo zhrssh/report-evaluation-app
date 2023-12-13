@@ -29,7 +29,7 @@ const VisuallyHiddenInput = styled("input")({
 function NewEvaluation() {
 	// Used for getting the institution id
 	const { state } = useLocation();
-	const { navigateToEvaluation } = useRouting();
+	const { navigateToEvaluationsPage } = useRouting();
 
 	const [disabled, setDisabled] = useState(false);
 	const [evaluationFormData, setEvaluationFormData] = React.useState({
@@ -117,7 +117,7 @@ function NewEvaluation() {
 				}
 			}
 
-			navigateToEvaluation(state);
+			navigateToEvaluationsPage(state);
 		} else {
 			console.log(response.message);
 		}
@@ -227,10 +227,11 @@ function NewEvaluation() {
 								await handleSubmit();
 								setDisabled(false);
 							}}
+							disabled={disabled}
 						/>
 						<AppButtonOutlined
 							label="Cancel"
-							onClick={() => navigateToEvaluation(state)}
+							onClick={() => navigateToEvaluationsPage(state)}
 						/>
 					</div>
 				</div>

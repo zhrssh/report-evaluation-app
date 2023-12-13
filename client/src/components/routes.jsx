@@ -34,14 +34,19 @@ const useRouting = () => {
 		navigate("/evaluations/view", { state: { ...opts } });
 	};
 
+	const navigateToEvaluationEdit = (opts) => {
+		navigate("/evaluations/edit", { state: { ...opts } });
+	};
+
 	return {
 		navigateToLogin,
 		navigateToRegistration,
 		navigateToInstitutionsPage,
-		navigateToEvaluationsPage,
 		navigateToCreateInstitution,
+		navigateToEvaluationsPage,
 		navigateToCreateEvaluation,
 		navigateToEvaluationView,
+		navigateToEvaluationEdit,
 	};
 };
 

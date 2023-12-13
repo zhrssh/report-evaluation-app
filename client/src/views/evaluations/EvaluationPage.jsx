@@ -62,6 +62,10 @@ function EvaluationPage() {
 		if (isIncluded) return row;
 	});
 
+	const refresh = () => {
+		fetchData();
+	};
+
 	return (
 		<div className="p-5">
 			{/*Pass currently viewing institution*/}
@@ -89,7 +93,7 @@ function EvaluationPage() {
 				</div>
 			</div>
 
-			<EvaluationTable rows={filteredRows} />
+			<EvaluationTable rows={filteredRows} refresh={refresh} />
 		</div>
 	);
 }

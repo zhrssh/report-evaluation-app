@@ -6,7 +6,7 @@ import AppButtonOutlined from "../../components/utils/AppButtonOutlined";
 import { SERVER_URL } from "../../../Globals";
 
 function NewInstitution() {
-	const { navigateToHome } = useRouting();
+	const { navigateToInstitutionsPage } = useRouting();
 	const [disabled, setDisabled] = useState(false);
 	const [newInstitutionFormData, setnewInstitutionFormData] = React.useState({
 		institutionName: "",
@@ -53,7 +53,7 @@ function NewInstitution() {
 			});
 
 			console.log("Payload submitted:", newInstitutionFormData);
-			navigateToHome();
+			navigateToInstitutionsPage();
 		} else {
 			console.log(response.message);
 			// <Alert severity="error">
@@ -94,7 +94,10 @@ function NewInstitution() {
 						}}
 						disabled={disabled}
 					/>
-					<AppButtonOutlined label="Cancel" onClick={() => navigateToHome()} />
+					<AppButtonOutlined
+						label="Cancel"
+						onClick={() => navigateToInstitutionsPage()}
+					/>
 				</div>
 			</div>
 		</div>

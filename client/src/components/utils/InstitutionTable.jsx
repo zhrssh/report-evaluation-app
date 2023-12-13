@@ -37,52 +37,53 @@ function _getSampleData(count = 100) {
 	return rows;
 }
 
-// Defines the column of the table
-const columns = [
-	{ field: "institutionName", headerName: "Name of Institution", flex: 3 },
-	{ field: "completeAddress", headerName: "Address", flex: 2 },
-	{ field: "city", headerName: "City", flex: 2 },
-	{ field: "region", headerName: "Region", flex: 2 },
-	{
-		field: "action",
-		headerName: "Action",
-		flex: 2,
-		sortable: false,
-		renderCell: function (params) {
-			const { row } = params;
-			const { navigateToEvaluationsPage } = useRouting();
-
-			return (
-				<>
-					<Box className="flex gap-2 items-center justify-center">
-						<AppButtonContained
-							startIcon={null}
-							label="View"
-							onClick={() => navigateToEvaluationsPage(row)}
-						/>
-						<AppButtonOutlined
-							startIcon={null}
-							label="Edit"
-							onClick={() => console.log("Not yet implemented.")}
-						/>
-						<AppButtonContained
-							label="Delete"
-							color="bg-red-700"
-							onClick={() => console.log("Not yet implemented.")}
-						/>
-					</Box>
-				</>
-			);
-		},
-	},
-];
-
 /**
  * A React component that displays the list of evaluations of the selected institution.
  * @returns {React.Component}
  */
 function InstitutionTable(props, ref) {
 	// const sampleRows = _getSampleData();
+
+	// Defines the column of the table
+	const columns = [
+		{ field: "institutionName", headerName: "Name of Institution", flex: 3 },
+		{ field: "completeAddress", headerName: "Address", flex: 2 },
+		{ field: "city", headerName: "City", flex: 2 },
+		{ field: "region", headerName: "Region", flex: 2 },
+		{
+			field: "action",
+			headerName: "Action",
+			flex: 2,
+			sortable: false,
+			renderCell: function (params) {
+				const { row } = params;
+				const { navigateToEvaluationsPage } = useRouting();
+
+				return (
+					<>
+						<Box className="flex gap-2 items-center justify-center">
+							<AppButtonContained
+								startIcon={null}
+								label="View"
+								onClick={() => navigateToEvaluationsPage(row)}
+							/>
+							<AppButtonOutlined
+								startIcon={null}
+								label="Edit"
+								onClick={() => console.log("Not yet implemented.")}
+							/>
+							<AppButtonContained
+								label="Delete"
+								color="bg-red-700"
+								onClick={() => console.log("Not yet implemented.")}
+							/>
+						</Box>
+					</>
+				);
+			},
+		},
+	];
+
 	return (
 		<>
 			<Box className="my-4 border-2 border-text rounded-xl overflow-auto">

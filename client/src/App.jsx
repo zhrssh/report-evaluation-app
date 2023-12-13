@@ -9,6 +9,7 @@ import NewInstitution from "./views/institutions/NewInstitution.jsx";
 import EvaluationPage from "./views/evaluations/EvaluationPage.jsx";
 import NewEvaluation from "./views/evaluations/NewEvaluation.jsx";
 import EvaluationView from "./views/evaluations/EvaluationView.jsx";
+import EvaluationEdit from "./views/evaluations/EvaluationEdit.jsx";
 
 function App() {
 	return (
@@ -40,6 +41,10 @@ function App() {
 				<Route
 					path="/evaluations/view"
 					element={<Layout withHeader={<EvaluationView />} />}
+				/>
+				<Route
+					path="evaluations/edit"
+					element={<Layout withHeader={<EvaluationEdit />} />}
 				/>
 			</Routes>
 		</Router>

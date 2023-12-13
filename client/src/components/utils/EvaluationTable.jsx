@@ -9,6 +9,8 @@ import useRouting from "../routes";
 
 import { faker } from "@faker-js/faker";
 
+import { SERVER_URL } from "../../../Globals";
+
 /**
  * Gets the internal row ID of a row.
  * @param {number} row
@@ -38,51 +40,67 @@ function _getSampleData(count = 100) {
 	return rows;
 }
 
-// Defines the column of the table
-const columns = [
-	{ field: "dateOfEvaluation", headerName: "Date of Evaluation", flex: 2 },
-	{ field: "program", headerName: "Program", flex: 2 },
-	{ field: "evaluator", headerName: "Evaluator", flex: 2 },
-	{ field: "remarks", headerName: "Remarks", flex: 2 },
-	{
-		field: "action",
-		headerName: "Action",
-		flex: 2,
-		sortable: false,
-		renderCell: function (params) {
-			const { row } = params;
-			console.log(row);
-			const { navigateToEvaluationView } = useRouting();
-			return (
-				<>
-					<Box className="flex gap-2 items-center justify-center">
-						<AppButtonContained
-							startIcon={null}
-							label="View"
-							onClick={() => navigateToEvaluationView(row)}
-						/>
-						<AppButtonOutlined
-							startIcon={null}
-							label="Edit"
-							onClick={() => console.log("Not yet implemented.")}
-						/>
-						<AppButtonContained
-							label="Delete"
-							color="bg-red-700"
-							onClick={() => console.log("Not yet implemented.")}
-						/>
-					</Box>
-				</>
-			);
-		},
-	},
-];
-
 /**
  * A React component that displays the list of evaluations of the selected institution.
  * @returns {React.Component}
  */
 function EvaluationTable(props, ref) {
+	// Defines the column of the table
+	const columns = [
+		{ field: "dateOfEvaluation", headerName: "Date of Evaluation", flex: 2 },
+		{ field: "program", headerName: "Program", flex: 2 },
+		{ field: "evaluator", headerName: "Evaluator", flex: 2 },
+		{ field: "remarks", headerName: "Remarks", flex: 2 },
+		{
+			field: "action",
+			headerName: "Action",
+			flex: 2,
+			sortable: false,
+			renderCell: function (params) {
+				const { row } = params;
+				const { navigateToEvaluationView, navigateToEvaluationEdit } =
+					useRouting();
+
+				const handleDelete = async (row) => {
+					const accessToken = localStorage.getItem("accessToken");
+					await fetch(
+						`${SERVER_URL}/v1/evaluations/${row.ownedBy}/${row._id}`,
+						{
+							method: "DELETE",
+							headers: {
+								authorization: `Bearer ${accessToken}`,
+							},
+						}
+					);
+
+					props.refresh(); // Refreshes page
+				};
+
+				return (
+					<>
+						<Box className="flex gap-2 items-center justify-center">
+							<AppButtonContained
+								startIcon={null}
+								label="View"
+								onClick={() => navigateToEvaluationView(row)}
+							/>
+							<AppButtonOutlined
+								startIcon={null}
+								label="Edit"
+								onClick={() => navigateToEvaluationEdit(row)}
+							/>
+							<AppButtonContained
+								label="Delete"
+								color="bg-red-700"
+								onClick={() => handleDelete(row)}
+							/>
+						</Box>
+					</>
+				);
+			},
+		},
+	];
+
 	return (
 		<>
 			<Box className="my-4 border-2 border-text rounded-xl overflow-auto">
