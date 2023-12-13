@@ -43,7 +43,11 @@ function _getSampleData(count = 100) {
 function EvaluationTable(props, ref) {
 	// Defines the column of the table
 	const columns = [
-		{ field: "dateOfEvaluation", headerName: "Date of Evaluation", flex: 2 },
+		{
+			field: "dateOfEvaluation",
+			headerName: "Date of Evaluation (mm/dd/yyyy)",
+			flex: 2,
+		},
 		{ field: "program", headerName: "Program", flex: 2 },
 		{ field: "evaluator", headerName: "Evaluator", flex: 2 },
 		{ field: "remarks", headerName: "Remarks", flex: 2 },

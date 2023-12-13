@@ -25,7 +25,9 @@ function App() {
 				<Route
 					path="/institutions"
 					index
-					element={<Layout withHeader={<InstitutionPage />} />}
+					element={
+						<Layout withHeader={<InstitutionPage />} withLogout={true} />
+					}
 				/>
 				<Route
 					path="/institutions/create"
@@ -37,7 +39,7 @@ function App() {
 				/>
 				<Route
 					path="/evaluations"
-					element={<Layout withHeader={<EvaluationPage />} />}
+					element={<Layout withHeader={<EvaluationPage />} withLogout={true} />}
 				/>
 				<Route
 					path="/evaluations/create"
