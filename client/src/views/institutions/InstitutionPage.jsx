@@ -49,6 +49,10 @@ function HomePage() {
 		if (isIncluded) return row;
 	});
 
+	const refresh = () => {
+		fetchData();
+	};
+
 	return (
 		<div className="p-5">
 			<h2>List of Institutions</h2>
@@ -67,7 +71,7 @@ function HomePage() {
 					/>
 				</div>
 			</div>
-			<InstitutionTable rows={filteredRows} />
+			<InstitutionTable rows={filteredRows} refresh={refresh} />
 		</div>
 	);
 }

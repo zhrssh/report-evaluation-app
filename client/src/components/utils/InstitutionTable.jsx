@@ -7,6 +7,7 @@ import AppButtonOutlined from "./AppButtonOutlined";
 import useRouting from "../routes";
 
 import { faker } from "@faker-js/faker"; // Change the import statement
+import { SERVER_URL } from "../../../Globals";
 
 /**
  * Gets the internal row ID of a row.
@@ -59,6 +60,18 @@ function InstitutionTable(props, ref) {
 				const { row } = params;
 				const { navigateToEvaluationsPage } = useRouting();
 
+				const handleDelete = async (row) => {
+					const accessToken = localStorage.getItem("accessToken");
+					await fetch(`${SERVER_URL}/v1/institutions/${row._id}`, {
+						method: "DELETE",
+						headers: {
+							authorization: `Bearer ${accessToken}`,
+						},
+					});
+
+					props.refresh(); // Refreshes page
+				};
+
 				return (
 					<>
 						<Box className="flex gap-2 items-center justify-center">
@@ -75,7 +88,7 @@ function InstitutionTable(props, ref) {
 							<AppButtonContained
 								label="Delete"
 								color="bg-red-700"
-								onClick={() => console.log("Not yet implemented.")}
+								onClick={() => handleDelete(row)}
 							/>
 						</Box>
 					</>
