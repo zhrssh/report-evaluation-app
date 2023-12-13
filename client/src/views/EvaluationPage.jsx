@@ -53,14 +53,14 @@ function EvaluationPage() {
 	};
 
 	// Function to filter rows based on search query
-	// const filteredRows = rows.filter((row) => {
-	// 	// Customize this filtering logic according to your data structure
-	// 	return (
-	// 		row.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-	// 		row.id.toLowerCase().includes(searchQuery.toLowerCase())
-	// 		// Add more conditions based on the fields you want to filter by
-	// 	);
-	// });
+	const filteredRows = rows.filter((row) => {
+		// Customize this filtering logic according to your data structure
+		const isIncluded =
+			row.program.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			row.evaluator.toLowerCase().includes(searchQuery.toLowerCase());
+
+		if (isIncluded) return row;
+	});
 
 	return (
 		<div className="p-5">
@@ -91,7 +91,7 @@ function EvaluationPage() {
 				</div>
 			</div>
 
-			<EvaluationTable rows={rows} />
+			<EvaluationTable rows={filteredRows} />
 		</div>
 	);
 }

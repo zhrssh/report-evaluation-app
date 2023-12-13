@@ -38,14 +38,16 @@ function HomePage() {
 	};
 
 	// Function to filter rows based on search query
-	// const filteredRows = rows.filter((row) => {
-	// 	// Customize this filtering logic according to your data structure
-	// 	return (
-	// 		row.institutionName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-	// 		row.id.toLowerCase().includes(searchQuery.toLowerCase())
-	// 		// Add more conditions based on the fields you want to filter by
-	// 	);
-	// });
+	const filteredRows = rows.filter((row) => {
+		// Customize this filtering logic according to your data structure
+		const isIncluded =
+			row.institutionName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			row.completeAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			row.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			row.region.toLowerCase().includes(searchQuery.toLowerCase());
+
+		if (isIncluded) return row;
+	});
 
 	return (
 		<div className="p-5">
@@ -59,15 +61,13 @@ function HomePage() {
 					onChange={handleSearchInputChange}
 				/>
 				<div className="flex justify-end gap-2 md:w-full">
-					<AppButtonContained label="Sort By" />
-					<AppButtonContained label="Filters" />
 					<AppButtonContained
 						label="Create"
 						onClick={() => navigateToCreateInstitution()}
 					/>
 				</div>
 			</div>
-			<InstitutionTable rows={rows} />
+			<InstitutionTable rows={filteredRows} />
 		</div>
 	);
 }

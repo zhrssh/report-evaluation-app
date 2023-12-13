@@ -41,7 +41,7 @@ function _getSampleData(count = 100) {
 // Defines the column of the table
 const columns = [
 	{ field: "dateOfEvaluation", headerName: "Date of Evaluation", flex: 2 },
-	{ field: "kindOfVisit", headerName: "Kind of Visit", flex: 2 },
+	{ field: "program", headerName: "Program", flex: 2 },
 	{ field: "evaluator", headerName: "Evaluator", flex: 2 },
 	{ field: "remarks", headerName: "Remarks", flex: 2 },
 	{
