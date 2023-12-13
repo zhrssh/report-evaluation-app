@@ -10,6 +10,7 @@ import EvaluationPage from "./views/evaluations/EvaluationPage.jsx";
 import NewEvaluation from "./views/evaluations/NewEvaluation.jsx";
 import EvaluationView from "./views/evaluations/EvaluationView.jsx";
 import EvaluationEdit from "./views/evaluations/EvaluationEdit.jsx";
+import InstitutionEdit from "./views/institutions/InstitutionEdit.jsx";
 
 function App() {
 	return (
@@ -29,6 +30,10 @@ function App() {
 				<Route
 					path="/institutions/create"
 					element={<Layout withHeader={<NewInstitution />} />}
+				/>
+				<Route
+					path="/institutions/edit"
+					element={<Layout withHeader={<InstitutionEdit />} />}
 				/>
 				<Route
 					path="/evaluations"

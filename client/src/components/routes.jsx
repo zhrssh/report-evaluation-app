@@ -22,6 +22,10 @@ const useRouting = () => {
 		navigate("/institutions/create", { state: { ...opts } });
 	};
 
+	const navigateToEditInstitution = (opts) => {
+		navigate("/institutions/edit", { state: { ...opts } });
+	};
+
 	const navigateToEvaluationsPage = (opts) => {
 		navigate("/evaluations", { state: { ...opts } });
 	};
@@ -43,6 +47,7 @@ const useRouting = () => {
 		navigateToRegistration,
 		navigateToInstitutionsPage,
 		navigateToCreateInstitution,
+		navigateToEditInstitution,
 		navigateToEvaluationsPage,
 		navigateToCreateEvaluation,
 		navigateToEvaluationView,

@@ -58,7 +58,8 @@ function InstitutionTable(props, ref) {
 			sortable: false,
 			renderCell: function (params) {
 				const { row } = params;
-				const { navigateToEvaluationsPage } = useRouting();
+				const { navigateToEvaluationsPage, navigateToEditInstitution } =
+					useRouting();
 
 				const handleDelete = async (row) => {
 					const accessToken = localStorage.getItem("accessToken");
@@ -83,7 +84,7 @@ function InstitutionTable(props, ref) {
 							<AppButtonOutlined
 								startIcon={null}
 								label="Edit"
-								onClick={() => console.log("Not yet implemented.")}
+								onClick={() => navigateToEditInstitution(row)}
 							/>
 							<AppButtonContained
 								label="Delete"
