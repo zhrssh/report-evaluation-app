@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { tipLogo } from "../../assets";
-import { TextField, Input, Button } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
 import { CloudUpload } from "@mui/icons-material";
+import { DatePicker } from "@mui/x-date-pickers";
 import { styled } from "@mui/material/styles";
-import useRouting from "../../components/routes";
-import InstitutionBlock from "../../components/utils/InstitutionBlock";
-
+import { TextField, Button, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-
-import { SERVER_URL } from "../../../Globals";
 
 import AppButtonContained from "../../components/utils/AppButtonContained";
 import AppButtonOutlined from "../../components/utils/AppButtonOutlined";
+import InstitutionBlock from "../../components/utils/InstitutionBlock";
+import useRouting from "../../components/routes";
+import { tipLogo } from "../../assets";
+import { SERVER_URL } from "../../../Globals";
 
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
@@ -32,6 +30,7 @@ function NewEvaluation() {
 	const { navigateToEvaluationsPage } = useRouting();
 
 	const [disabled, setDisabled] = useState(false);
+	const [uploadedFiles, setUploadedFiles] = React.useState([]);
 	const [evaluationFormData, setEvaluationFormData] = React.useState({
 		program: "",
 		governmentAuthority: "",
@@ -39,7 +38,6 @@ function NewEvaluation() {
 		kindOfVisit: "",
 		dateOfEvaluation: null,
 	});
-	const [uploadedFiles, setUploadedFiles] = React.useState([]);
 
 	const onHandleEvaluationFormChange = ({ name, value }) => {
 		setEvaluationFormData({
@@ -145,8 +143,12 @@ function NewEvaluation() {
 			</div>
 			<div className="flex justify-center items-center">
 				<div className="flex flex-col p-10 w-1/2 justify-center rounded-lg shadow-lg bg-white">
-					<h2 className="text-accent">Add a new evaluation</h2>
-					<span>Kindly fill up the form below for institution evaluation.</span>
+					<Typography className="text-accent font-bold" variant="h4">
+						Add a new evaluation
+					</Typography>
+					<Typography>
+						Kindly fill up the form below for institution evaluation.
+					</Typography>
 
 					<div className="flex flex-col mt-5 gap-5">
 						{Object.keys(evaluationFormData).map((fieldName, index) =>
@@ -207,7 +209,9 @@ function NewEvaluation() {
 							</Button>
 							{/* Display uploaded file names */}
 							{uploadedFiles.length === 0 ? (
-								<div className="self-center">No Files Selected</div>
+								<Typography className="self-center">
+									No Files Selected
+								</Typography>
 							) : (
 								<div className="w-3/4 overflow-hidden self-center">
 									<span className="truncate">

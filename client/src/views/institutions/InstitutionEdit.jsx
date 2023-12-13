@@ -1,12 +1,11 @@
-import { TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
-
+import { TextField, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import useRouting from "../../components/routes";
 
-import { SERVER_URL } from "../../../Globals";
 import AppButtonContained from "../../components/utils/AppButtonContained";
 import AppButtonOutlined from "../../components/utils/AppButtonOutlined";
+import useRouting from "../../components/routes";
+import { SERVER_URL } from "../../../Globals";
 
 function InstitutionEdit() {
 	const { navigateToInstitutionsPage } = useRouting();

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { chedbg, teamLogo } from "../assets";
-import { TextField, Link } from "@mui/material";
+import { TextField, Link, Typography } from "@mui/material";
+
 import AppButtonContained from "../components/utils/AppButtonContained";
 import useRouting from "../components/routes";
+import { chedbg, teamLogo } from "../assets";
 import { SERVER_URL } from "../../Globals";
 
 function LoginPage() {
@@ -70,7 +71,7 @@ function LoginPage() {
 				/>
 				<div className="flex flex-1 flex-col px-10 justify-center rounded-lg bg-white">
 					<h1 className="text-accent">Login</h1>
-					<span>Welcome back! Please login to continue.</span>
+					<Typography>Welcome back! Please login to continue.</Typography>
 					<div className="flex flex-col mt-5 gap-3">
 						{Object.keys(credentialsFormData).map((key) => (
 							<TextField
@@ -92,21 +93,21 @@ function LoginPage() {
 							/>
 						))}
 						<AppButtonContained label="Login" onClick={() => handleSubmit()} />
-						<span className="mt-5">
+						<Typography className="mt-5">
 							Don't have an account?{" "}
 							<Link
-								href="/registration"
+								href="/register"
 								underline="hover"
 								className="text-accent font-bold">
 								Register
 							</Link>
-						</span>
+						</Typography>
 					</div>
 				</div>
 			</div>
 			<div className="flex flex-row justify-center items-center font-medium mt-5 text-black pt-6">
-				Developed by{" "}
-				<img src={teamLogo} width={100} alt="Unable to load team logo." />
+				<Typography variant="caption">Developed by: </Typography>
+				<img src={teamLogo} width={80} alt="Ademix" />
 			</div>
 		</div>
 	);

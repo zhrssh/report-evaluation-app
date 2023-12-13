@@ -1,5 +1,6 @@
-import { TextField } from "@mui/material";
 import React, { useState } from "react";
+import { TextField, Typography } from "@mui/material";
+
 import useRouting from "../../components/routes";
 import AppButtonContained from "../../components/utils/AppButtonContained";
 import AppButtonOutlined from "../../components/utils/AppButtonOutlined";
@@ -66,8 +67,12 @@ function NewInstitution() {
 	return (
 		<div className="flex justify-center items-center">
 			<div className="flex flex-col p-10 w-1/2 justify-center rounded-lg shadow-lg bg-white">
-				<h2 className="text-accent">Add new institution</h2>
-				<span>Kindly fill up the form below with institution's details.</span>
+				<Typography className="text-accent font-bold" variant="h4">
+					Add new institution
+				</Typography>
+				<Typography>
+					Kindly fill up the form below with institution's details.
+				</Typography>
 
 				<div className="flex flex-col mt-8 gap-5">
 					{Object.keys(newInstitutionFormData).map((fieldName, index) => (

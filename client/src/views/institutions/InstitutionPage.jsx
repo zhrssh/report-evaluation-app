@@ -1,19 +1,18 @@
-import React from "react";
-import InstitutionTable from "../../components/utils/InstitutionTable.jsx";
-import institutionsData from "../../components/data/dummy.js";
-import AppButtonContained from "../../components/utils/AppButtonContained.jsx";
-import { TextField } from "@mui/material";
-import useRouting from "../../components/routes.jsx";
+import React, { useState, useEffect } from "react";
+import { Typography, TextField } from "@mui/material";
 
+import AppButtonContained from "../../components/utils/AppButtonContained.jsx";
+import InstitutionTable from "../../components/utils/InstitutionTable.jsx";
+import useRouting from "../../components/routes.jsx";
 import { SERVER_URL } from "../../../Globals.js";
 
 function HomePage() {
-	const [rows, setRows] = React.useState([]);
-	const [searchQuery, setSearchQuery] = React.useState("");
+	const [rows, setRows] = useState([]);
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const { navigateToCreateInstitution } = useRouting();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		fetchData();
 	}, []);
 
@@ -55,7 +54,9 @@ function HomePage() {
 
 	return (
 		<div className="p-5">
-			<h2>List of Institutions</h2>
+			<Typography className="font-bold" variant="h4">
+				List of Institutions
+			</Typography>
 			<div className="flex flex-row justify-between mt-2 items-center md:shrink-0">
 				<TextField
 					className="w-5/6 md:4/5"

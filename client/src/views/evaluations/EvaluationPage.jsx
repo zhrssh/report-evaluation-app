@@ -1,23 +1,21 @@
-import React from "react";
-import EvaluationTable from "../../components/utils/EvaluationTable.jsx";
-import AppButtonContained from "../../components/utils/AppButtonContained.jsx";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
-import InstitutionBlock from "../../components/utils/InstitutionBlock.jsx";
-import { tipLogo } from "../../assets/index.js";
-import useRouting from "../../components/routes.jsx";
-
 import { useLocation } from "react-router-dom";
 
+import AppButtonContained from "../../components/utils/AppButtonContained.jsx";
+import EvaluationTable from "../../components/utils/EvaluationTable.jsx";
+import InstitutionBlock from "../../components/utils/InstitutionBlock.jsx";
+import useRouting from "../../components/routes.jsx";
 import { SERVER_URL } from "../../../Globals.js";
+import { tipLogo } from "../../assets/index.js";
 
 function EvaluationPage() {
 	// Used for fetching row data from navigate()
 	const { state } = useLocation();
-
-	const [rows, setRows] = React.useState([]);
-	const [searchQuery, setSearchQuery] = React.useState("");
-
 	const { navigateToCreateEvaluation } = useRouting();
+
+	const [rows, setRows] = useState([]);
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const singleInstitution = {
 		logoSrc: tipLogo,
@@ -27,7 +25,7 @@ function EvaluationPage() {
 		region: state.region,
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		fetchData();
 	}, []);
 

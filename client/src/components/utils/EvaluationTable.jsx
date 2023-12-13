@@ -1,14 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { faker } from "@faker-js/faker";
 
 import AppButtonContained from "../utils/AppButtonContained";
 import AppButtonOutlined from "../utils/AppButtonOutlined";
-
 import useRouting from "../routes";
-
-import { faker } from "@faker-js/faker";
-
 import { SERVER_URL } from "../../../Globals";
 
 /**
@@ -78,7 +74,7 @@ function EvaluationTable(props, ref) {
 
 				return (
 					<>
-						<Box className="flex gap-2 items-center justify-center">
+						<div className="flex gap-2 items-center justify-center">
 							<AppButtonContained
 								startIcon={null}
 								label="View"
@@ -94,7 +90,7 @@ function EvaluationTable(props, ref) {
 								color="bg-red-700"
 								onClick={() => handleDelete(row)}
 							/>
-						</Box>
+						</div>
 					</>
 				);
 			},
@@ -103,7 +99,7 @@ function EvaluationTable(props, ref) {
 
 	return (
 		<>
-			<Box className="my-4 border-2 border-text rounded-xl overflow-auto">
+			<div className="my-4 border-2 border-text rounded-xl overflow-auto">
 				<DataGrid
 					getRowId={_getRowId}
 					rows={props.rows}
@@ -116,7 +112,7 @@ function EvaluationTable(props, ref) {
 					pageSizeOptions={[10, 25, 50, 100]}
 					checkboxSelection
 					disableRowSelectionOnClick></DataGrid>
-			</Box>
+			</div>
 		</>
 	);
 }

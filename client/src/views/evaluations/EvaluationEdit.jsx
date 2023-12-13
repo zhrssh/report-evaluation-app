@@ -1,17 +1,21 @@
-import { Button, TextField, IconButton, Card, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
-import { useLocation } from "react-router-dom";
-import { tipLogo } from "../../assets";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import { styled } from "@mui/material/styles";
+import {
+	Button,
+	TextField,
+	IconButton,
+	Card,
+	Typography,
+	List,
+	ListItem,
+} from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import CloudUpload from "@mui/icons-material/CloudUpload";
-import useRouting from "../../components/routes";
+import { styled } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
 
-import { SERVER_URL } from "../../../Globals";
 import AppButtonContained from "../../components/utils/AppButtonContained";
+import useRouting from "../../components/routes";
+import { SERVER_URL } from "../../../Globals";
 
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
@@ -45,7 +49,7 @@ function EvaluationEdit() {
 
 	// Filter out ownedBy and dateOfEvaluation keys
 	const filteredKeys = Object.keys(singleEvaluation).filter(
-		(key) => key !== "ownedBy" && key !== "dateOfEvaluation"
+		(key) => key !== "ownedBy" && key !== "dateOfEvaluation" && key !== "id"
 	);
 
 	// Used to get institution data that owns this evaluation entry
@@ -173,8 +177,9 @@ function EvaluationEdit() {
 	return (
 		<div className="flex justify-center items-center">
 			<div className="flex flex-col p-10 w-1/2 justify-center rounded-lg shadow-lg bg-white">
-				<image src={tipLogo} className="absolute t-200" />
-				<h1>{institutionData.institutionName}</h1>
+				<Typography className="font-bold" variant="h4">
+					{institutionData.institutionName}
+				</Typography>
 				<Typography variant="caption">
 					Institution ID: {singleEvaluation.ownedBy}
 				</Typography>

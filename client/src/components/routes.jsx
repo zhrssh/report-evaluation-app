@@ -3,17 +3,18 @@ import { useNavigate } from "react-router-dom";
 const useRouting = () => {
 	const navigate = useNavigate();
 
-	// Function to route to LoginPage
+	const navigateToLandingPage = (opts) => {
+		navigate("/", { state: { ...opts } });
+	};
+
 	const navigateToLogin = (opts) => {
 		navigate("/login", { state: { ...opts } });
 	};
 
-	// Function to route to RegistrationPage
 	const navigateToRegistration = (opts) => {
-		navigate("/registration", { state: { ...opts } });
+		navigate("/register", { state: { ...opts } });
 	};
 
-	// Function to route to Home
 	const navigateToInstitutionsPage = (opts) => {
 		navigate("/institutions", { state: { ...opts } });
 	};
@@ -43,6 +44,7 @@ const useRouting = () => {
 	};
 
 	return {
+		navigateToLandingPage,
 		navigateToLogin,
 		navigateToRegistration,
 		navigateToInstitutionsPage,

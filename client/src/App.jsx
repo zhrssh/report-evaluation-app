@@ -19,7 +19,7 @@ function App() {
 				<Route path="/" element={<LandingPage />} />
 				<Route path="/login" element={<Layout withHeader={<LoginPage />} />} />
 				<Route
-					path="/registration"
+					path="/register"
 					element={<Layout withHeader={<RegistrationPage />} />}
 				/>
 				<Route

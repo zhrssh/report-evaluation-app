@@ -1,15 +1,18 @@
-import { TextField, IconButton, Card } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
-import { useLocation } from "react-router-dom";
-import { tipLogo } from "../../assets";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import DownloadIcon from "@mui/icons-material/Download";
-import useRouting from "../../components/routes";
+import {
+	List,
+	ListItem,
+	TextField,
+	IconButton,
+	Card,
+	Typography,
+} from "@mui/material";
+import { useLocation } from "react-router-dom";
 
-import { SERVER_URL } from "../../../Globals";
 import AppButtonContained from "../../components/utils/AppButtonContained";
+import useRouting from "../../components/routes";
+import { SERVER_URL } from "../../../Globals";
 
 function EvaluationView() {
 	const { navigateToEvaluationsPage } = useRouting();
@@ -77,11 +80,18 @@ function EvaluationView() {
 	return (
 		<div className="flex justify-center items-center">
 			<div className="flex flex-col p-10 w-1/2 justify-center rounded-lg shadow-lg bg-white">
-				<image src={tipLogo} className="absolute t-200" />
-				<h1>{institutionData.institutionName}</h1>
-				<span>Institution ID: {singleEvaluation.ownedBy}</span>
-				<span>Evaluation ID: {singleEvaluation.id}</span>
-				<span>Date of Evaluation: {singleEvaluation.dateOfEvaluation}</span>
+				<Typography className="font-bold" variant="h4">
+					{institutionData.institutionName}
+				</Typography>
+				<Typography variant="caption">
+					Institution ID: {singleEvaluation.ownedBy}
+				</Typography>
+				<Typography variant="caption">
+					Evaluation ID: {singleEvaluation.id}
+				</Typography>
+				<Typography variant="h6">
+					Date of Evaluation: {singleEvaluation.dateOfEvaluation}
+				</Typography>
 				<div className="flex flex-row gap-10 justify-center">
 					<div className="flex flex-1">
 						<div className="flex flex-col flex-1 w-1/2 mt-10 gap-5">
@@ -103,9 +113,9 @@ function EvaluationView() {
 					</div>
 					<div className="flex flex-1">
 						<div className="flex-col">
-							<span>
-								<b>Files</b>
-							</span>
+							<Typography variant="inherit" className="font-bold">
+								Files
+							</Typography>
 							{listOfFiles.length > 0 ? (
 								<List>
 									{listOfFiles.map((value) => (
@@ -125,7 +135,7 @@ function EvaluationView() {
 									))}
 								</List>
 							) : (
-								<p>No Files Uploaded.</p>
+								<Typography className="mt-4">No Files Uploaded.</Typography>
 							)}
 						</div>
 					</div>
