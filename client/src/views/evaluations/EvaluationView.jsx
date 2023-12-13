@@ -12,7 +12,7 @@ import { SERVER_URL } from "../../../Globals";
 import AppButtonContained from "../../components/utils/AppButtonContained";
 
 function EvaluationView() {
-	const { navigateToEvaluation } = useRouting();
+	const { navigateToEvaluationsPage } = useRouting();
 
 	const { state } = useLocation();
 	const [institutionData, setInstitutionData] = useState({});
@@ -129,7 +129,7 @@ function EvaluationView() {
 				<div className="mt-8 self-end">
 					<AppButtonContained
 						label="Back"
-						onClick={() => navigateToEvaluation(institutionData)}
+						onClick={() => navigateToEvaluationsPage(institutionData)}
 					/>
 				</div>
 			</div>

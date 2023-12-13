@@ -6,7 +6,7 @@ import useRouting from "../components/routes";
 import { SERVER_URL } from "../../Globals";
 
 function LoginPage() {
-	const { navigateToHome } = useRouting();
+	const { navigateToInstitutionsPage } = useRouting();
 
 	const [credentialsFormData, setCredentialsFormData] = useState({
 		email: "",
@@ -52,7 +52,7 @@ function LoginPage() {
 			});
 
 			// Navigate to Home if success: 200
-			navigateToHome();
+			navigateToInstitutionsPage();
 		} else {
 			alert("Login error. Please try again.");
 		}

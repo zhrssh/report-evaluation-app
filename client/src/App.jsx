@@ -21,24 +21,24 @@ function App() {
 					element={<Layout withHeader={<RegistrationPage />} />}
 				/>
 				<Route
-					path="/home"
+					path="/institutions"
 					index
 					element={<Layout withHeader={<InstitutionPage />} />}
+				/>
+				<Route
+					path="/institutions/create"
+					element={<Layout withHeader={<NewInstitution />} />}
 				/>
 				<Route
 					path="/evaluations"
 					element={<Layout withHeader={<EvaluationPage />} />}
 				/>
 				<Route
-					path="/add-institution"
-					element={<Layout withHeader={<NewInstitution />} />}
-				/>
-				<Route
-					path="/add-evaluation"
+					path="/evaluations/create"
 					element={<Layout withHeader={<NewEvaluation />} />}
 				/>
 				<Route
-					path="/view-evaluation"
+					path="/evaluations/view"
 					element={<Layout withHeader={<EvaluationView />} />}
 				/>
 			</Routes>

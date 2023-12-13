@@ -14,32 +14,31 @@ const useRouting = () => {
 	};
 
 	// Function to route to Home
-	const navigateToHome = (opts) => {
-		navigate("/home", { state: { ...opts } });
-	};
-
-	// Function to route to Home
-	const navigateToEvaluation = (opts) => {
-		navigate("/evaluations", { state: { ...opts } });
+	const navigateToInstitutionsPage = (opts) => {
+		navigate("/institutions", { state: { ...opts } });
 	};
 
 	const navigateToCreateInstitution = (opts) => {
-		navigate("/add-institution", { state: { ...opts } });
+		navigate("/institutions/create", { state: { ...opts } });
+	};
+
+	const navigateToEvaluationsPage = (opts) => {
+		navigate("/evaluations", { state: { ...opts } });
 	};
 
 	const navigateToCreateEvaluation = (opts) => {
-		navigate("/add-evaluation", { state: { ...opts } });
+		navigate("/evaluations/create", { state: { ...opts } });
 	};
 
 	const navigateToEvaluationView = (opts) => {
-		navigate("/view-evaluation", { state: { ...opts } });
+		navigate("/evaluations/view", { state: { ...opts } });
 	};
 
 	return {
 		navigateToLogin,
 		navigateToRegistration,
-		navigateToHome,
-		navigateToEvaluation,
+		navigateToInstitutionsPage,
+		navigateToEvaluationsPage,
 		navigateToCreateInstitution,
 		navigateToCreateEvaluation,
 		navigateToEvaluationView,
