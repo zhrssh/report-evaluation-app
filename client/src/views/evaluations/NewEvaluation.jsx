@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { tipLogo } from "../assets";
+import { tipLogo } from "../../assets";
 import { TextField, Input, Button } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { CloudUpload } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import useRouting from "../components/routes";
-import InstitutionBlock from "../components/utils/InstitutionBlock";
+import useRouting from "../../components/routes";
+import InstitutionBlock from "../../components/utils/InstitutionBlock";
 
 import { useLocation } from "react-router-dom";
 
-import { SERVER_URL } from "../../Globals";
+import { SERVER_URL } from "../../../Globals";
 
-import AppButtonContained from "../components/utils/AppButtonContained";
-import AppButtonOutlined from "../components/utils/AppButtonOutlined";
+import AppButtonContained from "../../components/utils/AppButtonContained";
+import AppButtonOutlined from "../../components/utils/AppButtonOutlined";
 
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",

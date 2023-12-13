@@ -1,11 +1,11 @@
 import React from "react";
-import InstitutionTable from "../components/utils/InstitutionTable.jsx";
-import institutionsData from "../components/data/dummy.js";
-import AppButtonContained from "../components/utils/AppButtonContained.jsx";
+import InstitutionTable from "../../components/utils/InstitutionTable.jsx";
+import institutionsData from "../../components/data/dummy.js";
+import AppButtonContained from "../../components/utils/AppButtonContained.jsx";
 import { TextField } from "@mui/material";
-import useRouting from "../components/routes.jsx";
+import useRouting from "../../components/routes.jsx";
 
-import { SERVER_URL } from "../../Globals.js";
+import { SERVER_URL } from "../../../Globals.js";
 
 function HomePage() {
 	const [rows, setRows] = React.useState([]);

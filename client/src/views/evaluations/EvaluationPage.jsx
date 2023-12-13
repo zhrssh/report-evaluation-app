@@ -1,14 +1,14 @@
 import React from "react";
-import EvaluationTable from "../components/utils/EvaluationTable";
-import AppButtonContained from "../components/utils/AppButtonContained";
+import EvaluationTable from "../../components/utils/EvaluationTable.jsx";
+import AppButtonContained from "../../components/utils/AppButtonContained.jsx";
 import { TextField } from "@mui/material";
-import InstitutionBlock from "../components/utils/InstitutionBlock";
-import { tipLogo } from "../assets";
-import useRouting from "../components/routes";
+import InstitutionBlock from "../../components/utils/InstitutionBlock.jsx";
+import { tipLogo } from "../../assets/index.js";
+import useRouting from "../../components/routes.jsx";
 
 import { useLocation } from "react-router-dom";
 
-import { SERVER_URL } from "../../Globals.js";
+import { SERVER_URL } from "../../../Globals.js";
 
 function EvaluationPage() {
 	// Used for fetching row data from navigate()
@@ -82,8 +82,6 @@ function EvaluationPage() {
 					onChange={handleSearchInputChange}
 				/>
 				<div className="flex justify-end gap-2 md:w-full">
-					<AppButtonContained label="Sort By" />
-					<AppButtonContained label="Filters" />
 					<AppButtonContained
 						label="Create"
 						onClick={() => navigateToCreateEvaluation(state)}

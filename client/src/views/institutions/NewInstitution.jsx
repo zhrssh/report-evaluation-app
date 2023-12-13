@@ -1,9 +1,9 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
-import useRouting from "../components/routes";
-import AppButtonContained from "../components/utils/AppButtonContained";
-import AppButtonOutlined from "../components/utils/AppButtonOutlined";
-import { SERVER_URL } from "../../Globals";
+import useRouting from "../../components/routes";
+import AppButtonContained from "../../components/utils/AppButtonContained";
+import AppButtonOutlined from "../../components/utils/AppButtonOutlined";
+import { SERVER_URL } from "../../../Globals";
 
 function NewInstitution() {
 	const { navigateToHome } = useRouting();

@@ -2,14 +2,14 @@ import { TextField, IconButton, Card } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import { useLocation } from "react-router-dom";
-import { tipLogo } from "../assets";
+import { tipLogo } from "../../assets";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import DownloadIcon from "@mui/icons-material/Download";
-import useRouting from "../components/routes";
+import useRouting from "../../components/routes";
 
-import { SERVER_URL } from "../../Globals";
-import AppButtonContained from "../components/utils/AppButtonContained";
+import { SERVER_URL } from "../../../Globals";
+import AppButtonContained from "../../components/utils/AppButtonContained";
 
 function EvaluationView() {
 	const { navigateToEvaluation } = useRouting();
@@ -121,7 +121,7 @@ function EvaluationView() {
 									))}
 								</List>
 							) : (
-								<span>No Files Uploaded</span>
+								<p>No Files Uploaded.</p>
 							)}
 						</div>
 					</div>
