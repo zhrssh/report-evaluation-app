@@ -22,8 +22,8 @@ function EvaluationView() {
 	const [listOfFiles, setListOfFiles] = useState([]);
 
 	const singleEvaluation = {
-		id: state._id,
-		ownedBy: state.ownedBy,
+		id: state._id, // Evaluation ID
+		ownedBy: state.ownedBy, // Institution ID that owns this evaluation form
 		dateOfEvaluation: state.dateOfEvaluation,
 		evaluator: state.evaluator,
 		governmentAuthority: state.governmentAuthority,
@@ -60,7 +60,7 @@ function EvaluationView() {
 		// Gets access token from local storage
 		const accessToken = localStorage.getItem("accessToken");
 
-		const response = await fetch(SERVER_URL + `/v1/files/${state.ownedBy}/`, {
+		const response = await fetch(SERVER_URL + `/v1/files/${state._id}/`, {
 			method: "GET",
 			headers: {
 				authorization: `Bearer ${accessToken}`,
@@ -118,18 +118,21 @@ function EvaluationView() {
 							</Typography>
 							{listOfFiles.length > 0 ? (
 								<List>
-									{listOfFiles.map((value) => (
-										<Card className="w-full mt-4 py-2 px-1">
+									{listOfFiles.map((value, index) => (
+										<Card
+											className="w-full mt-4 py-2 px-1"
+											key={value._id}
+											variant="outlined">
 											<ListItem
-												key={value._id}
 												secondaryAction={
 													<IconButton edge="end">
 														<DownloadIcon />
 													</IconButton>
 												}
 												onClick={() => console.log("Downloading!")}>
-												{value.filename}
-												{value.ext}
+												<Typography className="text-xs">
+													{value.filename}
+												</Typography>
 											</ListItem>
 										</Card>
 									))}

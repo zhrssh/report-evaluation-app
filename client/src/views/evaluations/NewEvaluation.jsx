@@ -57,7 +57,7 @@ function NewEvaluation() {
 
 		// Prepare payload to send for text data
 		const payload = {
-			ownedBy: state._id,
+			ownedBy: state._id, // ID of the institution that owns this form
 			dateOfEvaluation: evaluationFormData.dateOfEvaluation.toString(),
 			evaluator: evaluationFormData.evaluator,
 			governmentAuthority: evaluationFormData.governmentAuthority,
@@ -97,7 +97,7 @@ function NewEvaluation() {
 					formData.append("file", file);
 
 					const response = await fetch(
-						SERVER_URL + `/v1/files/${jsonBody.ownedBy}`,
+						SERVER_URL + `/v1/files/${jsonBody._id}`, // ID of the Evaluation Form
 						{
 							method: "POST",
 							headers: {

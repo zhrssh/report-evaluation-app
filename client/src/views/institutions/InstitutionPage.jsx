@@ -28,7 +28,8 @@ function HomePage() {
 			},
 		});
 
-		setRows(await response.json());
+		const jsonBody = await response.json();
+		setRows(jsonBody);
 	};
 
 	// Function to handle search input change
