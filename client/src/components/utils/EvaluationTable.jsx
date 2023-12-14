@@ -50,7 +50,6 @@ function EvaluationTable(props, ref) {
 		},
 		{ field: "program", headerName: "Program", flex: 2 },
 		{ field: "evaluator", headerName: "Evaluator", flex: 2 },
-		{ field: "remarks", headerName: "Remarks", flex: 2 },
 		{
 			field: "action",
 			headerName: "Action",
