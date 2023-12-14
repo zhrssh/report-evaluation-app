@@ -17,6 +17,7 @@ import {
 import AppButtonContained from "../components/utils/AppButtonContained";
 import AppButtonOutlined from "../components/utils/AppButtonOutlined";
 import useRouting from "../components/routes";
+import { SERVER_URL } from "../../Globals";
 
 export default function AdminPage() {
     const { navigateToEvaluationsPage } = useRouting();
@@ -33,15 +34,40 @@ export default function AdminPage() {
         setFieldType(event.target.value);
     };
 
-    const handleAddField = () => {
-        const newField = {
-            name: fieldName,
-            type: fieldType,
-        };
+    const handleAddField = async () => {
+        const accessToken = localStorage.getItem("accessToken");
 
-        setFieldsList([...fieldsList, newField]);
-        setFieldName("");
-        setFieldType("");
+        const payload = [
+            {
+                schemaName: "evaluation",
+                newField: fieldName,
+                fieldType: fieldType,
+                opts: {
+                    required: true,
+                },
+            },
+        ];
+
+        // Send request to server
+        const response = await fetch(SERVER_URL + `/v1/admin/fields`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(fieldsList),
+        });
+
+        if (response.ok) {
+            setFieldsList(payload);
+            setFieldName("");
+            setFieldType("");
+        } else {
+            console.log(response.message);
+            setFieldName("");
+            setFieldType("");
+            alert("Invalid operation. Try again.");
+        }
     };
 
     const handleClearButton = () => {
@@ -75,12 +101,10 @@ export default function AdminPage() {
                                 onChange={handleFieldTypeChange}
                                 label="Field Type"
                             >
-                                <MenuItem value="textEntry">
-                                    Text Entry
-                                </MenuItem>
-                                <MenuItem value="enum">Enumerators</MenuItem>
+                                {/*Items to select */}
+                                <MenuItem value="string">Text Entry</MenuItem>
                                 <MenuItem value="date">Date</MenuItem>
-                                <MenuItem value="file">File Upload</MenuItem>
+                                <MenuItem value="object">File Upload</MenuItem>
                             </Select>
                         </FormControl>
                         <div className="flex gap-2">
