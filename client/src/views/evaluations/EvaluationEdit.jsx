@@ -76,7 +76,7 @@ function EvaluationEdit() {
 		// Gets access token from local storage
 		const accessToken = localStorage.getItem("accessToken");
 
-		const response = await fetch(SERVER_URL + `/v1/files/${state.ownedBy}/`, {
+		const response = await fetch(SERVER_URL + `/v1/files/${state._id}/`, {
 			method: "GET",
 			headers: {
 				authorization: `Bearer ${accessToken}`,
@@ -137,7 +137,7 @@ function EvaluationEdit() {
 					formData.append("file", file);
 
 					const response = await fetch(
-						SERVER_URL + `/v1/files/${jsonBody.ownedBy}`,
+						SERVER_URL + `/v1/files/${jsonBody._id}`,
 						{
 							method: "POST",
 							headers: {
@@ -217,17 +217,20 @@ function EvaluationEdit() {
 							{listOfFiles.length > 0 ? (
 								<List>
 									{listOfFiles.map((value) => (
-										<Card className="mt-4 py-2 px-1">
+										<Card
+											className="w-full mt-4 py-2 px-1"
+											key={value._id}
+											variant="elevation">
 											<ListItem
-												key={value._id}
 												secondaryAction={
 													<IconButton edge="end">
 														<DownloadIcon />
 													</IconButton>
 												}
 												onClick={() => console.log("Downloading!")}>
-												{value.filename}
-												{value.ext}
+												<Typography className="text-xs">
+													{value.filename}
+												</Typography>
 											</ListItem>
 										</Card>
 									))}

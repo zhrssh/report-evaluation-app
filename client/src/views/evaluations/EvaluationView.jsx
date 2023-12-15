@@ -122,7 +122,7 @@ function EvaluationView() {
 										<Card
 											className="w-full mt-4 py-2 px-1"
 											key={value._id}
-											variant="outlined">
+											variant="elevation">
 											<ListItem
 												secondaryAction={
 													<IconButton edge="end">
